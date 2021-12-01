@@ -1,0 +1,109 @@
+package com.example.testmichelle.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.example.testmichelle.R;
+import com.example.testmichelle.fragments.AccountFragment;
+import com.example.testmichelle.fragments.AlgoFragment;
+import com.example.testmichelle.fragments.HistoryFragment;
+import com.example.testmichelle.fragments.HomeFragment;
+import com.example.testmichelle.fragments.TransactionFragment;
+import com.example.testmichelle.model.UserMoney;
+import com.example.testmichelle.model.UserProfile;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+public class BasicActivity extends AppCompatActivity {
+    FirebaseUser firebaseUser;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_basic);
+
+        HomeFragment homeFragment = new HomeFragment();
+        TransactionFragment transactionFragment = new TransactionFragment();
+        AlgoFragment algoFragment = new AlgoFragment();
+        HistoryFragment historyFragment = new HistoryFragment();
+        AccountFragment accountFragment = new AccountFragment();
+        makeCurrentFragment(homeFragment);
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.btn_home:
+                        makeCurrentFragment(homeFragment);
+                        break;
+                    case R.id.btn_transaction:
+                        makeCurrentFragment(transactionFragment);
+                        break;
+                    case R.id.btn_algo:
+                        makeCurrentFragment(algoFragment);
+                        break;
+                    case R.id.btn_history:
+                        makeCurrentFragment(historyFragment);
+                        break;
+                    case R.id.btn_account:
+                        makeCurrentFragment(accountFragment);
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+
+    }
+    //Changes the fragment that corresponds to the button that is clicked
+    private void makeCurrentFragment(Fragment fragment){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, fragment).commit();
+    }
+
+    /*
+    private void saveBalance(){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String money = "100";
+        UserMoney userMoney = new UserMoney();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("CurrentMoney").setValue(userMoney).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                //Set the data to the Real Time Data Base
+                if (task.isSuccessful()){
+                }
+                else{
+                }
+
+            }
+        });
+        /*
+        databaseReference.child(firebaseUser.getUid()).setValue(userMoney).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                //Set the data to the Real Time Data Base
+                if (task.isSuccessful()){
+                }
+                else{
+                }
+            }
+        });
+        */
+
+        }
+
+

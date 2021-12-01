@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "722571228271",
+    "project_id": "algorx-c3241",
+    "storage_bucket": "algorx-c3241.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722571228271:android:4eb23c6dc327d27fb8899a",
+        "android_client_info": {
+          "package_name": "com.example.testmichelle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "722571228271-rclksv1625r01q1vd1cek0qqqgn04ht6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbU1sqZGM4akYChemGs1YjmkKL9TrQSsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "722571228271-rclksv1625r01q1vd1cek0qqqgn04ht6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
