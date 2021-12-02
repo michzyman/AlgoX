@@ -28,18 +28,13 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText signup_Password;
     private Button btn_Done;
 
+    //Firebase
     FirebaseAuth mAuth;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        //FireBase
-        //FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        //FirebaseDatabase database = FirebaseDatabase.getInstance();
-        //DatabaseReference databaseReference = database.getReference("Registered Users");
 
         signup_Email = findViewById(R.id.signup_Email);
         signup_Name = findViewById(R.id.signup_Name);
@@ -59,48 +54,25 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private void userSignUp() {
-        /*
-        if (mAuthTask != null) {
-            return;
-        }
-        // Reset errors.
-        signup_Email.setError(null);
-        signup_Name.setError(null);
-        signup_Password.setError(null);
-    */
+
         // Store values at the time of the login attempt.
         String email = signup_Email.getText().toString().trim();
         String password = signup_Password.getText().toString().trim();
         String name = signup_Name.getText().toString().trim();
-
-        //boolean cancel = false;
-       // View focusView = null;
 
 
         // Check for a valid password, if the user entered one.
         if (!isPasswordValid(password)) {
             signup_Password.setError("Invalid Password, Must be 6 characters long");
             return;
-            //focusView = signup_Password;
-            //cancel = true;
         }
+
         // Check for a valid email address.
         // 1. Checks if it is empty 2. If it is not empty it checks if it is valid
         if (TextUtils.isEmpty(email) || !isEmailValid(email)) {
             signup_Email.setError("Valid Email is required");
             return;
-            //focusView = signup_Email;
-            //cancel = true;
         }
-
-        /*
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-        */
-
 
         // Register the NEW USER in Firebase
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -163,6 +135,7 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean isPasswordValid(String password) {
         return password.length() > 6;
     }
+}
 
 
     /*
@@ -241,5 +214,5 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
      */
-}
+
 
