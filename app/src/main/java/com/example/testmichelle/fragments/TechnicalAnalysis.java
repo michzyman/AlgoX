@@ -41,10 +41,6 @@ public class TechnicalAnalysis {
 
     static int num_trades;
     static double close_price;
-    static double reward_risk_ratio;
-    static double profit_trades_ratio;
-    static double avgProfit;
-    static double buy_hold;
     static double totProfit;
     static boolean programSet = false;
 
@@ -88,32 +84,7 @@ public class TechnicalAnalysis {
 
         // Getting the number of trades that were made using this strategy
 
-        /*
-        num_trades = tradingRecord.getTradeCount();
-        // Getting the number of profitable trades
-        AnalysisCriterion profitTradesRatio = new AverageProfitableTradesCriterion();
-        profit_trades_ratio = profitTradesRatio.calculate(series, tradingRecord);
-        // Getting the average profit
-        AnalysisCriterion averageProfit = new AverageProfitCriterion();
-        avgProfit = averageProfit.calculate(series, tradingRecord);
-        // Getting the total profit
-        AnalysisCriterion totalProfit = new TotalProfitCriterion();
-        totProfit = totalProfit.calculate(series,tradingRecord);
 
-        // Getting the reward-risk ratio
-        AnalysisCriterion rewardRiskRatio = new RewardRiskRatioCriterion();
-        reward_risk_ratio= rewardRiskRatio.calculate(series, tradingRecord);
-
-        // Getting the maximum drawdown ratio
-        AnalysisCriterion maxDrawdown = new MaximumDrawdownCriterion();
-//        System.out.println(maxDrawdown.calculate(series,tradingRecord));
-
-        // Total profit of our strategy
-        // vs total profit of a buy-and-hold strategy
-        AnalysisCriterion vsBuyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
-        buy_hold = vsBuyAndHold.calculate(series, tradingRecord);
-
-         */
 
     }
 
