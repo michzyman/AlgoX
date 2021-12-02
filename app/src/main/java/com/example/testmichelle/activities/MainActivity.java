@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.fragments.YahooFinance;
 
 public class MainActivity extends AppCompatActivity  {
     private ImageButton btn_Enter;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        YahooFinance.initRequestQueue(this);
         btn_Enter = (ImageButton) findViewById(R.id.btn_Enter);
         btn_Enter.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,6 +2,7 @@ package com.example.testmichelle.fragments;
 
 import static android.view.View.INVISIBLE;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import com.example.testmichelle.R;
 
 import org.ta4j.core.Rule;
 
+import java.util.Arrays;
+
 public class backTestingFragment extends Fragment {
 
     private TextView tv_select;
@@ -38,7 +41,6 @@ public class backTestingFragment extends Fragment {
 
     String par1;
     String par2;
-
 
     private TextView tv_select2;
     private TextView tv_p3;
@@ -61,6 +63,11 @@ public class backTestingFragment extends Fragment {
 //    private EditText et_p6;
     String par5;
     String par6;
+
+    public boolean buyingRuleSet = false;
+    public boolean sellingRuleSet = false;
+    public boolean backtestingParamsSet;
+    public boolean error = false;
 
 
     public backTestingFragment() {
@@ -326,23 +333,20 @@ public class backTestingFragment extends Fragment {
             }
         });
 
-
+        backTestingFragment thisObj = this;
         btn_set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean buyingRuleSet = false;
-                boolean sellingRuleSet = false;
-                boolean backtestingParamsSet;
-                boolean error = false;
 
-//                TimeSeries series;
                 System.out.println("TEXT SET TO: " + et_p5.getText().toString());
                 if((!et_p5.getText().toString().equals(""))) {
                     par5 = et_p5.getText().toString();
                     par6 = et_p6;
                     backtestingParamsSet = true;
 
-                    TechnicalAnalysis.loadData(par5, getContext(), par6);
+                    // we assume par5 is ticker and par6 is range ("5d", ..)
+                    Context context = getContext();
+                    YahooFinance.ta4jRequestChart(par5, par6, context, thisObj);
 
                     if (both_param) {
                         if (isNumeric(et_p1.getText().toString()) & isNumeric(et_p2.getText().toString())) {
@@ -384,149 +388,6 @@ public class backTestingFragment extends Fragment {
                             error = true;
                         }
                     }
-
-
-                    if (!error && sellingRuleSet && buyingRuleSet && backtestingParamsSet && !TechnicalAnalysis.series.isEmpty()) {
-                        System.out.println(rule);
-                        switch (rule) {
-                            case "Price Above":
-                                try {
-                                    Double.parseDouble(par1);
-                                    buying_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par1));
-                                } catch (NumberFormatException e) {
-                                    //the parseDouble failed and you need to handle it here
-                                    Toast.makeText(getContext(), "Parameter must be a double", Toast.LENGTH_LONG).show();
-                                    error = true;
-                                }
-                                break;
-                            case "Price Below":
-                                try {
-                                    Double.parseDouble(par1);
-                                    buying_rule = TechnicalAnalysis.triggerBelow(Double.parseDouble(par1));
-                                } catch (NumberFormatException e) {
-                                    //the parseDouble failed and you need to handle it here
-                                    Toast.makeText(getContext(), "Parameter must be a double", Toast.LENGTH_LONG).show();
-                                    error = true;
-                                }
-                                break;
-                            case "SMA":
-                                try {
-                                    Integer.parseInt(par1);
-                                    Integer.parseInt(par2);
-                                    buying_rule = TechnicalAnalysis.SMARule(Integer.parseInt(par1), Integer.parseInt(par2));
-                                } catch (NumberFormatException e) {
-                                    Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
-                                    error = true;
-                                }
-                                break;
-                            case "EMA":
-                                try {
-                                    Integer.parseInt(par1);
-                                    Integer.parseInt(par2);
-                                    buying_rule = TechnicalAnalysis.EMARule(Integer.parseInt(par1), Integer.parseInt(par2));
-                                } catch (NumberFormatException e) {
-                                    Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
-                                    error = true;
-                                }
-                                break;
-                            case "Rising":
-                                try {
-                                    Integer.parseInt(par1);
-                                    Integer.parseInt(par2);
-                                    buying_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par1), Integer.parseInt(par2));
-                                } catch (NumberFormatException e) {
-                                    Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
-                                    error = true;
-                                }
-                                break;
-                            case "Falling":
-                                try {
-                                    Integer.parseInt(par1);
-                                    Integer.parseInt(par2);
-                                    buying_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par1), Integer.parseInt(par2));
-                                } catch (NumberFormatException e) {
-                                    Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
-                                    error = true;
-                                }
-                                break;
-                        }
-
-                        System.out.println(rule2);
-                        if (!error) {
-                            switch (rule2) {
-                                case "Price Above":
-                                    try {
-                                        Double.parseDouble(par3);
-                                        buying_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par3));
-                                    } catch (NumberFormatException e) {
-                                        //the parseDouble failed and you need to handle it here
-                                        Toast.makeText(getContext(), "Parameter must be a double", Toast.LENGTH_LONG).show();
-                                        error = true;
-                                    }
-                                    break;
-                                case "Price Below":
-                                    try {
-                                        Double.parseDouble(par3);
-                                        buying_rule = TechnicalAnalysis.triggerBelow(Double.parseDouble(par3));
-                                    } catch (NumberFormatException e) {
-                                        //the parseDouble failed and you need to handle it here
-                                        Toast.makeText(getContext(), "Parameter must be a double", Toast.LENGTH_LONG).show();
-                                        error = true;
-                                    }
-                                    break;
-                                case "SMA":
-                                    try {
-                                        Integer.parseInt(par3);
-                                        Integer.parseInt(par4);
-                                        buying_rule = TechnicalAnalysis.SMARule(Integer.parseInt(par3), Integer.parseInt(par4));
-                                    } catch (NumberFormatException e) {
-                                        Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
-                                        error = true;
-                                    }
-                                    break;
-                                case "EMA":
-                                    try {
-                                        Integer.parseInt(par3);
-                                        Integer.parseInt(par4);
-                                        buying_rule = TechnicalAnalysis.EMARule(Integer.parseInt(par3), Integer.parseInt(par4));
-                                    } catch (NumberFormatException e) {
-                                        Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
-                                        error = true;
-                                    }
-                                    break;
-                                case "Rising":
-                                    try {
-                                        Integer.parseInt(par3);
-                                        Integer.parseInt(par4);
-                                        buying_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par3), Integer.parseInt(par4));
-                                    } catch (NumberFormatException e) {
-                                        Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
-                                        error = true;
-                                    }
-                                    break;
-                                case "Falling":
-                                    try {
-                                        Integer.parseInt(par3);
-                                        Integer.parseInt(par4);
-                                        buying_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par3), Integer.parseInt(par4));
-                                    } catch (NumberFormatException e) {
-                                        Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
-                                        error = true;
-                                    }
-                                    break;
-                            }
-                        }
-                            if(!error) {
-                                TechnicalAnalysis.triggerTa4j(buying_rule, selling_rule);
-                                System.out.println("Number of trades " + String.valueOf(TechnicalAnalysis.num_trades));
-                                System.out.println("Total Profit " + String.valueOf(TechnicalAnalysis.totProfit));
-                            }
-                        }
-
-                    else {
-                            Toast.makeText(getContext(), "Please enter valid parameters for rules", Toast.LENGTH_LONG).show();
-
-                    }
                 }
 
                 else{
@@ -537,7 +398,156 @@ public class backTestingFragment extends Fragment {
             }
         });
         return view;
+}
 
+public void createRules(double[][] data) {
+        Log.d("getprices", Arrays.deepToString(data));
+    // Setting Buying Rule
+
+    TechnicalAnalysis.loadData(par5, getContext(), data);
+
+    if (!error && sellingRuleSet && buyingRuleSet && backtestingParamsSet && !TechnicalAnalysis.series.isEmpty()) {
+        System.out.println(rule);
+        switch (rule) {
+            case "Price Above":
+                try {
+                    Double.parseDouble(par1);
+                    buying_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par1));
+                } catch (NumberFormatException e) {
+                    //the parseDouble failed and you need to handle it here
+                    Toast.makeText(getContext(), "Parameter must be a double", Toast.LENGTH_LONG).show();
+                    error = true;
+                }
+                break;
+            case "Price Below":
+                try {
+                    Double.parseDouble(par1);
+                    buying_rule = TechnicalAnalysis.triggerBelow(Double.parseDouble(par1));
+                } catch (NumberFormatException e) {
+                    //the parseDouble failed and you need to handle it here
+                    Toast.makeText(getContext(), "Parameter must be a double", Toast.LENGTH_LONG).show();
+                    error = true;
+                }
+                break;
+            case "SMA":
+                try {
+                    Integer.parseInt(par1);
+                    Integer.parseInt(par2);
+                    buying_rule = TechnicalAnalysis.SMARule(Integer.parseInt(par1), Integer.parseInt(par2));
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                    error = true;
+                }
+                break;
+            case "EMA":
+                try {
+                    Integer.parseInt(par1);
+                    Integer.parseInt(par2);
+                    buying_rule = TechnicalAnalysis.EMARule(Integer.parseInt(par1), Integer.parseInt(par2));
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                    error = true;
+                }
+                break;
+            case "Rising":
+                try {
+                    Integer.parseInt(par1);
+                    Integer.parseInt(par2);
+                    buying_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par1), Integer.parseInt(par2));
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                    error = true;
+                }
+                break;
+            case "Falling":
+                try {
+                    Integer.parseInt(par1);
+                    Integer.parseInt(par2);
+                    buying_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par1), Integer.parseInt(par2));
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                    error = true;
+                }
+                break;
+        }
+
+        // Setting Selling Rule
+        System.out.println(rule2);
+        if (!error) {
+            switch (rule2) {
+                case "Price Above":
+                    try {
+                        Double.parseDouble(par3);
+                        selling_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par3));
+                    } catch (NumberFormatException e) {
+                        //the parseDouble failed and you need to handle it here
+                        Toast.makeText(getContext(), "Parameter must be a double", Toast.LENGTH_LONG).show();
+                        error = true;
+                    }
+                    break;
+                case "Price Below":
+                    try {
+                        Double.parseDouble(par3);
+                        selling_rule = TechnicalAnalysis.triggerBelow(Double.parseDouble(par3));
+                    } catch (NumberFormatException e) {
+                        //the parseDouble failed and you need to handle it here
+                        Toast.makeText(getContext(), "Parameter must be a double", Toast.LENGTH_LONG).show();
+                        error = true;
+                    }
+                    break;
+                case "SMA":
+                    try {
+                        Integer.parseInt(par3);
+                        Integer.parseInt(par4);
+                        selling_rule = TechnicalAnalysis.SMARule(Integer.parseInt(par3), Integer.parseInt(par4));
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                        error = true;
+                    }
+                    break;
+                case "EMA":
+                    try {
+                        Integer.parseInt(par3);
+                        Integer.parseInt(par4);
+                        selling_rule = TechnicalAnalysis.EMARule(Integer.parseInt(par3), Integer.parseInt(par4));
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                        error = true;
+                    }
+                    break;
+                case "Rising":
+                    try {
+                        Integer.parseInt(par3);
+                        Integer.parseInt(par4);
+                        selling_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par3), Integer.parseInt(par4));
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                        error = true;
+                    }
+                    break;
+                case "Falling":
+                    try {
+                        Integer.parseInt(par3);
+                        Integer.parseInt(par4);
+                        selling_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par3), Integer.parseInt(par4));
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                        error = true;
+                    }
+                    break;
+            }
+        }
+        if(!error) {
+            TechnicalAnalysis.triggerTa4j(buying_rule, selling_rule);
+            System.out.println("Number of trades " + String.valueOf(TechnicalAnalysis.num_trades));
+            System.out.println("Total Profit " + String.valueOf(TechnicalAnalysis.totProfit));
+        }
+    }
+
+    else {
+        Toast.makeText(getContext(), "Please enter valid parameters for rules", Toast.LENGTH_LONG).show();
+
+    }
 }
 public static boolean isNumeric(String str) {
     try {

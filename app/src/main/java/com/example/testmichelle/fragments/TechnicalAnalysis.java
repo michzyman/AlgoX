@@ -33,6 +33,8 @@ import org.ta4j.core.trading.rules.IsFallingRule;
 import org.ta4j.core.trading.rules.IsRisingRule;
 import org.threeten.bp.ZonedDateTime;
 
+//import java.time.ZonedDateTime;
+
 public class TechnicalAnalysis {
 
     static TimeSeries series;
@@ -122,7 +124,7 @@ public class TechnicalAnalysis {
 
     // LOAD DATA
 
-    public static void loadData(String ticker, Context context, String range) {
+    public static void loadData(String ticker, Context context, double[][] data) {
         // Initiate the android three ten library to get the context for zoned date time
         AndroidThreeTen.init(context);
 
@@ -132,10 +134,8 @@ public class TechnicalAnalysis {
         // set the end time to now
         ZonedDateTime endTime = ZonedDateTime.now();
 
-        double[][] data = callChart(ticker, range, context);
-
         for (int i = 0; i < data.length; i++) {
-            series.addBar(endTime.minusDays(i), data[i][0], data[i][1], data[i][2], data[i][3]);
+            series.addBar(endTime.plusDays(i), data[i][0], data[i][1], data[i][2], data[i][3]);
         }
 
         // Load in random data (to be replaced by API call)
