@@ -14,4 +14,34 @@
     <string name="full_name">Full Name</string>
     <string name="buy">Buy</string>
     <string name="sell">Sell</string>
+
+    <string-array name="rules">
+        <item>Price Below</item>
+        <item>Price Above</item>
+        <item>SMA</item>
+        <item>EMA</item>
+        <item>Rising</item>
+        <item>Falling</item>
+    </string-array>
+    <string-array name="times">
+        <item>1 day</item>
+        <item>5 days</item>
+        <item>1 month</item>
+        <item>3 months</item>
+        <item>6 months</item>
+        <item>1 year</item>
+        <item>5 years</item>
+        <item>10 years</item>
+        <item>Year to date</item>
+        <item>Maximum</item>
+    </string-array>
+    <string name="title_activity_main2">MainActivity2</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
