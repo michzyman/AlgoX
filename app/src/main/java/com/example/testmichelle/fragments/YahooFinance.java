@@ -16,15 +16,23 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+
 public class YahooFinance {
+    public static RequestQueue requestQueue;
+
+    public static void initRequestQueue(Context context){
+         requestQueue = Volley.newRequestQueue(context);
+    }
 
     public static final double[][] arrERROR = {{0}};
 
@@ -122,7 +130,7 @@ public class YahooFinance {
      * @param range: 1d 5d 1mo 3mo 6mo 1y 5y 10y ytd max
      * @param interval: 1m 5m 15m 1d 1wk 1mo
      */
-    public static void requestChart(String ticker, String range, String interval, Context act, RequestQueue requestQueue){
+    public static void requestChart(String ticker, String range, String interval, Context act, RequestQueue requestQueue, backTestingFragment btfragment){
         // SECRET KEY
         String key = "3Z8LSHmB1l8lfS6qpRoba35QRos3zDZ69s2JS8IJ";
         // Build URL
@@ -165,6 +173,10 @@ public class YahooFinance {
                             e.getStackTrace();
                             finalData = arrERROR;
                         }
+
+                        /** MAKE DELIS CALL USING FINALDATA */
+                        Log.d("getprices", Arrays.deepToString(finalData));
+                        btfragment.createRules(finalData);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -207,5 +219,9 @@ public class YahooFinance {
             }
         };
         requestQueue.add(jsonObjectRequest);
+    }
+
+    public static void ta4jRequestChart(String ticker, String range, Context act, backTestingFragment btfragmnent){
+        requestChart(ticker, range, "1d", act, requestQueue, btfragmnent);
     }
 }

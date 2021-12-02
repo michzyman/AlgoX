@@ -33,16 +33,14 @@ import org.ta4j.core.trading.rules.IsFallingRule;
 import org.ta4j.core.trading.rules.IsRisingRule;
 import org.threeten.bp.ZonedDateTime;
 
+//import java.time.ZonedDateTime;
+
 public class TechnicalAnalysis {
 
     static TimeSeries series;
 
     static int num_trades;
     static double close_price;
-    static double reward_risk_ratio;
-    static double profit_trades_ratio;
-    static double avgProfit;
-    static double buy_hold;
     static double totProfit;
     static boolean programSet = false;
 
@@ -69,7 +67,7 @@ public class TechnicalAnalysis {
         }
     }
 
-    public static void triggerTa4j(Rule buying, Rule selling){
+    public static TradingRecord triggerTa4j(Rule buying, Rule selling){
         // Getting the close price of the ticks
         Num firstClosePrice = series.getBar(0).getClosePrice();
         returnClosePrice(firstClosePrice);
@@ -79,36 +77,15 @@ public class TechnicalAnalysis {
 
         // Running our juicy trading strategy...
         TradingRecord tradingRecord = runStrategy(strategy);
+        programSet = true;
+        return tradingRecord;
 
         // GETTING BUNCH OF RANDOM DATA
 
         // Getting the number of trades that were made using this strategy
 
-        num_trades = tradingRecord.getTradeCount();
-        // Getting the number of profitable trades
-        AnalysisCriterion profitTradesRatio = new AverageProfitableTradesCriterion();
-        profit_trades_ratio = profitTradesRatio.calculate(series, tradingRecord);
-        // Getting the average profit
-        AnalysisCriterion averageProfit = new AverageProfitCriterion();
-        avgProfit = averageProfit.calculate(series, tradingRecord);
-        // Getting the total profit
-        AnalysisCriterion totalProfit = new TotalProfitCriterion();
-        totProfit = totalProfit.calculate(series,tradingRecord);
 
-        // Getting the reward-risk ratio
-        AnalysisCriterion rewardRiskRatio = new RewardRiskRatioCriterion();
-        reward_risk_ratio= rewardRiskRatio.calculate(series, tradingRecord);
 
-        // Getting the maximum drawdown ratio
-        AnalysisCriterion maxDrawdown = new MaximumDrawdownCriterion();
-//        System.out.println(maxDrawdown.calculate(series,tradingRecord));
-
-        // Total profit of our strategy
-        // vs total profit of a buy-and-hold strategy
-        AnalysisCriterion vsBuyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
-        buy_hold = vsBuyAndHold.calculate(series, tradingRecord);
-
-        programSet = true;
     }
 
     private void returnTradeCount(TradingRecord tradingRecord) {
@@ -122,7 +99,7 @@ public class TechnicalAnalysis {
 
     // LOAD DATA
 
-    public static void loadData(String ticker, Context context, String range) {
+    public static void loadData(String ticker, Context context, double[][] data) {
         // Initiate the android three ten library to get the context for zoned date time
         AndroidThreeTen.init(context);
 
@@ -132,10 +109,8 @@ public class TechnicalAnalysis {
         // set the end time to now
         ZonedDateTime endTime = ZonedDateTime.now();
 
-        double[][] data = callChart(ticker, range, context);
-
         for (int i = 0; i < data.length; i++) {
-            series.addBar(endTime.minusDays(i), data[i][0], data[i][1], data[i][2], data[i][3]);
+            series.addBar(endTime.plusDays(i), data[i][0], data[i][1], data[i][2], data[i][3]);
         }
 
         // Load in random data (to be replaced by API call)
