@@ -21,8 +21,10 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.activities.FragmentListener;
 
 import org.ta4j.core.Rule;
+import org.ta4j.core.TradingRecord;
 
 import java.util.Arrays;
 
@@ -69,9 +71,17 @@ public class backTestingFragment extends Fragment {
     public boolean backtestingParamsSet;
     public boolean error = false;
 
+    private FragmentListener FL;
+
 
     public backTestingFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        FL = (FragmentListener) context;
     }
 
     @Nullable
@@ -538,7 +548,8 @@ public void createRules(double[][] data) {
             }
         }
         if(!error) {
-            TechnicalAnalysis.triggerTa4j(buying_rule, selling_rule);
+            TradingRecord tradingRecord = TechnicalAnalysis.triggerTa4j(buying_rule, selling_rule);
+            FL.passDataToBackTestingResults(tradingRecord);
             System.out.println("Number of trades " + String.valueOf(TechnicalAnalysis.num_trades));
             System.out.println("Total Profit " + String.valueOf(TechnicalAnalysis.totProfit));
         }
@@ -548,6 +559,8 @@ public void createRules(double[][] data) {
         Toast.makeText(getContext(), "Please enter valid parameters for rules", Toast.LENGTH_LONG).show();
 
     }
+
+
 }
 public static boolean isNumeric(String str) {
     try {
