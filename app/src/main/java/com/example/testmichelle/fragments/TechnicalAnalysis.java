@@ -71,7 +71,7 @@ public class TechnicalAnalysis {
         }
     }
 
-    public static void triggerTa4j(Rule buying, Rule selling){
+    public static TradingRecord triggerTa4j(Rule buying, Rule selling){
         // Getting the close price of the ticks
         Num firstClosePrice = series.getBar(0).getClosePrice();
         returnClosePrice(firstClosePrice);
@@ -81,11 +81,14 @@ public class TechnicalAnalysis {
 
         // Running our juicy trading strategy...
         TradingRecord tradingRecord = runStrategy(strategy);
+        programSet = true;
+        return tradingRecord;
 
         // GETTING BUNCH OF RANDOM DATA
 
         // Getting the number of trades that were made using this strategy
 
+        /*
         num_trades = tradingRecord.getTradeCount();
         // Getting the number of profitable trades
         AnalysisCriterion profitTradesRatio = new AverageProfitableTradesCriterion();
@@ -110,7 +113,8 @@ public class TechnicalAnalysis {
         AnalysisCriterion vsBuyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
         buy_hold = vsBuyAndHold.calculate(series, tradingRecord);
 
-        programSet = true;
+         */
+
     }
 
     private void returnTradeCount(TradingRecord tradingRecord) {

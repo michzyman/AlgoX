@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/shell/AndroidStudioProjects/algoxrepo/app/src/main/res/layout/fragment_backtesting.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_account.xml" value="0.11018518518518519" />
         <entry key="app/src/main/res/layout/activity_algorx.xml" value="0.18802083333333333" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25052083333333336" />
@@ -10,7 +11,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.24947916666666667" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.12447916666666667" />
-        <entry key="app/src/main/res/layout/fragment_backtesting.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/fragment_backtesingresults.xml" value="0.19791666666666666" />
+        <entry key="app/src/main/res/layout/fragment_backtesting.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_transaction.xml" value="0.1" />
