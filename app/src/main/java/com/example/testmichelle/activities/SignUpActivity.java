@@ -21,6 +21,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class SignUpActivity extends AppCompatActivity {
     // UI references.
     private EditText signup_Name;
@@ -102,10 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
                     });
 
                     databaseReference.child(firebaseUser.getUid()).child("currentbalance").setValue(currentbalance);
-
-                    databaseReference.child(firebaseUser.getUid()).child("Stocks").child("StockName").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("Stocks").child("NumShares").setValue("");
-
+                    /*
 
                     databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").setValue("");
                     databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").setValue("");
@@ -114,6 +116,13 @@ public class SignUpActivity extends AppCompatActivity {
                     databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").child("AlgorithmType").setValue("");
                     databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").child("AlgorithmParameter").setValue("");
 
+                    String [] currentalgorithms = {"StockName", "TransactionType", "Money", "DateofTransaction"};
+                    List historyList = new ArrayList<String>(Arrays.asList(currentalgorithms));
+                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").setValue(historyList);
+
+
+
+
                     databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").setValue("");
                     databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("StockName").setValue("");
                     databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("TransactionType").setValue("");
@@ -121,7 +130,7 @@ public class SignUpActivity extends AppCompatActivity {
                     databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("DateOfTransaction").setValue("");
                     databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("Algorithm").setValue("");
 
-
+*/
                 } else {
                     Toast.makeText(SignUpActivity.this, "ERROR" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
