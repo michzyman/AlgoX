@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvResult"
+        android:id="@+id/tvResults"
         android:layout_width="183dp"
         android:layout_height="122dp"
         android:text="FUCCCCCKKKKK"
