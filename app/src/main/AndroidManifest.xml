@@ -24,6 +24,10 @@
         <activity android:name=".activities.BasicActivity"/>
         <activity android:name=".activities.AlgorithmPopUp"/>
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

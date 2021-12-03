@@ -4,12 +4,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.example.testmichelle.R;
-import com.jjoe64.graphview.GraphView;
 import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,15 +24,14 @@ import com.google.firebase.database.ValueEventListener;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
+import org.ta4j.core.num.Num;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     TextView text_name;
     TextView text_balance;
-
-    GraphView graph;
-    TextView tvWelcomeMessage;
 
     public HomeFragment() {
         // Required empty public constructor
