@@ -5,13 +5,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/et_par2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:spinnerMode="dropdown"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck"
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="225dp" />
+
+    <TextView
+        android:id="@+id/tv_par2Type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorSecondary"
+        tools:layout_editor_absoluteX="67dp"
+        tools:layout_editor_absoluteY="247dp" />
+
+    <TextView
+        android:id="@+id/tv_par1Type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorSecondary"
+        tools:layout_editor_absoluteX="67dp"
+        tools:layout_editor_absoluteY="160dp" />
+
+    <TextView
+        android:id="@+id/tv_p"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorSecondary"
+        tools:layout_editor_absoluteX="411dp" />
+
+    <EditText
+        android:id="@+id/et_par1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:spinnerMode="dropdown"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck"
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="142dp" />
+
+    <Spinner
+        android:id="@+id/dropdown_algorithmType"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:minHeight="48dp"
+        android:visibility="visible"
+        tools:ignore="SpeakableTextPresentCheck"
+        tools:layout_editor_absoluteY="64dp" />
+
     <Button
         android:id="@+id/btn_to_backtesting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Go Back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="634dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

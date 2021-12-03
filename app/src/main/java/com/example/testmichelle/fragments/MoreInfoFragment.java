@@ -41,4 +41,22 @@ public class MoreInfoFragment extends Fragment {
         });
         return view;
     }
+
+    public void giveInformation(String algorithmType, String par1, String par2, String buyOrSell) {
+        switch (algorithmType) {
+            case "SMA":
+                String s = "This algorithm takes the Average of the closing prices in the past";
+                break;
+            case "EMA":
+                break;
+            case "Falling Rule":
+                break;
+            case "Rising Rule":
+                break;
+            case "Trigger Above":
+                break;
+            case "Trigger Below":
+                break;
+        }
+    }
 }

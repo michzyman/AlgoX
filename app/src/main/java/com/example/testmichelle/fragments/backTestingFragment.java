@@ -3,6 +3,7 @@ package com.example.testmichelle.fragments;
 import static android.view.View.INVISIBLE;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +22,9 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.activities.AlgorithmPopUp;
 import com.example.testmichelle.activities.FragmentListener;
+import com.example.testmichelle.activities.MainActivity;
 
 import org.ta4j.core.Rule;
 import org.ta4j.core.TradingRecord;
@@ -121,12 +124,87 @@ public class backTestingFragment extends Fragment {
         et_p5 = (EditText) view.findViewById(R.id.et_p5);
 //        et_p6 = (EditText) view.findViewById(R.id.et_p6);
 
+
         btnToMoreInfoPage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                FL.goToMoreInfoFragment();
+            public void onClick(View v) {
+
+                System.out.println("TEXT SET TO: " + et_p5.getText().toString());
+                if((!et_p5.getText().toString().equals(""))) {
+                    par5 = et_p5.getText().toString();
+                    par6 = et_p6;
+                    backtestingParamsSet = true;
+
+                    if (both_param) {
+                        if (isNumeric(et_p1.getText().toString()) & isNumeric(et_p2.getText().toString())) {
+                            par1 = et_p1.getText().toString();
+                            par2 = et_p2.getText().toString();
+                            buyingRuleSet = true;
+                        }
+                        else {
+                            Toast.makeText(getContext(),"Please set parameters", Toast.LENGTH_LONG).show();
+                            error =true;
+                        }
+                    } else {
+                        if (isNumeric(et_p1.getText().toString())) {
+                            par1 = et_p1.getText().toString();
+                            buyingRuleSet = true;
+                        }
+                        else {
+                            Toast.makeText(getContext(),"Please set parameters", Toast.LENGTH_LONG).show();
+                            error = true;
+                        }
+                    }
+                    if (both_param_sell) {
+                        if (isNumeric(et_p3.getText().toString()) & isNumeric(et_p4.getText().toString())) {
+                            par3 = et_p3.getText().toString();
+                            par4 = et_p4.getText().toString();
+                            sellingRuleSet = true;
+                        }
+                        else {
+                            Toast.makeText(getContext(),"Please set parameters", Toast.LENGTH_LONG).show();
+                            error = true;
+                        }
+                    } else {
+                        if (isNumeric(et_p3.getText().toString())) {
+                            par3 = et_p3.getText().toString();
+                            sellingRuleSet = true;
+                        }
+                        else {
+                            Toast.makeText(getContext(),"Please set parameters", Toast.LENGTH_LONG).show();
+                            error = true;
+                        }
+                    }
+                }
+
+                else{
+                    System.out.println("NO PARAMETERS!");
+                    Toast.makeText(getContext(), "Please enter parameters", Toast.LENGTH_LONG).show();
+                }
+
+                if (!error && sellingRuleSet && buyingRuleSet) {
+                    // DISPLAY POPUP
+                    Intent i = new Intent(getContext(), AlgorithmPopUp.class);
+
+                    i.putExtra("par1", par1);
+                    i.putExtra("par2", par2);
+                    i.putExtra("par3", par3);
+                    i.putExtra("par4", par4);
+                    i.putExtra("rule", rule);
+                    i.putExtra("rule2", rule2);
+
+                    startActivity(i);
+                }
+
+                error = false;
+                sellingRuleSet = false;
+                buyingRuleSet = false;
+                backtestingParamsSet = false;
+
             }
+
         });
+
 
         Spinner spinner = (Spinner) view.findViewById(R.id.dropdown_buy);
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -540,6 +618,10 @@ public void createRules(double[][] data) {
 
     }
 
+    error = false;
+    sellingRuleSet = false;
+    buyingRuleSet = false;
+    backtestingParamsSet = false;
 
 }
 public static boolean isNumeric(String str) {
