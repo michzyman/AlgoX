@@ -29,7 +29,7 @@ import org.ta4j.core.TradingRecord;
 
 public class BasicActivity extends AppCompatActivity implements FragmentListener {
     FirebaseUser firebaseUser;
-
+    UserProfile currentUser = new UserProfile();
     private DisplayBackTestingResults backTestingResults;
 
     @Override
