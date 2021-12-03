@@ -4,4 +4,9 @@
         <item name="overlapAnchor">true</item>
         <item name="android:background">@drawable/spinner_background</item>
     </style>
+
+    <style name="Theme.AppCompat.PopUpTheme" >
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
 </resources>

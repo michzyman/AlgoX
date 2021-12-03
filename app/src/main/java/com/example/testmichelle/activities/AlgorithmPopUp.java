@@ -1,5 +1,6 @@
 package com.example.testmichelle.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -14,14 +15,24 @@ import com.example.testmichelle.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class AlgorithmPopUp extends AppCompatActivity {
+
     TextView information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_algorithmpopup);
-
         TextView information = (TextView) findViewById(R.id.information);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        System.out.println("width height: " + width + " " + height);
+
+        getWindow().setLayout((int) (width*.6), (int) (height*.6));
 
         Bundle bundle = getIntent().getExtras();
 
@@ -33,15 +44,9 @@ public class AlgorithmPopUp extends AppCompatActivity {
         String rule2 = bundle.getString("rule2");
 
         String explanation = information(par1, par2, par3, par4, rule, rule2);
+
+        System.out.println("explanation: " + explanation);
         information.setText(explanation);
-
-        DisplayMetrics dm = new DisplayMetrics();
-
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-
-        getWindow().setLayout((int) (width*.8), (int) (height*.8));
-
 
         }
 

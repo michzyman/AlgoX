@@ -71,7 +71,7 @@ public class backTestingFragment extends Fragment {
 
     public boolean buyingRuleSet = false;
     public boolean sellingRuleSet = false;
-    public boolean backtestingParamsSet;
+    public boolean backtestingParamsSet = false;
     public boolean error = false;
 
     private FragmentListener FL;
@@ -134,7 +134,7 @@ public class backTestingFragment extends Fragment {
                     par5 = et_p5.getText().toString();
                     par6 = et_p6;
                     backtestingParamsSet = true;
-
+                }
                     if (both_param) {
                         if (isNumeric(et_p1.getText().toString()) & isNumeric(et_p2.getText().toString())) {
                             par1 = et_p1.getText().toString();
@@ -175,12 +175,12 @@ public class backTestingFragment extends Fragment {
                             error = true;
                         }
                     }
-                }
 
-                else{
-                    System.out.println("NO PARAMETERS!");
-                    Toast.makeText(getContext(), "Please enter parameters", Toast.LENGTH_LONG).show();
-                }
+
+//                else{
+//                    System.out.println("NO PARAMETERS!");
+//                    Toast.makeText(getContext(), "Please enter parameters", Toast.LENGTH_LONG).show();
+//                }
 
                 if (!error && sellingRuleSet && buyingRuleSet) {
                     // DISPLAY POPUP
