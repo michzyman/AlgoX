@@ -13,37 +13,40 @@
         android:id="@+id/btn_runTesting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:text="@string/run"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="4dp"
+        android:text="run"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/et_p5" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout17"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/et_p2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_select2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_p2"
-        android:importantForAutofill="no"
-        tools:ignore="LabelFor" />
+        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_p1" />
 
     <Spinner
         android:id="@+id/dropdown_buy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="#4B31781E"
+        android:layout_marginTop="50dp"
+        android:background="@android:drawable/btn_dropdown"
         android:minHeight="48dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_select"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
@@ -51,109 +54,124 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:layout_marginEnd="9dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_p1"
+        app:layout_constraintEnd_toEndOf="@+id/et_p3"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/et_p3"
         app:layout_constraintTop_toBottomOf="@+id/dropdown_buy"
         tools:ignore="LabelFor,SpeakableTextPresentCheck"
         android:importantForAutofill="no" />
 
-    <TextView
-        android:id="@+id/tv_select"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout18"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/select_text_view"
-        android:textAlignment="center"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:layout_height="0dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/green"
+        app:layout_constraintBottom_toTopOf="@+id/dropdown_buy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_select"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:text="Select Text View"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_p1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="28dp"
         android:textColor="?android:attr/textColorSecondary"
-        app:layout_constraintEnd_toStartOf="@+id/et_p1"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_p2"
         app:layout_constraintTop_toBottomOf="@+id/dropdown_buy" />
 
     <TextView
         android:id="@+id/tv_p2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
-        android:layout_marginBottom="34dp"
+        android:layout_marginBottom="16dp"
         android:textColor="?android:attr/textColorSecondary"
-        app:layout_constraintBottom_toTopOf="@+id/tv_select2"
-        app:layout_constraintEnd_toStartOf="@+id/et_p2"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout19"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_p1"
+        app:layout_constraintVertical_bias="0.972" />
 
     <Spinner
         android:id="@+id/dropdown_sell"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="#4B31781E"
+        android:layout_marginTop="42dp"
+        android:background="@android:drawable/btn_dropdown"
         android:minHeight="48dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_select2"
+        app:layout_constraintTop_toBottomOf="@+id/et_p2"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <TextView
-        android:id="@+id/tv_select2"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout19"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="184dp"
-        android:layout_marginBottom="183dp"
-        android:text="@string/select_text_view"
-        android:textAlignment="center"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/et_p4"
+        android:layout_height="48dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="45dp"
+        android:background="@color/green"
+        app:layout_constraintBottom_toBottomOf="@+id/dropdown_sell"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dropdown_buy" />
+        app:layout_constraintTop_toTopOf="@+id/et_p2">
 
-    <TextView
-        android:id="@+id/tv_etc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="132dp"
-        android:text="@string/select_text_view"
-        android:textAlignment="center"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tv_select2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Select Text View"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Spinner
         android:id="@+id/dropdown_days"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="51dp"
+        android:layout_marginTop="19dp"
         android:minHeight="48dp"
         android:spinnerMode="dropdown"
         android:textAlignment="textStart"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/tv_p5"
-        app:layout_constraintStart_toEndOf="@+id/tv_p6"
-        app:layout_constraintTop_toBottomOf="@+id/tv_etc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.286"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout17"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
         tools:visibility="visible" />
 
@@ -161,92 +179,121 @@
         android:id="@+id/tv_p5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintEnd_toStartOf="@+id/et_p5"
-        app:layout_constraintStart_toEndOf="@+id/dropdown_days"
-        app:layout_constraintTop_toTopOf="@+id/et_p5" />
+        android:layout_marginTop="19dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout17"
+        app:layout_constraintVertical_bias="0.207" />
 
     <TextView
         android:id="@+id/tv_p6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="11dp"
+        android:layout_marginStart="68dp"
         android:textColor="?android:attr/textColorSecondary"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/dropdown_days"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dropdown_days" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout17"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.907" />
 
     <EditText
         android:id="@+id/et_p5"
         android:layout_width="68dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="99dp"
-        android:layout_marginBottom="73dp"
+        android:layout_height="47dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_p5"
-        app:layout_constraintTop_toTopOf="@+id/tv_p4"
-        tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck"
-        android:importantForAutofill="no" />
+        app:layout_constraintHorizontal_bias="0.685"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.928"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/et_p4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_etc"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_p4"
-        tools:ignore="LabelFor,SpeakableTextPresentCheck"
-        android:importantForAutofill="no" />
+        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_p3"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/et_p3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="66dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_p4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_p3"
-        tools:ignore="LabelFor,SpeakableTextPresentCheck"
-        android:importantForAutofill="no" />
+        app:layout_constraintEnd_toEndOf="@+id/dropdown_sell"
+        app:layout_constraintStart_toStartOf="@+id/tv_p3"
+        app:layout_constraintTop_toBottomOf="@+id/dropdown_sell"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/tv_p3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginTop="32dp"
         android:textColor="?android:attr/textColorSecondary"
-        app:layout_constraintBottom_toTopOf="@+id/tv_p4"
-        app:layout_constraintEnd_toStartOf="@+id/et_p3"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_p4"
+        app:layout_constraintTop_toBottomOf="@+id/dropdown_sell" />
 
     <TextView
         android:id="@+id/tv_p4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginTop="20dp"
         android:textColor="?android:attr/textColorSecondary"
-        app:layout_constraintBottom_toTopOf="@+id/tv_etc"
-        app:layout_constraintEnd_toStartOf="@+id/et_p4"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_p3"
+        app:layout_constraintVertical_bias="0.095" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout17"
+        android:layout_width="0dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="48dp"
+        android:background="@color/green"
+        app:layout_constraintBottom_toBottomOf="@+id/et_p5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/et_p4">
+
+        <TextView
+            android:id="@+id/tv_etc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Select Text View"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/btnToMoreInfoPage"
