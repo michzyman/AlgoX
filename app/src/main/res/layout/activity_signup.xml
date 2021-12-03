@@ -72,6 +72,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/algox" />
+        app:srcCompat="@drawable/algorx" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
