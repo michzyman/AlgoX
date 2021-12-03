@@ -5,14 +5,18 @@ import com.example.testmichelle.activities.SignUpActivity;
 public class UserMoney {
     private Integer currentbalance;
 
-    public UserMoney(){
+    public UserMoney(){} //Default used for Firebase/API
+
+
+    public UserMoney(Integer currentbalance){
+        this.currentbalance = currentbalance;
     }
 
-    public Integer getCurrentbalance() {
+    public Integer getCurrentBalance() {
         return currentbalance;
     }
 
-    public void setCurrentbalance(Integer currentbalance) {
+    public void setCurrentBalance(Integer currentbalance) {
         this.currentbalance = currentbalance;
     }
 

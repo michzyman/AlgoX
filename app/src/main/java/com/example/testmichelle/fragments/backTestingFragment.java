@@ -36,8 +36,8 @@ public class backTestingFragment extends Fragment {
     private EditText et_p1;
     private EditText et_p2;
     private Button btn_set;
+    private Button btnToMoreInfoPage;
     private boolean both_param;
-
     private String rule;
     private Rule buying_rule;
 
@@ -95,6 +95,7 @@ public class backTestingFragment extends Fragment {
         et_p1 = (EditText) view.findViewById(R.id.et_p1);
         et_p2 = (EditText) view.findViewById(R.id.et_p2);
         btn_set = (Button) view.findViewById(R.id.btn_runTesting);
+        btnToMoreInfoPage = (Button) view.findViewById(R.id.btnToMoreInfoPage);
         tv_p1.setVisibility(INVISIBLE);
         tv_p2.setVisibility(INVISIBLE);
         et_p1.setVisibility(INVISIBLE);
@@ -120,7 +121,12 @@ public class backTestingFragment extends Fragment {
         et_p5 = (EditText) view.findViewById(R.id.et_p5);
 //        et_p6 = (EditText) view.findViewById(R.id.et_p6);
 
-
+        btnToMoreInfoPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FL.goToMoreInfoFragment();
+            }
+        });
 
         Spinner spinner = (Spinner) view.findViewById(R.id.dropdown_buy);
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -254,13 +260,9 @@ public class backTestingFragment extends Fragment {
                         tv_p4.setText("Min strength:");
                         break;
                 }
-
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 

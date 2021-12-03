@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testmichelle.R;
-import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,7 +26,9 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText signup_Name;
     private EditText signup_Email;
     private EditText signup_Password;
+    private EditText signup_Lastname;
     private Button btn_Done;
+    Integer currentbalance = 20000;
 
     //Firebase
     FirebaseAuth mAuth;
@@ -37,16 +38,16 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        signup_Email = findViewById(R.id.signup_Email);
-        signup_Name = findViewById(R.id.signup_Name);
-        signup_Password = findViewById(R.id.signup_Password);
+        signup_Email = (EditText) findViewById(R.id.signup_Email);
+        signup_Name = (EditText) findViewById(R.id.signup_Name);
+        signup_Password = (EditText) findViewById(R.id.signup_Password);
+        signup_Lastname = (EditText) findViewById(R.id.signup_Lastname);
         mAuth = FirebaseAuth.getInstance();
 
         btn_Done = (Button) findViewById(R.id.btn_Done);
         btn_Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  mAuth.getInstance();
                 userSignUp();
             }
         });
@@ -60,6 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
         String email = signup_Email.getText().toString().trim();
         String password = signup_Password.getText().toString().trim();
         String name = signup_Name.getText().toString().trim();
+        String lastname = signup_Lastname.getText().toString().trim();
 
 
         // Check for a valid password, if the user entered one.
@@ -80,9 +82,9 @@ public class SignUpActivity extends AppCompatActivity {
             //Create a new User
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                    UserProfile newUser = new UserProfile(name, email, password);
+                    UserProfile newUser = new UserProfile(name,lastname, email, password);
 
                     //FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
@@ -90,19 +92,20 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             //Set the data to the Real Time Data Base
-                            if (task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 startActivity(new Intent(getApplicationContext(), BasicActivity.class));
                                 Toast.makeText(SignUpActivity.this, "User Created", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(SignUpActivity.this, "ERROR: Failed to create a new user", Toast.LENGTH_LONG).show();
                             }
-                            else{
-                                    Toast.makeText(SignUpActivity.this, "ERROR: Failed to create a new user", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                        }
+                    });
+
+                    databaseReference.child(firebaseUser.getUid()).child("currentbalance").setValue(currentbalance);
+
                     databaseReference.child(firebaseUser.getUid()).child("Stocks").child("StockName").setValue("");
                     databaseReference.child(firebaseUser.getUid()).child("Stocks").child("NumShares").setValue("");
 
-                    databaseReference.child(firebaseUser.getUid()).child("CurrentBalance").setValue(startingBalance());
 
                     databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").setValue("");
                     databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").setValue("");
@@ -119,15 +122,13 @@ public class SignUpActivity extends AppCompatActivity {
                     databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("Algorithm").setValue("");
 
 
+                } else {
+                    Toast.makeText(SignUpActivity.this, "ERROR" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
-                    else{
-                        Toast.makeText(SignUpActivity.this, "ERROR" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    }
             }
         });
 
     }
-
 
     private boolean isEmailValid(String email) {
         CharSequence s = email;
@@ -135,93 +136,9 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 6;
+        return password.length() >= 6;
     }
+}
 
-    public Integer startingBalance() {
-        return 20000;
-    }
-
-    }
-
-
-
-
-    /*
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-        private final String mName;
-
-        private boolean registerSuccess = false;
-        private String registerResponose = null;
-
-        UserLoginTask(String email, String password, String name) {
-            mEmail = email;
-            mPassword = password;
-            mName = name;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            try {
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                auth.createUserWithEmailAndPassword(mEmail, mPassword).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        e.printStackTrace();
-                        registerResponose = e.getMessage();
-                        registerSuccess = false;
-                        Toast.makeText(getApplicationContext(), registerResponose, Toast.LENGTH_LONG).show();
-                        //USER IS NOW LOGGED IN!
-                        //We could redirect to main page if needed
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        Toast.makeText(getApplicationContext(), "Account created", Toast.LENGTH_LONG).show();
-                        FirebaseUser firebaseUser = auth.getCurrentUser();
-                        User account = new User(mName, mEmail, mPassword);
-                        database.getReference().child(firebaseUser.getUid()).setValue(account).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()){
-                                   // startActivity(new Intent(getApplicationContext(), BasicActivity.class));
-                                    registerSuccess = true;
-                                    Toast.makeText(SignUpActivity.this, "User Created", Toast.LENGTH_LONG).show();
-                                }
-                                else{
-                                    Toast.makeText(SignUpActivity.this, "Error!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-                        //User writeUserDetails = new User(mName, mEmail, mPassword);
-                       // database.getReference().child(firebaseUser.getUid()).setValue(account);
-                    }
-                });
-                Thread.sleep(1000);
-
-            } catch (InterruptedException exception) {
-                return false;
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-        }
-    }
-
-     */
 
 
