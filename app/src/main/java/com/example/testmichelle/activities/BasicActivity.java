@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import com.example.testmichelle.R;
 import com.example.testmichelle.fragments.AccountFragment;
 import com.example.testmichelle.fragments.AlgoFragment;
+import com.example.testmichelle.fragments.DisplayBackTestingResults;
 import com.example.testmichelle.fragments.HistoryFragment;
 import com.example.testmichelle.fragments.HomeFragment;
 import com.example.testmichelle.fragments.TransactionFragment;
@@ -26,9 +25,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class BasicActivity extends AppCompatActivity {
+import org.ta4j.core.Rule;
+import org.ta4j.core.TimeSeries;
+import org.ta4j.core.TradingRecord;
+
+public class BasicActivity extends AppCompatActivity implements FragmentListener {
     FirebaseUser firebaseUser;
 
+    private DisplayBackTestingResults backTestingResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class BasicActivity extends AppCompatActivity {
         HistoryFragment historyFragment = new HistoryFragment();
         AccountFragment accountFragment = new AccountFragment();
         backTestingFragment backTestingFragment = new backTestingFragment();
+        backTestingResults = new DisplayBackTestingResults();
         makeCurrentFragment(homeFragment);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
@@ -74,6 +79,12 @@ public class BasicActivity extends AppCompatActivity {
     //Changes the fragment that corresponds to the button that is clicked
     private void makeCurrentFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, fragment).commit();
+    }
+
+    public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, backTestingResults).commit();
+        backTestingResults.collectData(tradingRecord, Buying_rule,Selling_Rule, series);
+        backTestingResults.setResultsData();
     }
 
     /*
