@@ -11,6 +11,7 @@ import com.example.testmichelle.fragments.AccountFragment;
 import com.example.testmichelle.fragments.DisplayBackTestingResults;
 import com.example.testmichelle.fragments.HistoryFragment;
 import com.example.testmichelle.fragments.HomeFragment;
+import com.example.testmichelle.fragments.MoreInfoFragment;
 import com.example.testmichelle.fragments.TransactionFragment;
 import com.example.testmichelle.fragments.backTestingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,8 +23,9 @@ import org.ta4j.core.TradingRecord;
 
 public class BasicActivity extends AppCompatActivity implements FragmentListener {
     FirebaseUser firebaseUser;
-    UserProfile currentUser = new UserProfile();
     private DisplayBackTestingResults backTestingResults;
+    private MoreInfoFragment moreInfoFragment;
+    private backTestingFragment backTestingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         TransactionFragment transactionFragment = new TransactionFragment();
         HistoryFragment historyFragment = new HistoryFragment();
         AccountFragment accountFragment = new AccountFragment();
-        backTestingFragment backTestingFragment = new backTestingFragment();
+        backTestingFragment = new backTestingFragment();
         backTestingResults = new DisplayBackTestingResults();
+        moreInfoFragment = new MoreInfoFragment();
         makeCurrentFragment(homeFragment);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
@@ -72,13 +75,18 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     }
 
     public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series){
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, backTestingResults).commit();
+        makeCurrentFragment(backTestingResults);
         backTestingResults.collectData(tradingRecord, Buying_rule,Selling_Rule, series);
         backTestingResults.setResultsData();
     }
 
+    public void goToMoreInfoFragment(){
+        makeCurrentFragment(moreInfoFragment);
+    }
 
-
+    public void goToBackTestingFragment(){
+        makeCurrentFragment(backTestingFragment);
+    }
 }
 
 

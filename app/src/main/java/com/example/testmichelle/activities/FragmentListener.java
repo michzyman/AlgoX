@@ -6,4 +6,6 @@ import org.ta4j.core.TradingRecord;
 
 public interface FragmentListener {
     public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series);
+    public void goToMoreInfoFragment();
+    public void goToBackTestingFragment();
 }
