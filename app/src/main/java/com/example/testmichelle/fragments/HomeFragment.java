@@ -2,65 +2,108 @@ package com.example.testmichelle.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.model.UserMoney;
+import com.example.testmichelle.model.UserProfile;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.ta4j.core.TimeSeries;
+import org.ta4j.core.Trade;
+import org.ta4j.core.TradingRecord;
+import org.ta4j.core.num.Num;
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
 public class HomeFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    TextView text_name;
+    TextView balance;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        text_name = (TextView) view.findViewById(R.id.text_username);
+        balance = (TextView) view.findViewById(R.id.text_balance);
+        balance.setVisibility(View.INVISIBLE);
+        text_name.setVisibility(View.INVISIBLE);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserProfile name = snapshot.getValue(UserProfile.class);
+                text_name.setText("Hello," + name.getName());
+                text_name.setVisibility(View.VISIBLE);
+/*
+                UserMoney money = snapshot.getValue(UserMoney.class);
+                money.getCurrentbalance().toString();
+                balance.setText("Your Balance "+"$"+ money.getCurrentbalance().toString());
+ */
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return view;
+    }
+
+
+
+    public static ArrayList<Double> createListOfAlgorithmValues(TimeSeries series, TradingRecord tradingRecord, double startingValue) {
+
+        ArrayList<Double> resultingList = new ArrayList<Double>();
+        for (int i = 0; i < series.getBarCount(); i++) {
+            resultingList.add(1.);
+        }
+
+        int numberOfProfitable = 0;
+        for (Trade trade : tradingRecord.getTrades()) {
+            int entryIndex = trade.getEntry().getIndex();
+            int exitIndex = trade.getExit().getIndex();
+
+            double result;
+            if (trade.getEntry().isBuy()) {
+                // buy-then-sell trade
+                result = series.getBar(exitIndex).getClosePrice().dividedBy(series.getBar(entryIndex).getClosePrice()).doubleValue();
+            } else {
+                // sell-then-buy trade
+                result = series.getBar(entryIndex).getClosePrice().dividedBy(series.getBar(exitIndex).getClosePrice()).doubleValue();
+            }
+
+            resultingList.set(exitIndex, result);
+        }
+
+        ArrayList<Double> finalList = new ArrayList<Double>();
+
+        for (int i = 0; i < resultingList.size(); i++) {
+            startingValue *= resultingList.get(i);
+            finalList.add(startingValue);
+        }
+        return finalList;
     }
 }

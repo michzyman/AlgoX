@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AccountFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,19 +15,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
             android:text="Log Out"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="289dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/test"
+        <TextView
+            android:id="@+id/txt_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="205dp" />
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="235dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

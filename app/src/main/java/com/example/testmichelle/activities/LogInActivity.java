@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.model.UserMoney;
+import com.example.testmichelle.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,6 +25,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -33,6 +37,7 @@ public class LogInActivity extends AppCompatActivity {
     private EditText edt_Password;
     //Firebase
     private FirebaseAuth mAuth;
+    Integer currentbalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +90,13 @@ public class LogInActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (!task.isSuccessful()) {
-                    //There was an Error
-                    Toast.makeText(LogInActivity.this, "Login Error, Please Login Again!", Toast.LENGTH_SHORT).show();
-                } else {
+                if (task.isSuccessful()) {
                     Intent intent_home = new Intent(LogInActivity.this, BasicActivity.class);
                     startActivity(intent_home);
                     finish();
+
+                } else {
+                    Toast.makeText(LogInActivity.this, "Login Error, Please Login Again!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
