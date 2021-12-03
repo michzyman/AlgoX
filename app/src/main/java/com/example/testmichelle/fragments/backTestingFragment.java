@@ -89,7 +89,7 @@ public class backTestingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_backtesting, container, false);  //separate me from return statement.
         tv_select = (TextView) view.findViewById(R.id.tv_select);      //need a chance to do this other stuff,
-        tv_select.setText("Please select a buying rule");
+        tv_select.setText("Buying Rule");
         tv_p1 = (TextView) view.findViewById(R.id.tv_p1);    //before returning the inflated view.
         tv_p2 = (TextView) view.findViewById(R.id.tv_p2);
         et_p1 = (EditText) view.findViewById(R.id.et_p1);
@@ -101,7 +101,7 @@ public class backTestingFragment extends Fragment {
         et_p2.setVisibility(INVISIBLE);
 
         tv_select2 = (TextView) view.findViewById(R.id.tv_select2);      //need a chance to do this other stuff,
-        tv_select2.setText("Please select a selling rule");
+        tv_select2.setText("Selling Rule");
         tv_p3 = (TextView) view.findViewById(R.id.tv_p3);    //before returning the inflated view.
         tv_p4 = (TextView) view.findViewById(R.id.tv_p4);
         et_p3 = (EditText) view.findViewById(R.id.et_p3);
@@ -116,7 +116,7 @@ public class backTestingFragment extends Fragment {
         tv_p5 = (TextView) view.findViewById(R.id.tv_p5);
         tv_p5.setText("Ticker:");
         tv_p6 = (TextView) view.findViewById(R.id.tv_p6);
-        tv_p6.setText("Number of Days:");
+        tv_p6.setText("Timeframe:");
         et_p5 = (EditText) view.findViewById(R.id.et_p5);
 //        et_p6 = (EditText) view.findViewById(R.id.et_p6);
 
@@ -145,48 +145,37 @@ public class backTestingFragment extends Fragment {
 
                 switch (position) {
                     case 0:
-                        Toast.makeText(parent.getContext(), "Spinner item 1!", Toast.LENGTH_SHORT).show();
+                        tv_p1.setVisibility(INVISIBLE);
+                        tv_p2.setVisibility(INVISIBLE);
+                        et_p1.setVisibility(INVISIBLE);
+                        et_p2.setVisibility(INVISIBLE);
+                        both_param=false;
+                        break;
+                    case 1:
                         et_p1.setVisibility(View.VISIBLE);
                         et_p2.setVisibility(View.INVISIBLE);
                         tv_p1.setVisibility(View.VISIBLE);
                         tv_p2.setVisibility(View.INVISIBLE);
-                        tv_p1.setText("Price Below:");
-                        both_param = false;
-                        break;
-                    case 1:
-                        Toast.makeText(parent.getContext(), "Spinner item 2!", Toast.LENGTH_SHORT).show();
-                        et_p1.setVisibility(View.VISIBLE);
-                        et_p2.setVisibility(View.INVISIBLE);
-                        tv_p1.setText("Price Above:");
-                        tv_p2.setVisibility(View.INVISIBLE);
+                        tv_p1.setText("Cutoff:");
                         both_param = false;
                         break;
                     case 2:
-                        Toast.makeText(parent.getContext(), "Spinner item 3!", Toast.LENGTH_SHORT).show();
                         et_p1.setVisibility(View.VISIBLE);
-                        et_p2.setVisibility(View.VISIBLE);
-                        tv_p1.setText("Duration 1:");
-                        tv_p2.setVisibility(View.VISIBLE);
-                        tv_p2.setText("Duration 2:");
+                        et_p2.setVisibility(View.INVISIBLE);
+                        tv_p1.setText("Cutoff:");
+                        tv_p2.setVisibility(View.INVISIBLE);
+                        both_param = false;
                         break;
                     case 3:
-                        Toast.makeText(parent.getContext(), "Spinner item 4!", Toast.LENGTH_SHORT).show();
+                    case 4:
                         et_p1.setVisibility(View.VISIBLE);
                         et_p2.setVisibility(View.VISIBLE);
                         tv_p1.setText("Duration 1:");
                         tv_p2.setVisibility(View.VISIBLE);
                         tv_p2.setText("Duration 2:");
                         break;
-                    case 4:
-                        Toast.makeText(parent.getContext(), "Spinner item 5!", Toast.LENGTH_SHORT).show();
-                        et_p1.setVisibility(View.VISIBLE);
-                        et_p2.setVisibility(View.VISIBLE);
-                        tv_p1.setText("Bar count:");
-                        tv_p2.setVisibility(View.VISIBLE);
-                        tv_p2.setText("Min strength:");
-                        break;
                     case 5:
-                        Toast.makeText(parent.getContext(), "Spinner item 6!", Toast.LENGTH_SHORT).show();
+                    case 6:
                         et_p1.setVisibility(View.VISIBLE);
                         et_p2.setVisibility(View.VISIBLE);
                         tv_p1.setText("Bar count:");
@@ -227,48 +216,37 @@ public class backTestingFragment extends Fragment {
 
                 switch (position) {
                     case 0:
-                        Toast.makeText(parent.getContext(), "Spinner item 1!", Toast.LENGTH_SHORT).show();
+                        tv_p3.setVisibility(INVISIBLE);
+                        tv_p4.setVisibility(INVISIBLE);
+                        et_p3.setVisibility(INVISIBLE);
+                        et_p4.setVisibility(INVISIBLE);
+                        both_param_sell=false;
+                        break;
+                    case 1:
                         et_p3.setVisibility(View.VISIBLE);
                         et_p4.setVisibility(View.INVISIBLE);
                         tv_p3.setVisibility(View.VISIBLE);
                         tv_p4.setVisibility(View.INVISIBLE);
-                        tv_p3.setText("Price Below:");
-                        both_param_sell = false;
-                        break;
-                    case 1:
-                        Toast.makeText(parent.getContext(), "Spinner item 2!", Toast.LENGTH_SHORT).show();
-                        et_p3.setVisibility(View.VISIBLE);
-                        et_p4.setVisibility(View.INVISIBLE);
-                        tv_p3.setText("Price Above:");
-                        tv_p4.setVisibility(View.INVISIBLE);
+                        tv_p3.setText("Cutoff:");
                         both_param_sell = false;
                         break;
                     case 2:
-                        Toast.makeText(parent.getContext(), "Spinner item 3!", Toast.LENGTH_SHORT).show();
                         et_p3.setVisibility(View.VISIBLE);
-                        et_p4.setVisibility(View.VISIBLE);
-                        tv_p3.setText("Duration 1:");
-                        tv_p4.setVisibility(View.VISIBLE);
-                        tv_p4.setText("Duration 2:");
+                        et_p4.setVisibility(View.INVISIBLE);
+                        tv_p3.setText("Cutoff:");
+                        tv_p4.setVisibility(View.INVISIBLE);
+                        both_param_sell = false;
                         break;
                     case 3:
-                        Toast.makeText(parent.getContext(), "Spinner item 4!", Toast.LENGTH_SHORT).show();
+                    case 4:
                         et_p3.setVisibility(View.VISIBLE);
                         et_p4.setVisibility(View.VISIBLE);
                         tv_p3.setText("Duration 1:");
                         tv_p4.setVisibility(View.VISIBLE);
                         tv_p4.setText("Duration 2:");
                         break;
-                    case 4:
-                        Toast.makeText(parent.getContext(), "Spinner item 5!", Toast.LENGTH_SHORT).show();
-                        et_p3.setVisibility(View.VISIBLE);
-                        et_p4.setVisibility(View.VISIBLE);
-                        tv_p3.setText("Bar count:");
-                        tv_p4.setVisibility(View.VISIBLE);
-                        tv_p4.setText("Min strength:");
-                        break;
                     case 5:
-                        Toast.makeText(parent.getContext(), "Spinner item 6!", Toast.LENGTH_SHORT).show();
+                    case 6:
                         et_p3.setVisibility(View.VISIBLE);
                         et_p4.setVisibility(View.VISIBLE);
                         tv_p3.setText("Bar count:");
