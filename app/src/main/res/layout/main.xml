@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/green"
-        android:text="Enhance Your Future"
+        android:text="@string/enhance_your_future"
         android:textColor="@color/black"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -30,15 +30,16 @@
         app:layout_constraintEnd_toEndOf="@+id/txt_Title"
         app:srcCompat="@drawable/ic_btnenter"
         app:tint="#000000"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck"
+        android:contentDescription="@string/clickbutton" />
 
-    <ImageView
-        android:id="@+id/img_homepage"
-        android:layout_width="928dp"
-        android:layout_height="678dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/homepage"
-        tools:layout_editor_absoluteX="-65dp" />
+        <ImageView
+            android:id="@+id/img_homepage"
+            android:layout_width="928dp"
+            android:layout_height="678dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/homepage"
+            tools:layout_editor_absoluteX="-65dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,18 +1,24 @@
 package com.example.testmichelle.model;
 
+import com.example.testmichelle.activities.SignUpActivity;
+
 public class UserMoney {
-    public String money;
-    public UserMoney(){
-    }
-    public UserMoney(String money){
-        this.money = money;
+    private Integer currentbalance;
+
+    public UserMoney(){} //Default used for Firebase/API
+
+
+    public UserMoney(Integer currentbalance){
+        this.currentbalance = currentbalance;
     }
 
-    public String getMoney() {
-        return money;
+    public Integer getCurrentBalance() {
+        return currentbalance;
     }
 
-    public void setMoney(String money) {
-        this.money = "hello";
+    public void setCurrentBalance(Integer currentbalance) {
+        this.currentbalance = currentbalance;
     }
+
+
 }

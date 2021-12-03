@@ -4,21 +4,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.testmichelle.R;
 import com.example.testmichelle.activities.LogInActivity;
+import com.example.testmichelle.model.UserMoney;
+import com.example.testmichelle.model.UserProfile;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 
 public class AccountFragment extends Fragment {
     Button btn_LogOut;
-    EditText test;
+    TextView text_username2;
+    TextView text_balance2;
 
 
 
@@ -27,7 +42,9 @@ public class AccountFragment extends Fragment {
     }
     @Override
     public void onAttach(Context context){
+
         super.onAttach(context);
+
     }
 
 
@@ -36,10 +53,6 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_account, container, false);
-        test = view.findViewById(R.id.test);
-        String Test = test.getText().toString().trim();
-
-
 
         btn_LogOut = (Button) view.findViewById(R.id.btn_LogOut);
         btn_LogOut.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +62,38 @@ public class AccountFragment extends Fragment {
                 Intent intent_signin = new Intent(getActivity(),
                         LogInActivity.class);
                 startActivity(intent_signin);
+            }
+        });
+        text_username2 = (TextView) view.findViewById(R.id.text_username2);
+        text_username2.setVisibility(View.INVISIBLE);
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserProfile name = snapshot.getValue(UserProfile.class);
+                text_username2.setText(name.getName());
+                text_username2.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        text_balance2 = (TextView) view.findViewById(R.id.text_balance2);
+        text_balance2.setVisibility(View.INVISIBLE);
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserMoney money = snapshot.getValue(UserMoney.class);
+                text_balance2.setText("Your Balance " + "\n" + "$"+ money.getCurrentBalance());
+                text_balance2.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
         return view;
