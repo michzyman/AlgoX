@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     TextView text_name;
-    TextView balance;
+    TextView text_balance;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -46,29 +46,46 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
         text_name = (TextView) view.findViewById(R.id.text_username);
-        balance = (TextView) view.findViewById(R.id.text_balance);
-        balance.setVisibility(View.INVISIBLE);
         text_name.setVisibility(View.INVISIBLE);
+        /*
+        text_balance = (TextView) view.findViewById(R.id.text_balance);
+        text_balance.setVisibility(View.INVISIBLE);
+*/
+
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserProfile name = snapshot.getValue(UserProfile.class);
-                text_name.setText("Hello," + name.getName());
+                text_name.setText("Hello," +" "+ name.getName());
                 text_name.setVisibility(View.VISIBLE);
-/*
-                UserMoney money = snapshot.getValue(UserMoney.class);
-                money.getCurrentbalance().toString();
-                balance.setText("Your Balance "+"$"+ money.getCurrentbalance().toString());
- */
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
+        text_balance = (TextView) view.findViewById(R.id.text_balance);
+        text_balance.setVisibility(View.INVISIBLE);
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserMoney money = snapshot.getValue(UserMoney.class);
+                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentBalance());
+                text_balance.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
         return view;
     }
 
