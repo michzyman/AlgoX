@@ -25,6 +25,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.ta4j.core.Rule;
+import org.ta4j.core.TimeSeries;
 import org.ta4j.core.TradingRecord;
 
 public class BasicActivity extends AppCompatActivity implements FragmentListener {
@@ -79,9 +81,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, fragment).commit();
     }
 
-    public void passDataToBackTestingResults(TradingRecord tradingRecord){
+    public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series){
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, backTestingResults).commit();
-        backTestingResults.updateTextView("hello", tradingRecord);
+        backTestingResults.collectData(tradingRecord, Buying_rule,Selling_Rule, series);
+        backTestingResults.setResultsData();
     }
 
     /*
