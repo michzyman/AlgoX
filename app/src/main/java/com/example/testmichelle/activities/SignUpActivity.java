@@ -107,6 +107,8 @@ public class SignUpActivity extends AppCompatActivity {
                     });
 
                     databaseReference.child(firebaseUser.getUid()).child("currentbalance").setValue(currentbalance);
+                    databaseReference.child(firebaseUser.getUid()).child("Algorithms");
+
                     /*
 
                     databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").setValue("");

@@ -14,7 +14,7 @@ public class Algorithm {
     public Algorithm(){
         //Empty constructor for firebase
     }
-    public Algorithm(String status, String stockname, Integer initialamount,
+    public Algorithm(String Stastatustus, String stockname, Integer initialamount,
                      ArrayList<String> buyingrule, ArrayList<String> sellingrule){
         this.status = status;
         this.stockname = stockname;
