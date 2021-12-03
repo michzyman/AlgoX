@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/green"
+        android:fontFamily="@font/pt_sans"
         android:text="@string/enhance_your_future"
         android:textColor="@color/black"
         android:textSize="34sp"
@@ -24,22 +25,35 @@
         android:id="@+id/btn_Enter"
         android:layout_width="84dp"
         android:layout_height="59dp"
+        android:layout_marginEnd="1dp"
         android:backgroundTint="@color/green"
+        android:contentDescription="@string/clickbutton"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/txt_Title"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
         app:srcCompat="@drawable/ic_btnenter"
         app:tint="#000000"
-        tools:ignore="SpeakableTextPresentCheck"
-        android:contentDescription="@string/clickbutton" />
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/img_homepage"
-            android:layout_width="928dp"
-            android:layout_height="678dp"
-            android:layout_marginBottom="24dp"
+            android:layout_width="975dp"
+            android:layout_height="908dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/homepage"
-            tools:layout_editor_absoluteX="-65dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/homepage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

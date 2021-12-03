@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Message;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class AccountFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserProfile name = snapshot.getValue(UserProfile.class);
                 text_username2.setText(name.getName());
+                text_username2.setTextSize(34);
                 text_username2.setVisibility(View.VISIBLE);
             }
             @Override
@@ -89,6 +91,8 @@ public class AccountFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
                 text_balance2.setText("Your Balance " + "\n" + "$"+ money.getCurrentBalance());
+                text_balance2.setTextSize(34);
+                text_balance2.setGravity(Gravity.CENTER);
                 text_balance2.setVisibility(View.VISIBLE);
             }
             @Override

@@ -57,4 +57,5 @@
     <string name="select_text_view">Select Text View</string>
     <string name="last_name">Last Name</string>
     <string name="logo">logo</string>
+    <string name="todo">TODO</string>
 </resources>
