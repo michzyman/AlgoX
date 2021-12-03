@@ -2,22 +2,36 @@ package com.example.testmichelle.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.model.UserMoney;
+import com.example.testmichelle.model.UserProfile;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
 import org.ta4j.core.num.Num;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
+    TextView text_name;
+    TextView balance;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -31,8 +45,34 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        text_name = (TextView) view.findViewById(R.id.text_username);
+        balance = (TextView) view.findViewById(R.id.text_balance);
+        balance.setVisibility(View.INVISIBLE);
+        text_name.setVisibility(View.INVISIBLE);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserProfile name = snapshot.getValue(UserProfile.class);
+                text_name.setText("Hello," + name.getName());
+                text_name.setVisibility(View.VISIBLE);
+/*
+                UserMoney money = snapshot.getValue(UserMoney.class);
+                money.getCurrentbalance().toString();
+                balance.setText("Your Balance "+"$"+ money.getCurrentbalance().toString());
+ */
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return view;
     }
+
+
 
     public static ArrayList<Double> createListOfAlgorithmValues(TimeSeries series, TradingRecord tradingRecord, double startingValue) {
 

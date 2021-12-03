@@ -87,36 +87,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         backTestingResults.setResultsData();
     }
 
-    /*
-    private void saveBalance(){
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String money = "100";
-        UserMoney userMoney = new UserMoney();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("CurrentMoney").setValue(userMoney).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                //Set the data to the Real Time Data Base
-                if (task.isSuccessful()){
-                }
-                else{
-                }
 
-            }
-        });
-        /*
-        databaseReference.child(firebaseUser.getUid()).setValue(userMoney).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                //Set the data to the Real Time Data Base
-                if (task.isSuccessful()){
-                }
-                else{
-                }
-            }
-        });
-        */
 
-        }
+}
 
 

@@ -1,18 +1,20 @@
 package com.example.testmichelle.model;
 
+import com.example.testmichelle.activities.SignUpActivity;
+
 public class UserMoney {
-    public String money;
+    private Integer currentbalance;
+
     public UserMoney(){
     }
-    public UserMoney(String money){
-        this.money = money;
+
+    public Integer getCurrentbalance() {
+        return currentbalance;
     }
 
-    public String getMoney() {
-        return money;
+    public void setCurrentbalance(Integer currentbalance) {
+        this.currentbalance = currentbalance;
     }
 
-    public void setMoney(String money) {
-        this.money = "hello";
-    }
+
 }

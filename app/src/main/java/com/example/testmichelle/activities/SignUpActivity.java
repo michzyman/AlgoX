@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -82,6 +83,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                     UserProfile newUser = new UserProfile(name, email, password);
+
                     //FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
                     databaseReference.child(firebaseUser.getUid()).setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -100,7 +102,7 @@ public class SignUpActivity extends AppCompatActivity {
                     databaseReference.child(firebaseUser.getUid()).child("Stocks").child("StockName").setValue("");
                     databaseReference.child(firebaseUser.getUid()).child("Stocks").child("NumShares").setValue("");
 
-                    databaseReference.child(firebaseUser.getUid()).child("CurrentMoney").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("CurrentBalance").setValue(startingBalance());
 
                     databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").setValue("");
                     databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").setValue("");
@@ -135,7 +137,14 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean isPasswordValid(String password) {
         return password.length() > 6;
     }
-}
+
+    public Integer startingBalance() {
+        return 20000;
+    }
+
+    }
+
+
 
 
     /*
