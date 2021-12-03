@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
-        android:text="run"
+        android:text="@string/run"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/et_p5" />
 
@@ -29,7 +29,9 @@
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/tv_select2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_p2" />
+        app:layout_constraintStart_toEndOf="@+id/tv_p2"
+        android:importantForAutofill="no"
+        tools:ignore="LabelFor" />
 
     <Spinner
         android:id="@+id/dropdown_buy"
@@ -57,14 +59,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_p1"
         app:layout_constraintTop_toBottomOf="@+id/dropdown_buy"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/tv_select"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Select Text View"
+        android:text="@string/select_text_view"
         android:textAlignment="center"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="18sp"
@@ -114,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="184dp"
         android:layout_marginBottom="183dp"
-        android:text="Select Text View"
+        android:text="@string/select_text_view"
         android:textAlignment="center"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="18sp"
@@ -129,7 +132,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="132dp"
-        android:text="Select Text View"
+        android:text="@string/select_text_view"
         android:textAlignment="center"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="18sp"
@@ -190,7 +193,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_p5"
         app:layout_constraintTop_toTopOf="@+id/tv_p4"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/et_p4"
@@ -204,7 +208,8 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_etc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_p4"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/et_p3"
@@ -218,7 +223,8 @@
         app:layout_constraintBottom_toTopOf="@+id/et_p4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_p3"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/tv_p3"

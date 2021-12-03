@@ -254,13 +254,9 @@ public class backTestingFragment extends Fragment {
                         tv_p4.setText("Min strength:");
                         break;
                 }
-
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 

@@ -1,29 +1,20 @@
 package com.example.testmichelle.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.example.testmichelle.R;
 import com.example.testmichelle.fragments.AccountFragment;
-import com.example.testmichelle.fragments.AlgoFragment;
 import com.example.testmichelle.fragments.DisplayBackTestingResults;
 import com.example.testmichelle.fragments.HistoryFragment;
 import com.example.testmichelle.fragments.HomeFragment;
 import com.example.testmichelle.fragments.TransactionFragment;
 import com.example.testmichelle.fragments.backTestingFragment;
-import com.example.testmichelle.model.UserMoney;
-import com.example.testmichelle.model.UserProfile;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.ta4j.core.Rule;
 import org.ta4j.core.TimeSeries;
@@ -41,7 +32,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
         HomeFragment homeFragment = new HomeFragment();
         TransactionFragment transactionFragment = new TransactionFragment();
-        AlgoFragment algoFragment = new AlgoFragment();
         HistoryFragment historyFragment = new HistoryFragment();
         AccountFragment accountFragment = new AccountFragment();
         backTestingFragment backTestingFragment = new backTestingFragment();

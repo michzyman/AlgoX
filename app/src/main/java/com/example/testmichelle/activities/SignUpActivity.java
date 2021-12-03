@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testmichelle.R;
-import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText signup_Name;
     private EditText signup_Email;
     private EditText signup_Password;
+    private EditText signup_Lastname;
     private Button btn_Done;
     Integer currentbalance = 20000;
 
@@ -38,9 +38,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        signup_Email = findViewById(R.id.signup_Email);
-        signup_Name = findViewById(R.id.signup_Name);
-        signup_Password = findViewById(R.id.signup_Password);
+        signup_Email = (EditText) findViewById(R.id.signup_Email);
+        signup_Name = (EditText) findViewById(R.id.signup_Name);
+        signup_Password = (EditText) findViewById(R.id.signup_Password);
+        signup_Lastname = (EditText) findViewById(R.id.signup_Lastname);
         mAuth = FirebaseAuth.getInstance();
 
         btn_Done = (Button) findViewById(R.id.btn_Done);
@@ -60,6 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
         String email = signup_Email.getText().toString().trim();
         String password = signup_Password.getText().toString().trim();
         String name = signup_Name.getText().toString().trim();
+        String lastname = signup_Lastname.getText().toString().trim();
 
 
         // Check for a valid password, if the user entered one.
@@ -82,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                    UserProfile newUser = new UserProfile(name, email, password);
+                    UserProfile newUser = new UserProfile(name,lastname, email, password);
 
                     //FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
@@ -100,9 +102,6 @@ public class SignUpActivity extends AppCompatActivity {
                     });
 
                     databaseReference.child(firebaseUser.getUid()).child("currentbalance").setValue(currentbalance);
-
-
-
 
                     databaseReference.child(firebaseUser.getUid()).child("Stocks").child("StockName").setValue("");
                     databaseReference.child(firebaseUser.getUid()).child("Stocks").child("NumShares").setValue("");

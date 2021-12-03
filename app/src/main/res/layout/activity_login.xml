@@ -64,13 +64,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="533dp"
+        android:layout_height="544dp"
         android:layout_marginTop="74dp"
         android:layout_marginBottom="68dp"
         app:layout_constraintBottom_toTopOf="@+id/edt_Email"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.336"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/algox" />

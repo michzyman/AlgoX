@@ -3,27 +3,27 @@
     <item
         android:id="@+id/btn_home"
         android:icon="@drawable/ic_home"
-        android:title="Home"
+        android:title="@string/home"
         />
     <item
         android:id="@+id/btn_transaction"
         android:icon="@drawable/ic_transaction"
-        android:title="Transaction"
+        android:title="@string/transaction"
         />
     <item
         android:id="@+id/btn_algo"
-        android:icon="@drawable/ic_algo"
-        android:title="Algorithm"
+        android:icon="@drawable/ic_backtesting"
+        android:title="@string/backtesting"
         />
     <item
         android:id="@+id/btn_history"
         android:icon="@drawable/ic_history"
-        android:title="History"
+        android:title="@string/history"
         />
     <item
         android:id="@+id/btn_account"
         android:icon="@drawable/ic_account"
-        android:title="Account"
+        android:title="@string/account"
         />
 
 </menu>

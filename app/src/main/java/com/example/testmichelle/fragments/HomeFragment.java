@@ -49,10 +49,6 @@ public class HomeFragment extends Fragment {
 
         text_name = (TextView) view.findViewById(R.id.text_username);
         text_name.setVisibility(View.INVISIBLE);
-        /*
-        text_balance = (TextView) view.findViewById(R.id.text_balance);
-        text_balance.setVisibility(View.INVISIBLE);
-*/
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
