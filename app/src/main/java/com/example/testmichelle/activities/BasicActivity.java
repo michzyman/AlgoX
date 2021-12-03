@@ -15,6 +15,7 @@ import com.example.testmichelle.fragments.AlgoFragment;
 import com.example.testmichelle.fragments.HistoryFragment;
 import com.example.testmichelle.fragments.HomeFragment;
 import com.example.testmichelle.fragments.TransactionFragment;
+import com.example.testmichelle.fragments.backTestingFragment;
 import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +40,7 @@ public class BasicActivity extends AppCompatActivity {
         AlgoFragment algoFragment = new AlgoFragment();
         HistoryFragment historyFragment = new HistoryFragment();
         AccountFragment accountFragment = new AccountFragment();
+        backTestingFragment backTestingFragment = new backTestingFragment();
         makeCurrentFragment(homeFragment);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
@@ -53,7 +55,7 @@ public class BasicActivity extends AppCompatActivity {
                         makeCurrentFragment(transactionFragment);
                         break;
                     case R.id.btn_algo:
-                        makeCurrentFragment(algoFragment);
+                        makeCurrentFragment(backTestingFragment);
                         break;
                     case R.id.btn_history:
                         makeCurrentFragment(historyFragment);
