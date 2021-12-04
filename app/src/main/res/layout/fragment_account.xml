@@ -20,8 +20,9 @@
             android:id="@+id/btn_LogOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="332dp"
-            android:layout_marginEnd="164dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="@font/pt_sans"
             android:text="Log Out"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,14 +31,16 @@
             android:id="@+id/text_balance2"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="336dp"
+            android:layout_marginTop="140dp"
             android:background="@color/green"
+            android:fontFamily="@font/pt_sans"
             android:text="Balance"
             android:textColor="#000000"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:textAlignment="center"
             tools:textSize="60sp" />
 
@@ -45,14 +48,16 @@
             android:id="@+id/text_username2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="108dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="11dp"
+            android:fontFamily="@font/pt_sans"
             android:text="@string/name"
             android:textColor="#000000"
             android:textSize="34sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_balance2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:fontFamily="sans-serif" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

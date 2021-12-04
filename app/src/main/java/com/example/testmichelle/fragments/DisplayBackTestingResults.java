@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.example.testmichelle.R;
 import androidx.fragment.app.Fragment;
-
 import org.ta4j.core.AnalysisCriterion;
 import org.ta4j.core.Rule;
 import org.ta4j.core.TimeSeries;

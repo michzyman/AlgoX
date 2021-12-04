@@ -152,10 +152,11 @@ public class TechnicalAnalysis {
         return rule;
     }
 
+    /**
+     * triggers when SMADuration1 goes above SMADuration2
+     */
     public static Rule SMARule(int SMADuration1, int SMADuration2) {
-        /**
-         * triggers when SMADuration1 goes above SMADuration2
-         */
+
         ClosePriceIndicator closePrice = new ClosePriceIndicator(series);
         SMAIndicator SMA1 = new SMAIndicator(closePrice, SMADuration1);
         SMAIndicator SMA2 = new SMAIndicator(closePrice, SMADuration2);
@@ -163,10 +164,11 @@ public class TechnicalAnalysis {
         return rule;
     }
 
+    /**
+     * triggers when EMADuration1 goes above EMADuration2
+     */
     public static Rule EMARule(int EMADuration1, int EMADuration2) {
-        /**
-         * triggers when EMADuration1 goes above EMADuration2
-         */
+
         ClosePriceIndicator closePrice = new ClosePriceIndicator(series);
         EMAIndicator EMA1 = new EMAIndicator(closePrice, EMADuration1);
         EMAIndicator EMA2 = new EMAIndicator(closePrice, EMADuration2);
@@ -174,21 +176,23 @@ public class TechnicalAnalysis {
         return rule;
     }
 
+    /**
+     * triggers when the closingPrice decreases minStrength percentage of the time
+     * in the timeframe barCount
+     */
     public static Rule fallingRule(int barCount, int minStrength) {
-        /**
-         * triggers when the closingPrice decreases minStrength percentage of the time
-         * in the timeframe barCount
-         */
+
         ClosePriceIndicator closePrice = new ClosePriceIndicator(series);
         Rule rule = new IsFallingRule(closePrice, barCount, minStrength);
         return rule;
     }
 
+    /**
+     * triggers when the closingPrice increases minStrength percentage of the time
+     * in the timeframe barCount
+     */
     public static Rule risingRule(int barCount, int minStrength) {
-        /**
-         * triggers when the closingPrice increases minStrength percentage of the time
-         * in the timeframe barCount
-         */
+
         ClosePriceIndicator closePrice = new ClosePriceIndicator(series);
         Rule rule = new IsRisingRule(closePrice, barCount, minStrength);
         return rule;
