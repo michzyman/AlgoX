@@ -15,27 +15,90 @@
             android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:onClick="search"
             android:text="search"
-            tools:layout_editor_absoluteX="290dp"
-            tools:layout_editor_absoluteY="13dp" />
+            app:layout_constraintStart_toEndOf="@+id/edt_Stock"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/edt_Stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="12dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Stock Name"
-            tools:layout_editor_absoluteX="57dp"
-            tools:layout_editor_absoluteY="16dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="323dp"
-            android:layout_height="265dp"
+            android:id="@+id/txtEsg"
+            android:layout_width="178dp"
+            android:layout_height="198dp"
+            android:layout_marginStart="28dp"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="8sp"
             android:text="TextView"
-            tools:layout_editor_absoluteX="44dp"
-            tools:layout_editor_absoluteY="253dp" />
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtFinancialData1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/txtKeyStatistics"
+            android:layout_width="173dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="1dp"
+            android:lineSpacingExtra="8sp"
+            android:text="TextView"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtFinancialData2"
+            app:layout_constraintStart_toEndOf="@+id/txtEsg" />
+
+        <TextView
+            android:id="@+id/txtFinancialData2"
+            android:layout_width="173dp"
+            android:layout_height="133dp"
+            android:layout_marginBottom="28dp"
+            android:lineSpacingExtra="8sp"
+            android:text="TextView"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtFinancialData1" />
+
+        <TextView
+            android:id="@+id/txtFinancialData1"
+            android:layout_width="181dp"
+            android:layout_height="134dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="28dp"
+            android:lineSpacingExtra="8sp"
+            android:text="TextView"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="28dp"
+            app:layout_constraintBottom_toTopOf="@+id/txtEsg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edt_Stock"
+            app:layout_constraintVertical_bias="0.137"
+            tools:src="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
