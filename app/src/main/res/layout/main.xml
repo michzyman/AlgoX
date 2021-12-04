@@ -46,11 +46,13 @@
 
         <ImageView
             android:id="@+id/img_homepage"
-            android:layout_width="975dp"
-            android:layout_height="908dp"
+            android:layout_width="729dp"
+            android:layout_height="861dp"
+            android:layout_marginStart="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.647"
             app:srcCompat="@drawable/homepage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

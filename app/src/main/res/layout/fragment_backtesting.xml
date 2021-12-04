@@ -21,7 +21,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout17"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:fontFamily="@font/pt_sans" />
 
     <EditText
         android:id="@+id/et_p2"
@@ -34,7 +35,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.636"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_p1" />
+        app:layout_constraintTop_toBottomOf="@+id/et_p1"
+        tools:fontFamily="@font/pt_sans" />
 
     <Spinner
         android:id="@+id/dropdown_buy"
@@ -53,8 +55,10 @@
         android:id="@+id/et_p1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
+        android:fontFamily="@font/pt_sans"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:spinnerMode="dropdown"
@@ -62,8 +66,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/et_p3"
         app:layout_constraintTop_toBottomOf="@+id/dropdown_buy"
-        tools:ignore="LabelFor,SpeakableTextPresentCheck"
-        android:importantForAutofill="no" />
+        tools:fontFamily="@font/pt_sans"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout18"
@@ -82,6 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="2dp"
+            android:fontFamily="@font/pt_sans"
             android:text="Select Text View"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -90,7 +95,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:fontFamily="@font/pt_sans" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -98,6 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
+        android:fontFamily="@font/pt_sans"
         android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -115,11 +122,12 @@
         app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_p1"
-        app:layout_constraintVertical_bias="0.972" />
+        app:layout_constraintVertical_bias="0.972"
+        tools:fontFamily="@font/pt_sans" />
 
     <Spinner
         android:id="@+id/dropdown_sell"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
         android:background="@android:drawable/btn_dropdown"
@@ -154,7 +162,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:fontFamily="@font/pt_sans" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Spinner
@@ -168,7 +177,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.286"
+        app:layout_constraintHorizontal_bias="0.008"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout17"
         app:layout_constraintVertical_bias="0.0"
@@ -185,7 +194,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout17"
-        app:layout_constraintVertical_bias="0.207" />
+        app:layout_constraintVertical_bias="0.207"
+        tools:fontFamily="@font/pt_sans" />
 
     <TextView
         android:id="@+id/tv_p6"
@@ -198,7 +208,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/constraintLayout17"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.907" />
+        app:layout_constraintVertical_bias="0.907"
+        tools:fontFamily="@font/pt_sans" />
 
     <EditText
         android:id="@+id/et_p5"
@@ -213,6 +224,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.928"
+        tools:fontFamily="@font/pt_sans"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <EditText
@@ -227,6 +239,7 @@
         app:layout_constraintHorizontal_bias="0.636"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_p3"
+        tools:fontFamily="@font/pt_sans"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
@@ -237,6 +250,7 @@
         android:layout_marginTop="19dp"
         android:layout_marginEnd="66dp"
         android:ems="10"
+        android:fontFamily="@font/pt_sans"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="@+id/dropdown_sell"
@@ -253,7 +267,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_p4"
-        app:layout_constraintTop_toBottomOf="@+id/dropdown_sell" />
+        app:layout_constraintTop_toBottomOf="@+id/dropdown_sell"
+        tools:fontFamily="@font/pt_sans" />
 
     <TextView
         android:id="@+id/tv_p4"
@@ -266,7 +281,8 @@
         app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_p3"
-        app:layout_constraintVertical_bias="0.095" />
+        app:layout_constraintVertical_bias="0.095"
+        tools:fontFamily="@font/pt_sans" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout17"
@@ -292,7 +308,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:fontFamily="@font/pt_sans" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
@@ -305,6 +322,7 @@
         app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.991" />
+        app:layout_constraintVertical_bias="0.991"
+        tools:fontFamily="@font/pt_sans" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
