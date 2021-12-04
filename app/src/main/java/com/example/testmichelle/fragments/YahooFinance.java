@@ -276,7 +276,6 @@ public class YahooFinance {
 
                         /** MAKE SAMS CALL USING FINALDATA */
                         Log.d("myDictionary", myDict.toString());
-                        fragmentObj.displayData(myDict);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -349,7 +348,8 @@ public class YahooFinance {
                                 double price = closePrices.getDouble(c);
                                 arrData[c] = price;
                             }
-                            /** CALL DOVALS GRAPHING FUNCTION with arrData*/
+                            fragmentObj.setResults(ticker, arrData);
+                            fragmentObj.displayData(ticker, arrData);
 
                         } catch (Exception e) {
                             e.getStackTrace();
