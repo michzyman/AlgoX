@@ -43,6 +43,12 @@ public class DisplayBackTestingResults extends Fragment {
     double totProfit;
     double reward_risk_ratio;
 
+    String p1;
+    String p2;
+    String p3;
+    String p4;
+    String ticker;
+
     
     public DisplayBackTestingResults(){
 
@@ -99,11 +105,21 @@ public class DisplayBackTestingResults extends Fragment {
         return view;
     }
 
-    public void collectData(TradingRecord record, Rule Buying_rule, Rule Selling_Rule, TimeSeries Series){
+    public void collectData(TradingRecord record, Rule Buying_rule, Rule Selling_Rule, TimeSeries Series, String p1, String p2, String p3, String p4,String ticker){
         tradingRecord = record;
         buying_rule = Buying_rule;
         selling_rule = Selling_Rule;
         series = Series;
+        p1=p1;
+        p2=p2;
+        p3=p3;
+        p4=p4;
+        ticker = ticker;
+        Log.i("MyTag","FIRST PAR: " + p1);
+        Log.i("MyTag","SECOND PAR: " + p2);
+        Log.i("MyTag","THIRD PAR: " + p3);
+        Log.i("MyTag","FOURTH PAR: " + p4);
+
     }
 
     public void setResultsData(){

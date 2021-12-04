@@ -71,9 +71,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, fragment).commit();
     }
 
-    public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series){
+    public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series, String p1, String p2, String p3, String p4,String ticker){
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, backTestingResults).commit();
-        backTestingResults.collectData(tradingRecord, Buying_rule,Selling_Rule, series);
+        backTestingResults.collectData(tradingRecord, Buying_rule,Selling_Rule, series, p1,p2,p3,p4,ticker);
         backTestingResults.setResultsData();
     }
 
