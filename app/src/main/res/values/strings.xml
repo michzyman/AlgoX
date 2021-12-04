@@ -15,6 +15,34 @@
     <string name="buy">Buy</string>
     <string name="sell">Sell</string>
 
+    <string name="esgData">
+        ESG Score: %1$s \n
+        ESG Percentile: %2$s \n
+        ESG Performance: %3$s \n
+        Environment: %4$s \n
+        Social: %5$s \n
+        Governance: %6$s
+    </string>
+    <string name="keyStatistics">
+        Market Cap: %1$s \n
+        Forward P/E: %2$s \n
+        Profit Margin: %3$s \n
+        Price/Book: %4$s \n
+        Trailing EPS: %5$s \n
+        PEG: %6$s
+    </string>
+    <string name="financialData1">
+        Price: %1$s \n
+        Recommend: %2$s \n
+        Analyst Opinions: %3$s
+    </string>
+    <string name="financialData2">
+        EBITDA: %1$s \n
+        Earnings Growth: %2$s \n
+        Revenue Growth: %3$s
+    </string>
+
+
     <string-array name="rules">
         <item>Select Rule</item>
         <item>Price Below</item>
@@ -24,6 +52,14 @@
         <item>Rising</item>
         <item>Falling</item>
     </string-array>
+
+    <string-array name= "stockPeriods">
+        <item>day</item>
+        <item>week</item>
+        <item>month</item>
+        <item>year</item>
+    </string-array>
+
     <string-array name="times">
         <item>1 day</item>
         <item>5 days</item>

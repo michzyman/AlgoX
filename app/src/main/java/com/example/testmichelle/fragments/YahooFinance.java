@@ -239,13 +239,15 @@ public class YahooFinance {
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d("gotResponse", response.toString());
                         Hashtable<String, String> myDict = new Hashtable<String, String>();
                         JSONObject esgScores;
                         JSONObject defaultKeyStatistics;
                         JSONObject financialData;
                         try {
+                            Log.d("start of try/catch", myDict.toString());
                             JSONArray result = response.getJSONObject("quoteSummary").getJSONArray("result");
-                            String error = result.getString(1);
+                            String error = response.getJSONObject("quoteSummary").getString("error");
                             esgScores = result.getJSONObject(0).getJSONObject("esgScores");
                             defaultKeyStatistics = result.getJSONObject(0).getJSONObject("defaultKeyStatistics");
                             financialData = result.getJSONObject(0).getJSONObject("financialData");
@@ -254,8 +256,9 @@ public class YahooFinance {
                             myDict.put("environmentScore", esgScores.getJSONObject("environmentScore").getString("fmt"));
                             myDict.put("socialScore", esgScores.getJSONObject("socialScore").getString("fmt"));
                             myDict.put("governanceScore", esgScores.getJSONObject("governanceScore").getString("fmt"));
-                            myDict.put("esgPerformance", esgScores.getJSONObject("esgPerformance").getString("fmt"));
+                            myDict.put("esgPerformance", esgScores.getString("esgPerformance"));
                             myDict.put("esgPercentile", esgScores.getJSONObject("percentile").getString("fmt"));
+                            Log.d("parsedResponse1", myDict.toString());
 
                             myDict.put("marketCap", defaultKeyStatistics.getJSONObject("enterpriseValue").getString("fmt"));
                             myDict.put("forwardPE", defaultKeyStatistics.getJSONObject("forwardPE").getString("fmt"));
@@ -263,19 +266,24 @@ public class YahooFinance {
                             myDict.put("priceToBook", defaultKeyStatistics.getJSONObject("priceToBook").getString("fmt"));
                             myDict.put("trailingEPS", defaultKeyStatistics.getJSONObject("trailingEps").getString("fmt"));
                             myDict.put("pegRatio", defaultKeyStatistics.getJSONObject("pegRatio").getString("fmt"));
+                            Log.d("parsedResponse2", myDict.toString());
 
                             myDict.put("currentPrice", financialData.getJSONObject("currentPrice").getString("fmt"));
-                            myDict.put("recommendationKey", financialData.getJSONObject("recommendationKey").getString("fmt"));
+                            myDict.put("recommendationKey", financialData.getString("recommendationKey"));
                             myDict.put("numberOfAnalystOpinions", financialData.getJSONObject("numberOfAnalystOpinions").getString("fmt"));
                             myDict.put("ebitda", financialData.getJSONObject("ebitda").getString("fmt"));
                             myDict.put("earningsGrowth", financialData.getJSONObject("earningsGrowth").getString("fmt"));
                             myDict.put("revenueGrowth", financialData.getJSONObject("revenueGrowth").getString("fmt"));
+                            Log.d("parsedResponse3", myDict.toString());
                         } catch (Exception e) {
+                            Log.d("Exception Found!", myDict.toString());
                             e.getStackTrace();
                         }
 
                         /** MAKE SAMS CALL USING FINALDATA */
                         Log.d("myDictionary", myDict.toString());
+                        Log.d("parsedResponseFinal", myDict.toString());
+                        fragmentObj.displayData(myDict);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -317,6 +325,7 @@ public class YahooFinance {
                 return params;
             }
         };
+        Log.d("sentRequest", jsonObjectRequest.toString());
         requestQueue.add(jsonObjectRequest);
     }
     public static void requestSearchFragmentSpark(String ticker, String range, String interval, Context act, TransactionFragment fragmentObj){
@@ -348,8 +357,7 @@ public class YahooFinance {
                                 double price = closePrices.getDouble(c);
                                 arrData[c] = price;
                             }
-                            fragmentObj.setResults(ticker, arrData);
-                            fragmentObj.displayData(ticker, arrData);
+                            fragmentObj.graph(ticker, arrData, range);
 
                         } catch (Exception e) {
                             e.getStackTrace();

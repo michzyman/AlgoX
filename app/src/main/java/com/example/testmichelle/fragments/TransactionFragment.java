@@ -1,30 +1,34 @@
 package com.example.testmichelle.fragments;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.testmichelle.R;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import org.w3c.dom.Text;
-
 import java.util.Hashtable;
+
 public class TransactionFragment extends Fragment {
 
-    EditText edt_Stock_Name;
-    Button btn_search;
-    TextView tv_Stock_results;
     GraphView stock_graph;
+    Button btnSearch;
+    EditText edtStock;
+    TextView txtEsg;
+    TextView txtKeyStatistics;
+    TextView txtFinancialData1;
+    TextView txtFinancialData2;
+    Spinner stock_period_spinner;
 
     public TransactionFragment() {
         // Required empty public constructor
@@ -35,40 +39,98 @@ public class TransactionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_transaction, container, false);
-        edt_Stock_Name = (EditText) view.findViewById(R.id.edt_Stock_Name);
-        btn_search = (Button) view.findViewById(R.id.btn_search);
-        tv_Stock_results = (TextView) view.findViewById(R.id.tv_Stock_results);
         stock_graph = (GraphView) view.findViewById(R.id.stock_graph);
+        edtStock = (EditText) view.findViewById(R.id.edtStock);
+        txtEsg = (TextView)view.findViewById(R.id.txtEsg);
+        txtKeyStatistics = (TextView) view.findViewById(R.id.txtKeyStatistics);
+        txtFinancialData1 = (TextView) view.findViewById(R.id.txtFinancialData1);
+        txtFinancialData2 = (TextView) view.findViewById(R.id.txtFinancialData2);
+        btnSearch = (Button) view.findViewById(R.id.btn_search);
 
-        btn_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String ticker = edt_Stock_Name.getText().toString();
-                search(ticker);
+        stock_period_spinner = (Spinner) view.findViewById(R.id.stock_period_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.stockPeriods, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        stock_period_spinner.setAdapter(adapter);
+
+        btnSearch.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("onClickCalled", "yay");
+                search(v);
             }
         });
+        txtEsg.setText(getString(R.string.esgData, "-", "-", "-", "-", "-", "-"));
+        txtKeyStatistics.setText(getString(R.string.keyStatistics, "-", "-", "-", "-", "-", "-"));
+        txtFinancialData1.setText(getString(R.string.financialData1, "-", "-", "-"));
+        txtFinancialData2.setText(getString(R.string.financialData2, "-", "-", "-"));
         return view;
     }
 
-    public void search(String ticker) {
+    public void search(View view) {
+        Log.d("searchCalled", "yay");
+        String ticker = edtStock.getText().toString();
+        Log.d("tickerGotten", ticker);
+        String range = "";
+        String interval = "";
+        String currentPeriod = stock_period_spinner.getSelectedItem().toString();
+        if(currentPeriod.equals("day")){
+            range = "1d";
+            interval = "5m";
+        } else if (currentPeriod.equals("week")){
+            range = "5d";
+            interval = "15m";
+        } else if (currentPeriod.equals("month")){
+            range = "1mo";
+            interval = "1d";
+        } else if (currentPeriod.equals("year")){
+            range = "1y";
+            interval = "1wk";
+        }
         if (!ticker.equals("")) {
-            YahooFinance.requestSearchFragmentSpark(ticker, "5d", "1d", getContext(), this);
+            YahooFinance.requestSummary(ticker, getContext(), this);
+            YahooFinance.requestSearchFragmentSpark(ticker, range, interval, getContext(), this);
         }
     }
 
-    public void displayData(String ticker, double[] stockPrices){
+    public void graph(String ticker, double[] stockPrices, String range){
+        String period = "day";
+        if (range.equals("5d")){
+            period = "week";
+        } else if (range.equals("1mo")){
+            period = "month";
+        } else if (range.equals("1y")){
+            period = "year";
+        }
         stock_graph.removeAllSeries();
+        stock_graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
+            @Override
+            public String formatLabel(double value, boolean isValueX){
+                if(isValueX){
+                    return "";
+                } else {
+                    return value + "$";
+                }
+            }
+        });
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
         for (int i = 0; i < stockPrices.length; i++){
             DataPoint currentDataPoint = new DataPoint(i, stockPrices[i]);
             series.appendData(currentDataPoint, true, stockPrices.length);
         }
         stock_graph.addSeries(series);
-        stock_graph.setTitle("Growth of " + ticker + "'s stock last week");
+        stock_graph.setTitle("Growth of " + ticker + "'s stock over the last " + period);
     }
 
-    public void setResults(String ticker, double[] stockPrices){
-        double currentStockPrice = stockPrices[stockPrices.length - 1];
-        tv_Stock_results.setText(ticker + "'s current price: " + Double.toString(currentStockPrice));
+    public void displayData(Hashtable<String, String> data){
+        for (String key : data.keySet()){
+            if (data.get(key).equals("null") || data.get(key).equals(null)){
+                data.put(key, "-");
+            }
+        }
+        txtEsg.setText(getString(R.string.esgData, data.get("esgRaw"), data.get("esgPercentile"), data.get("esgPerformance"),
+                data.get("environmentScore"), data.get("socialScore"), data.get("governanceScore")));
+        txtKeyStatistics.setText(getString(R.string.keyStatistics, data.get("marketCap"), data.get("forwardPE"), data.get("profitMargin"),
+                data.get("priceBook"), data.get("trailingEPS"), data.get("pegRatio")));
+        txtFinancialData1.setText(getString(R.string.financialData1, data.get("currentPrice"), data.get("recommendationKey"), data.get("numberOfAnalystOpinions")));
+        txtFinancialData2.setText(getString(R.string.financialData2, data.get("ebitda"), data.get("earningsGrowth"), data.get("revenueGrowth")));
     }
 }
