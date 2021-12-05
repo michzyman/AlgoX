@@ -162,6 +162,8 @@ public class YahooFinance {
                         JSONArray JSONhigh;
                         JSONArray JSONclose;
                         JSONArray JSONlow;
+                        String error = null;
+                        Log.d("response", response.toString());
                         try {
                             JSONArray result = response.getJSONObject("chart").getJSONArray("result");
                             JSONObject indicators = result.getJSONObject(0).getJSONObject("indicators");
@@ -175,14 +177,26 @@ public class YahooFinance {
                                 double[] row = {JSONopen.getDouble(i), JSONhigh.getDouble(i), JSONlow.getDouble(i), JSONclose.getDouble(i)};
                                 finalData[i] = row;
                             }
+                            /** MAKE DELIS CALL USING FINALDATA */
+                            btfragment.createRules(finalData);
                         } catch (Exception e) {
                             e.getStackTrace();
                             finalData = arrERROR;
+                            try {
+                                error = response.getJSONObject("chart").getJSONObject("error").getString("description");
+                            }catch(Exception e2){}
+                            if (error != null) {
+                                Toast.makeText(act,
+                                    error,
+                                    Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(act,
+                                        "Unknown Error",
+                                        Toast.LENGTH_LONG).show();
+                            }
                         }
 
-                        /** MAKE DELIS CALL USING FINALDATA */
-                        Log.d("getprices", Arrays.deepToString(finalData));
-                        btfragment.createRules(finalData);
+
                     }
                 }, new Response.ErrorListener() {
                     @Override

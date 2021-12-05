@@ -5,7 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_account.xml" value="0.11018518518518519" />
-        <entry key="app/src/main/res/layout/activity_algorithmpopup.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_algorithmpopup.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_algorx.xml" value="0.18802083333333333" />
         <entry key="app/src/main/res/layout/activity_basic.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25052083333333336" />
