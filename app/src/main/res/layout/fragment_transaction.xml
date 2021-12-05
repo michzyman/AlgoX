@@ -11,34 +11,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Spinner
+            android:id="@+id/SpinnerOfAlgorithms"
+            android:layout_width="299dp"
+            android:layout_height="46dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:minHeight="48dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.165"
+            tools:ignore="SpeakableTextPresentCheck" />
+
         <Button
             android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
             android:onClick="search"
             android:text="search"
-            app:layout_constraintStart_toEndOf="@+id/edt_Stock"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/edt_Stock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="12dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Stock Name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.902"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.052" />
+
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/stock_graph"
+            android:layout_width="300dp"
+            android:layout_height="198dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.358" />
 
         <TextView
             android:id="@+id/txtEsg"
-            android:layout_width="178dp"
-            android:layout_height="198dp"
-            android:layout_marginStart="28dp"
+            android:layout_width="177dp"
+            android:layout_height="104dp"
             android:includeFontPadding="false"
             android:lineSpacingExtra="8sp"
             android:text="TextView"
@@ -46,12 +61,16 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/txtFinancialData1"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.133"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/txtKeyStatistics"
-            android:layout_width="173dp"
-            android:layout_height="200dp"
+            android:layout_width="164dp"
+            android:layout_height="102dp"
             android:layout_marginStart="1dp"
             android:lineSpacingExtra="8sp"
             android:text="TextView"
@@ -59,46 +78,55 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/txtFinancialData2"
-            app:layout_constraintStart_toEndOf="@+id/txtEsg" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/txtEsg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/txtFinancialData2"
-            android:layout_width="173dp"
-            android:layout_height="133dp"
-            android:layout_marginBottom="28dp"
+            android:layout_width="165dp"
+            android:layout_height="97dp"
             android:lineSpacingExtra="8sp"
             android:text="TextView"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txtFinancialData1" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/txtFinancialData1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.934" />
 
         <TextView
             android:id="@+id/txtFinancialData1"
-            android:layout_width="181dp"
-            android:layout_height="134dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginBottom="28dp"
+            android:layout_width="178dp"
+            android:layout_height="96dp"
             android:lineSpacingExtra="8sp"
             android:text="TextView"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="28dp"
-            app:layout_constraintBottom_toTopOf="@+id/txtEsg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.13"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_Stock"
-            app:layout_constraintVertical_bias="0.137"
-            tools:src="@tools:sample/avatars" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.933" />
+
+        <EditText
+            android:id="@+id/edtStock"
+            android:layout_width="234dp"
+            android:layout_height="54dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.175"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.052" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
