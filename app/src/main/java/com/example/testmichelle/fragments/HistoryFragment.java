@@ -48,6 +48,8 @@ public class HistoryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
+
+
         return view;
     }
 
@@ -66,6 +68,7 @@ public class HistoryFragment extends Fragment {
      */
     public ArrayList[][] createDataFromAlgorithm(String algoName, String par1, String par2, String par3, String par4, String ticker, String amount, String buyingRuleType, String sellingRuleType, double[][] data, TimeSeries series) {
 
+//        BasicActivity.algorithms;
         TechnicalAnalysis.loadData(ticker, getContext(), data);
 
         Rule buying_rule;
@@ -147,7 +150,7 @@ public class HistoryFragment extends Fragment {
 
         for (int i = 0; i < trades.size();i++) {
             Trade trade = trades.get(i);
-            [Algoname, Buy/Sell, Amount, Price, Date]
+            //[Algoname, Buy/Sell, Amount, Price, Date]
 
             // Append buy trade to list
             Order entryTrade = trade.getEntry();
@@ -159,7 +162,7 @@ public class HistoryFragment extends Fragment {
             ZonedDateTime date = series.getBar(index).getBeginTime();
 
             // add it to the finalArray
-            append([algoname, ticker, type, amountTraded, priceValue, date]);
+           // append([algoname, ticker, type, amountTraded, priceValue, date]);
 
 //            series.getSubSeries(); USE FOR ALGORITHMS WHICH ARENT STILL RUNNING
 
@@ -171,7 +174,7 @@ public class HistoryFragment extends Fragment {
             index = exitTrade.getIndex();
             date = series.getBar(index).getBeginTime();
 
-            append([algoname, ticker, type, amountTraded, priceValue, date])
+            //append([algoname, ticker, type, amountTraded, priceValue, date])
 
         }
         return finalArray;
