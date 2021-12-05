@@ -146,6 +146,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             });
     }
 
+    public void getTimePassed(){
+
+    }
+
     public void updateAlgorithms(){
         for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
             System.out.println(entry.getKey() + "/" + entry.getValue());
