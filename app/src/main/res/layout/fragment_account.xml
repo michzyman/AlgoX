@@ -59,6 +59,18 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:fontFamily="sans-serif" />
 
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graphPortofolio"
+            android:layout_width="354dp"
+            android:layout_height="242dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_balance2"
+            app:layout_constraintVertical_bias="0.373" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

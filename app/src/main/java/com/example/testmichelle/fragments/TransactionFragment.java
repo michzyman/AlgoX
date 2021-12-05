@@ -47,7 +47,7 @@ public class TransactionFragment extends Fragment {
         txtFinancialData2 = (TextView) view.findViewById(R.id.txtFinancialData2);
         btnSearch = (Button) view.findViewById(R.id.btn_search);
 
-        stock_period_spinner = (Spinner) view.findViewById(R.id.stock_period_spinner);
+        stock_period_spinner = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.stockPeriods, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stock_period_spinner.setAdapter(adapter);

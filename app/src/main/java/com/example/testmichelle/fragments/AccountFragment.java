@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jjoe64.graphview.GraphView;
 
 import org.w3c.dom.Text;
 
@@ -35,6 +36,7 @@ public class AccountFragment extends Fragment {
     Button btn_LogOut;
     TextView text_username2;
     TextView text_balance2;
+    GraphView graphPortofolio;
 
 
 
@@ -100,6 +102,8 @@ public class AccountFragment extends Fragment {
 
             }
         });
+
+        graphPortofolio = (GraphView) view.findViewById(R.id.graphPortofolio);
         return view;
 
     }
