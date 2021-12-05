@@ -1,5 +1,6 @@
 package com.example.testmichelle.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import com.example.testmichelle.fragments.HomeFragment;
 import com.example.testmichelle.fragments.MoreInfoFragment;
 import com.example.testmichelle.fragments.TechnicalAnalysis;
 import com.example.testmichelle.fragments.TransactionFragment;
+import com.example.testmichelle.fragments.YahooFinance;
 import com.example.testmichelle.fragments.backTestingFragment;
 import com.example.testmichelle.model.Algorithm;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -40,13 +42,12 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     FirebaseUser firebaseUser;
 
     // Key: Name of Algorithm
-    // Value: [String buyingrule, String sellingrume, String initialamount, String stockname, String startdate, String enddate, String status]
+    // Value: [String buyingrule, String sellingrule, String initialamount, String stockname, String startdate, String enddate, String status]
     public static HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
 
     // Key: Name of Algorithm
     // Value: [TimeSeries series, TradingRecord record]
     public static HashMap<String, ArrayList<Object>> algorithmsRan = new HashMap<String, ArrayList<Object>>();
-
 
     private DisplayBackTestingResults backTestingResults;
     private MoreInfoFragment moreInfoFragment;
@@ -154,6 +155,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     }
 
     public void callAPItoUpdateAlgorithm(Map.Entry<String, ArrayList<Object>> entry) {
+        String ticker = (String) entry.getValue().get(3);
+        Context context = getApplicationContext();
+        BasicActivity thisObj = this;
+        YahooFinance.
 
     }
 
@@ -183,7 +188,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
             Rule buying_rule;
             Rule selling_rule;
-            TechnicalAnalysis.loadData(ticker, this, data);
+            TechnicalAnalysis.loadData(ticker, getApplicationContext(), data);
 
             switch(buyingRuleType){
                 case "Price Above":

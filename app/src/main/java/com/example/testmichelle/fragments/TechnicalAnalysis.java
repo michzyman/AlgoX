@@ -37,7 +37,7 @@ import org.threeten.bp.ZonedDateTime;
 
 public class TechnicalAnalysis {
 
-    static TimeSeries series;
+    public static TimeSeries series;
 
     static int num_trades;
     static double close_price;
