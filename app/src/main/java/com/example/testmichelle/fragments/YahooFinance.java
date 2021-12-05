@@ -244,10 +244,11 @@ public class YahooFinance {
                         JSONObject esgScores;
                         JSONObject defaultKeyStatistics;
                         JSONObject financialData;
+                        String error;
                         try {
                             Log.d("start of try/catch", myDict.toString());
                             JSONArray result = response.getJSONObject("quoteSummary").getJSONArray("result");
-                            String error = response.getJSONObject("quoteSummary").getString("error");
+                            error = response.getJSONObject("quoteSummary").getString("error");
                             esgScores = result.getJSONObject(0).getJSONObject("esgScores");
                             defaultKeyStatistics = result.getJSONObject(0).getJSONObject("defaultKeyStatistics");
                             financialData = result.getJSONObject(0).getJSONObject("financialData");
@@ -277,7 +278,13 @@ public class YahooFinance {
                             Log.d("parsedResponse3", myDict.toString());
                         } catch (Exception e) {
                             Log.d("Exception Found!", myDict.toString());
-                            e.getStackTrace();
+                            error = "1";
+                        }
+
+                        if (!error.equals("0")) {
+                            Toast.makeText(act,
+                                    "Ticker not found",
+                                    Toast.LENGTH_LONG).show();
                         }
 
                         /** MAKE SAMS CALL USING FINALDATA */

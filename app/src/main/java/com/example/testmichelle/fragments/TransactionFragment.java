@@ -122,7 +122,7 @@ public class TransactionFragment extends Fragment {
 
     public void displayData(Hashtable<String, String> data){
         for (String key : data.keySet()){
-            if (data.get(key).equals("null") || data.get(key).equals(null)){
+            if (data.get(key) == null || "NULL".equals(data.get(key)) || "null".equals(data.get(key))){
                 data.put(key, "-");
             }
         }
