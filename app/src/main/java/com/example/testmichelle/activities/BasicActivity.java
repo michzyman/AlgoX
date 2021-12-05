@@ -1,5 +1,6 @@
 package com.example.testmichelle.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import com.example.testmichelle.fragments.HomeFragment;
 import com.example.testmichelle.fragments.MoreInfoFragment;
 import com.example.testmichelle.fragments.TechnicalAnalysis;
 import com.example.testmichelle.fragments.TransactionFragment;
+import com.example.testmichelle.fragments.YahooFinance;
 import com.example.testmichelle.fragments.backTestingFragment;
 import com.example.testmichelle.model.Algorithm;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,6 +34,7 @@ import org.ta4j.core.TimeSeries;
 import org.ta4j.core.TradingRecord;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,13 +43,12 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     FirebaseUser firebaseUser;
 
     // Key: Name of Algorithm
-    // Value: [String buyingrule, String sellingrume, String initialamount, String stockname, String startdate, String enddate, String status]
+    // Value: [String buyingrule, String sellingrule, String initialamount, String stockname, String startdate, String enddate, String status]
     public static HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
 
     // Key: Name of Algorithm
-    // Value: [TimeSeries series, TradingRecord record]
+    // Value: [TimeSeries series, TradingRecord record, String Ticker, ZonedDateTime Start, ZonedDateTime end]
     public static HashMap<String, ArrayList<Object>> algorithmsRan = new HashMap<String, ArrayList<Object>>();
-
 
     private DisplayBackTestingResults backTestingResults;
     private MoreInfoFragment moreInfoFragment;
@@ -108,7 +110,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         makeCurrentFragment(backTestingResults);
         backTestingResults.collectData(tradingRecord, Buying_rule,Selling_Rule, series, p1,p2,p3,p4,ticker,buyingRuleName, sellingRuleName);
         backTestingResults.setResultsData();
-
     }
 
     public void goToMoreInfoFragment(){
@@ -136,6 +137,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                         val.add(algorithm.currentbalance);
                         val.add(algorithm.stockname);
                         val.add(algorithm.status);
+                        val.add(algorithm.start_date);
+                        val.add(algorithm.end_date);
                         algorithms.put(Integer.toString(i),val); // KEY --> NAME OF ALG
                     }
                     Log.e("ALGO","these are my algorithms: " + algorithms.keySet()); // ACTUAL FIELD HERE SHOULD BE NAME
@@ -154,7 +157,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     }
 
     public void callAPItoUpdateAlgorithm(Map.Entry<String, ArrayList<Object>> entry) {
-
+        String ticker = (String) entry.getValue().get(3);
+        Context context = getApplicationContext();
+        BasicActivity thisObj = this;
+        YahooFinance.basicActivityRequestChart(ticker, context, thisObj, entry);
     }
 
     /**
@@ -170,6 +176,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             String currentBalance = (String) entry.getValue().get(2);
             String ticker = (String) entry.getValue().get(3);
             boolean isRunning = (boolean) entry.getValue().get(4);
+            Date startDate = (Date) entry.getValue().get(5);
+            Date endDate = (Date) entry.getValue().get(6);
 
             String buyingRuleType = buyingRuleList.get(2);
             String sellingRuleType = sellingRuleList.get(2);
@@ -180,10 +188,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             String par3 = sellingRuleList.get(0);
             String par4 = sellingRuleList.get(1);
 
-
             Rule buying_rule;
             Rule selling_rule;
-            TechnicalAnalysis.loadData(ticker, this, data);
+
+            TechnicalAnalysis.loadData(ticker, getApplicationContext(), data);
 
             switch(buyingRuleType){
                 case "Price Above":
@@ -234,6 +242,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
             ArrayList<Object> ran = new ArrayList<>();
             ran.add(tradingRecord);
+            ran.add(TechnicalAnalysis.series);
+            ran.add(ticker);
 
             algorithmsRan.put(entry.getKey(),ran);
     }
