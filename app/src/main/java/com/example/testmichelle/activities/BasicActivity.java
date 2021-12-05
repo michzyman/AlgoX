@@ -32,6 +32,7 @@ import org.ta4j.core.TimeSeries;
 import org.ta4j.core.TradingRecord;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -136,6 +137,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                         val.add(algorithm.currentbalance);
                         val.add(algorithm.stockname);
                         val.add(algorithm.status);
+                        val.add(algorithm.start_date);
+                        val.add(algorithm.end_date);
                         algorithms.put(Integer.toString(i),val); // KEY --> NAME OF ALG
                     }
                     Log.e("ALGO","these are my algorithms: " + algorithms.keySet()); // ACTUAL FIELD HERE SHOULD BE NAME
@@ -170,6 +173,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             String currentBalance = (String) entry.getValue().get(2);
             String ticker = (String) entry.getValue().get(3);
             boolean isRunning = (boolean) entry.getValue().get(4);
+            Date startDate = (Date) entry.getValue().get(5);
+            Date endDate = (Date) entry.getValue().get(6);
 
             String buyingRuleType = buyingRuleList.get(2);
             String sellingRuleType = sellingRuleList.get(2);

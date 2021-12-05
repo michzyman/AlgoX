@@ -127,7 +127,7 @@ public class DisplayBackTestingResults extends Fragment {
                         algorithmToUse();
                     }
                     else{
-                        Toast.makeText(getContext(),"Algorithm was already set",Toast.LENGTH_LONG);
+                        Toast.makeText(getContext(),"Algorithm was already set",Toast.LENGTH_LONG).show();
                     }
                 }
                 else{
@@ -178,5 +178,6 @@ public class DisplayBackTestingResults extends Fragment {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReference.child(firebaseUser.getUid()).child("Algorithms").push().setValue(algorithm);
         algSet = true;
+        et_money.setText("");
     }
 }
