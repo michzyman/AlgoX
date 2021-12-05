@@ -7,31 +7,32 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Algorithm {
-    public String status, stockname;
-    public Integer initialamount;
+    public boolean status;
+    public String stockname;
+    public Integer currentbalance;
     public ArrayList<String> buyingrule;
     public ArrayList<String> sellingrule;
     public Algorithm(){
         //Empty constructor for firebase
     }
-    public Algorithm(String Stastatustus, String stockname, Integer initialamount,
+    public Algorithm(boolean status, String stockname, Integer initialamount,
                      ArrayList<String> buyingrule, ArrayList<String> sellingrule){
         this.status = status;
         this.stockname = stockname;
-        this.initialamount = initialamount;
+        this.currentbalance = initialamount;
         this.buyingrule = buyingrule;
         this.sellingrule = sellingrule;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
-    public String getSotckname(){
+    public String getStockname(){
         return stockname;
     }
 
-    public Integer getInitialamount() {
-        return initialamount;
+    public Integer getCurrentbalance() {
+        return currentbalance;
     }
 
     public ArrayList<String> getBuyingrule() {
@@ -42,7 +43,7 @@ public class Algorithm {
         return sellingrule;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -50,8 +51,8 @@ public class Algorithm {
         this.stockname = stockname;
     }
 
-    public void setInitialamount(Integer initialamount) {
-        this.initialamount = initialamount;
+    public void setCurrentbalance(Integer initialamount) {
+        this.currentbalance = initialamount;
     }
 
     public void setBuyingrule(ArrayList<String> buyingrule) {

@@ -607,7 +607,7 @@ public void createRules(double[][] data) {
         }
         if(!error) {
             TradingRecord tradingRecord = TechnicalAnalysis.triggerTa4j(buying_rule, selling_rule);
-            FL.passDataToBackTestingResults(tradingRecord, buying_rule, selling_rule, TechnicalAnalysis.series, par1,par2,par3,par4,par6);
+            FL.passDataToBackTestingResults(tradingRecord, buying_rule, selling_rule, TechnicalAnalysis.series, par1,par2,par3,par4,par6,rule,rule2);
             System.out.println("Number of trades " + String.valueOf(TechnicalAnalysis.num_trades));
             System.out.println("Total Profit " + String.valueOf(TechnicalAnalysis.totProfit));
         }
