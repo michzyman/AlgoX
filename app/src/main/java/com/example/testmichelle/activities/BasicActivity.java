@@ -67,6 +67,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         makeCurrentFragment(homeFragment);
 
         getAlgorithmsFromDatabase();
+        for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
+            callAPItoUpdateAlgorithm(entry);
+        }
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener(){
@@ -146,12 +149,20 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             });
     }
 
-    public void getTimePassed(){
+    public void getTimePassed(ArrayList<Object> algo){
 
     }
 
-    public void updateAlgorithms(){
-        for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
+    public void callAPItoUpdateAlgorithm(Map.Entry<String, ArrayList<Object>> entry) {
+
+    }
+
+    /**
+     * Takes in hashmap entry and data (from api call), and updates the corresponding entry
+     * in the algorithmsRun hashmap
+     * @param entry
+     */
+    public void updateAlgorithms(Map.Entry<String, ArrayList<Object>> entry, double [][] data){
             System.out.println(entry.getKey() + "/" + entry.getValue());
 
             ArrayList<String> buyingRuleList = (ArrayList<String>) entry.getValue().get(0);
@@ -172,7 +183,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
             Rule buying_rule;
             Rule selling_rule;
-            double[][] data = new double[0][];
             TechnicalAnalysis.loadData(ticker, this, data);
 
             switch(buyingRuleType){
@@ -222,8 +232,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
             TradingRecord tradingRecord = TechnicalAnalysis.triggerTa4j(buying_rule, selling_rule);
 
-        }
+            ArrayList<Object> ran = new ArrayList<>();
+            ran.add(tradingRecord);
 
+            algorithmsRan.put(entry.getKey(),ran);
     }
 }
 

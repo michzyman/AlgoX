@@ -51,23 +51,6 @@
             app:layout_constraintVertical_bias="0.358" />
 
         <TextView
-            android:id="@+id/txtEsg"
-            android:layout_width="177dp"
-            android:layout_height="104dp"
-            android:includeFontPadding="false"
-            android:lineSpacingExtra="8sp"
-            android:text="TextView"
-            android:textAlignment="viewStart"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/txtFinancialData1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.133"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <TextView
             android:id="@+id/txtKeyStatistics"
             android:layout_width="164dp"
             android:layout_height="102dp"
@@ -79,10 +62,43 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/txtFinancialData2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.025"
             app:layout_constraintStart_toEndOf="@+id/txtEsg"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/txtEsg"
+            android:layout_width="177dp"
+            android:layout_height="104dp"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="8sp"
+            android:text="TextView"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtFinancialData1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.128"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/txtFinancialData1"
+            android:layout_width="178dp"
+            android:layout_height="96dp"
+            android:lineSpacingExtra="8sp"
+            android:text="TextView"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.124"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.907" />
 
         <TextView
             android:id="@+id/txtFinancialData2"
@@ -98,29 +114,13 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/txtFinancialData1"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.934" />
-
-        <TextView
-            android:id="@+id/txtFinancialData1"
-            android:layout_width="178dp"
-            android:layout_height="96dp"
-            android:lineSpacingExtra="8sp"
-            android:text="TextView"
-            android:textAlignment="viewStart"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.13"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.933" />
+            app:layout_constraintVertical_bias="0.907" />
 
         <EditText
             android:id="@+id/edtStock"
             android:layout_width="234dp"
             android:layout_height="54dp"
-            android:text="TextView"
+            android:text="Ticker"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.175"
