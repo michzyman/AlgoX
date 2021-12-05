@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <Spinner
-            android:id="@+id/stock_period_spinner"
+            android:id="@+id/SpinnerOfAlgorithms"
             android:layout_width="299dp"
             android:layout_height="46dp"
             android:background="@android:drawable/btn_dropdown"

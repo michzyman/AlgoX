@@ -521,7 +521,7 @@ public void createRules(double[][] data) {
                 try {
                     Integer.parseInt(par1);
                     Integer.parseInt(par2);
-                    buying_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par1), Integer.parseInt(par2));
+                    buying_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par1), Double.parseDouble(par2));
                 } catch (NumberFormatException e) {
                     Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
                     error = true;
@@ -531,7 +531,7 @@ public void createRules(double[][] data) {
                 try {
                     Integer.parseInt(par1);
                     Integer.parseInt(par2);
-                    buying_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par1), Integer.parseInt(par2));
+                    buying_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par1), Double.parseDouble(par2));
                 } catch (NumberFormatException e) {
                     Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
                     error = true;
@@ -587,7 +587,7 @@ public void createRules(double[][] data) {
                     try {
                         Integer.parseInt(par3);
                         Integer.parseInt(par4);
-                        selling_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par3), Integer.parseInt(par4));
+                        selling_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par3), Double.parseDouble(par4));
                     } catch (NumberFormatException e) {
                         Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
                         error = true;
@@ -597,7 +597,7 @@ public void createRules(double[][] data) {
                     try {
                         Integer.parseInt(par3);
                         Integer.parseInt(par4);
-                        selling_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par3), Integer.parseInt(par4));
+                        selling_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par3), Double.parseDouble(par4));
                     } catch (NumberFormatException e) {
                         Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
                         error = true;
@@ -607,7 +607,7 @@ public void createRules(double[][] data) {
         }
         if(!error) {
             TradingRecord tradingRecord = TechnicalAnalysis.triggerTa4j(buying_rule, selling_rule);
-            FL.passDataToBackTestingResults(tradingRecord, buying_rule, selling_rule, TechnicalAnalysis.series, par1,par2,par3,par4,par6);
+            FL.passDataToBackTestingResults(tradingRecord, buying_rule, selling_rule, TechnicalAnalysis.series, par1,par2,par3,par4,par6,rule,rule2);
             System.out.println("Number of trades " + String.valueOf(TechnicalAnalysis.num_trades));
             System.out.println("Total Profit " + String.valueOf(TechnicalAnalysis.totProfit));
         }
@@ -624,12 +624,12 @@ public void createRules(double[][] data) {
     backtestingParamsSet = false;
 
 }
-public static boolean isNumeric(String str) {
-    try {
-        Double.parseDouble(str);
-        return true;
-    } catch(NumberFormatException e){
-        return false;
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
     }
-}
 }
