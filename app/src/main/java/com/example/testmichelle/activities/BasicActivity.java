@@ -46,7 +46,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     public static HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
 
     // Key: Name of Algorithm
-    // Value: [TimeSeries series, TradingRecord record]
+    // Value: [TimeSeries series, TradingRecord record, String Ticker, ZonedDateTime Start, ZonedDateTime end]
     public static HashMap<String, ArrayList<Object>> algorithmsRan = new HashMap<String, ArrayList<Object>>();
 
     private DisplayBackTestingResults backTestingResults;
@@ -109,7 +109,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         makeCurrentFragment(backTestingResults);
         backTestingResults.collectData(tradingRecord, Buying_rule,Selling_Rule, series, p1,p2,p3,p4,ticker,buyingRuleName, sellingRuleName);
         backTestingResults.setResultsData();
-
     }
 
     public void goToMoreInfoFragment(){
@@ -158,8 +157,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         String ticker = (String) entry.getValue().get(3);
         Context context = getApplicationContext();
         BasicActivity thisObj = this;
-        YahooFinance.
-
+        YahooFinance.basicActivityRequestChart(ticker, context, thisObj, entry);
     }
 
     /**
@@ -185,9 +183,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             String par3 = sellingRuleList.get(0);
             String par4 = sellingRuleList.get(1);
 
-
             Rule buying_rule;
             Rule selling_rule;
+
             TechnicalAnalysis.loadData(ticker, getApplicationContext(), data);
 
             switch(buyingRuleType){
@@ -239,6 +237,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
             ArrayList<Object> ran = new ArrayList<>();
             ran.add(tradingRecord);
+            ran.add(TechnicalAnalysis.series);
+            ran.add(ticker);
 
             algorithmsRan.put(entry.getKey(),ran);
     }
