@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.testmichelle.R;
@@ -21,18 +22,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jjoe64.graphview.GraphView;
 
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
-import org.ta4j.core.num.Num;
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     TextView text_name;
     TextView text_balance;
+    TextView text_algorithm_results;
+    Spinner SpinnerOfAlgorithms;
+    GraphView graphAlgorithms;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -84,8 +86,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-
+        SpinnerOfAlgorithms = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
+        graphAlgorithms = (GraphView) view.findViewById(R.id.graphAlgorithms);
+        text_algorithm_results = (TextView) view.findViewById(R.id.text_algorithm_results);
         return view;
     }
 

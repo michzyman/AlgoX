@@ -18,22 +18,22 @@
         android:text="run"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.718"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout17"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.953"
         tools:fontFamily="@font/pt_sans" />
 
     <EditText
         android:id="@+id/et_p2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintHorizontal_bias="0.648"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_p1"
         tools:fontFamily="@font/pt_sans" />
@@ -168,8 +168,8 @@
 
     <Spinner
         android:id="@+id/dropdown_days"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="124dp"
+        android:layout_height="38dp"
         android:layout_marginTop="19dp"
         android:minHeight="48dp"
         android:spinnerMode="dropdown"
@@ -177,10 +177,10 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.008"
+        app:layout_constraintHorizontal_bias="0.236"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout17"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.262"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
         tools:visibility="visible" />
 
@@ -188,42 +188,41 @@
         android:id="@+id/tv_p5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="104dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.664"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout17"
-        app:layout_constraintVertical_bias="0.207"
+        app:layout_constraintVertical_bias="0.166"
         tools:fontFamily="@font/pt_sans" />
 
     <TextView
         android:id="@+id/tv_p6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
+        android:layout_marginStart="59dp"
         android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/dropdown_days"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout17"
+        app:layout_constraintStart_toStartOf="@+id/dropdown_days"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.907"
+        app:layout_constraintVertical_bias="0.805"
         tools:fontFamily="@font/pt_sans" />
 
     <EditText
         android:id="@+id/et_p5"
-        android:layout_width="68dp"
-        android:layout_height="47dp"
+        android:layout_width="82dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.685"
+        app:layout_constraintHorizontal_bias="0.705"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.928"
+        app:layout_constraintVertical_bias="0.884"
         tools:fontFamily="@font/pt_sans"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
@@ -236,7 +235,7 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintHorizontal_bias="0.648"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_p3"
         tools:fontFamily="@font/pt_sans"
@@ -247,7 +246,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="67dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="66dp"
         android:ems="10"
         android:fontFamily="@font/pt_sans"
@@ -281,7 +280,7 @@
         app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_p3"
-        app:layout_constraintVertical_bias="0.095"
+        app:layout_constraintVertical_bias="0.05"
         tools:fontFamily="@font/pt_sans" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -293,8 +292,10 @@
         android:background="@color/green"
         app:layout_constraintBottom_toBottomOf="@+id/et_p5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/et_p4">
+        app:layout_constraintTop_toTopOf="@+id/et_p4"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/tv_etc"
@@ -314,15 +315,15 @@
 
     <Button
         android:id="@+id/btnToMoreInfoPage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="122dp"
+        android:layout_height="47dp"
         android:text="More Info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintHorizontal_bias="0.221"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.991"
+        app:layout_constraintVertical_bias="0.989"
         tools:fontFamily="@font/pt_sans" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
