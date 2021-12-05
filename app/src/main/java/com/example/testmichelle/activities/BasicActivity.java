@@ -32,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.ta4j.core.Rule;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.TradingRecord;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -127,9 +129,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Log.e("Count " ,""+snapshot.getChildrenCount());
-                    int i = 0;
                     for (DataSnapshot dataSnap : snapshot.getChildren()) {
-                        i+=1;
                         Algorithm algorithm = dataSnap.getValue(Algorithm.class);
                         ArrayList<Object> val = new ArrayList<Object>();
                         val.add(algorithm.buyingrule);
@@ -139,7 +139,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                         val.add(algorithm.status);
                         val.add(algorithm.start_date);
                         val.add(algorithm.end_date);
-                        algorithms.put(Integer.toString(i),val); // KEY --> NAME OF ALG
+                        algorithms.put(algorithm.algoname, val); // KEY --> NAME OF ALG
                     }
                     Log.e("ALGO","these are my algorithms: " + algorithms.keySet()); // ACTUAL FIELD HERE SHOULD BE NAME
                     Log.e("ALGO","these are the values: "+ algorithms.values());
@@ -152,9 +152,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             });
     }
 
-    public void getTimePassed(ArrayList<Object> algo){
-
-    }
 
     public void callAPItoUpdateAlgorithm(Map.Entry<String, ArrayList<Object>> entry) {
         String ticker = (String) entry.getValue().get(3);
@@ -169,31 +166,38 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
      * @param entry
      */
     public void updateAlgorithms(Map.Entry<String, ArrayList<Object>> entry, double [][] data){
-            System.out.println(entry.getKey() + "/" + entry.getValue());
+        System.out.println(entry.getKey() + "/" + entry.getValue());
 
-            ArrayList<String> buyingRuleList = (ArrayList<String>) entry.getValue().get(0);
-            ArrayList<String> sellingRuleList = (ArrayList<String>) entry.getValue().get(1);
-            String currentBalance = (String) entry.getValue().get(2);
-            String ticker = (String) entry.getValue().get(3);
-            boolean isRunning = (boolean) entry.getValue().get(4);
-            Date startDate = (Date) entry.getValue().get(5);
-            Date endDate = (Date) entry.getValue().get(6);
+        ArrayList<String> buyingRuleList = (ArrayList<String>) entry.getValue().get(0);
+        ArrayList<String> sellingRuleList = (ArrayList<String>) entry.getValue().get(1);
+        String currentBalance = (String) entry.getValue().get(2);
+        String ticker = (String) entry.getValue().get(3);
+        boolean isRunning = (boolean) entry.getValue().get(4);
+        ZonedDateTime startDate = (ZonedDateTime) entry.getValue().get(5);
 
-            String buyingRuleType = buyingRuleList.get(2);
-            String sellingRuleType = sellingRuleList.get(2);
+        String buyingRuleType = buyingRuleList.get(2);
+        String sellingRuleType = sellingRuleList.get(2);
 
-            String par1 = buyingRuleList.get(0);
-            String par2 = buyingRuleList.get(1);
+        String par1 = buyingRuleList.get(0);
+        String par2 = buyingRuleList.get(1);
 
-            String par3 = sellingRuleList.get(0);
-            String par4 = sellingRuleList.get(1);
+        String par3 = sellingRuleList.get(0);
+        String par4 = sellingRuleList.get(1);
 
-            Rule buying_rule;
-            Rule selling_rule;
+        Rule buying_rule;
+        Rule selling_rule;
 
-            TechnicalAnalysis.loadData(ticker, getApplicationContext(), data);
+        ZonedDateTime endDate;
+        if(isRunning) {
+            endDate = ZonedDateTime.now();
+        }
+        else{
+            endDate = (ZonedDateTime) entry.getValue().get(6);
+        }
 
-            switch(buyingRuleType){
+        TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, startDate, endDate);
+
+        switch(buyingRuleType){
                 case "Price Above":
                     buying_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par1));
                     break;

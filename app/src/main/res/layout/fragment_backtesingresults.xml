@@ -120,28 +120,33 @@
             android:id="@+id/tv_algo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:text="TextView"
             android:textAlignment="center"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:layout_editor_absoluteX="173dp"
+            tools:layout_editor_absoluteY="5dp" />
 
         <EditText
             android:id="@+id/et_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_width="162dp"
+            android:layout_height="41dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name"
+            android:text="Amount"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent" />
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="70dp" />
+
+        <EditText
+            android:id="@+id/et_algoName"
+            android:layout_width="162dp"
+            android:layout_height="41dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Algo Name"
+            android:textAlignment="center"
+            tools:layout_editor_absoluteX="233dp"
+            tools:layout_editor_absoluteY="70dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button

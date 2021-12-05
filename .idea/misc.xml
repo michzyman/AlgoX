@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/shell/AndroidStudioProjects/algoxrepo/app/src/main/res/layout/fragment_backtesingresults.xml" value="0.22" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_account.xml" value="0.11018518518518519" />
-        <entry key="app/src/main/res/layout/activity_algorithmpopup.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_algorithmpopup.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_algorx.xml" value="0.18802083333333333" />
         <entry key="app/src/main/res/layout/activity_basic.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25052083333333336" />
@@ -15,11 +16,11 @@
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_algo.xml" value="0.22037037037037038" />
         <entry key="app/src/main/res/layout/fragment_backtesingresults.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_backtesting.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_backtesting.xml" value="0.34971008194470504" />
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_moreinfo.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_transaction.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_transaction.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/login.xml" value="0.12760416666666666" />
         <entry key="app/src/main/res/layout/main.xml" value="0.1" />

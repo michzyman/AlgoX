@@ -1,5 +1,6 @@
 package com.example.testmichelle.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,14 +29,15 @@ import org.ta4j.core.analysis.criteria.MaximumDrawdownCriterion;
 import org.ta4j.core.analysis.criteria.RewardRiskRatioCriterion;
 import org.ta4j.core.analysis.criteria.TotalProfitCriterion;
 import org.ta4j.core.analysis.criteria.VersusBuyAndHoldCriterion;
+import org.threeten.bp.LocalDateTime;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
 public class DisplayBackTestingResults extends Fragment {
-
     private TextView tvResults;
     private TextView tvResults2;
     private TextView tvResults3;
@@ -43,6 +45,7 @@ public class DisplayBackTestingResults extends Fragment {
     private TextView tv_algo;
     private Button btn_useAlg;
     private EditText et_money;
+    private EditText et_algoName;
     public static TradingRecord tradingRecord;
     public static TimeSeries series;
     public static Rule buying_rule;
@@ -79,7 +82,8 @@ public class DisplayBackTestingResults extends Fragment {
         tv_algo = (TextView) view.findViewById(R.id.tv_algo);
         btn_useAlg = (Button) view.findViewById(R.id.btn_useAlg);
         et_money = (EditText) view.findViewById(R.id.et_money);
-        et_money.setText("");
+//        et_money.setText("");
+        et_algoName = (EditText) view.findViewById(R.id.et_algoName);
 
         Integer tradeCount = tradingRecord.getTradeCount();
         String tradeCountString = tradeCount.toString();
@@ -122,7 +126,7 @@ public class DisplayBackTestingResults extends Fragment {
         btn_useAlg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!et_money.getText().toString().equals("") && backTestingFragment.isNumeric(et_money.getText().toString())) {
+                if(!et_money.getText().toString().equals("") && !et_algoName.getText().toString().equals("") && backTestingFragment.isNumeric(et_money.getText().toString())) {
                     if(!algSet) {
                         algorithmToUse();
                     }
@@ -130,8 +134,14 @@ public class DisplayBackTestingResults extends Fragment {
                         Toast.makeText(getContext(),"Algorithm was already set",Toast.LENGTH_LONG).show();
                     }
                 }
+                else if (et_algoName.getText().toString().equals("")){
+                    Toast.makeText(getContext(),"Enter Algorithm Name", Toast.LENGTH_LONG).show();
+                }
+                else if (et_money.getText().toString().equals("")){
+                    Toast.makeText(getContext(),"Enter Amount to invest", Toast.LENGTH_LONG).show();
+                }
                 else{
-                    Toast.makeText(getContext(),"Enter Amount to Invest", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),"Enter parameters for your algo!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -160,21 +170,22 @@ public class DisplayBackTestingResults extends Fragment {
         return (double)Math.round(d * 1000000d) / 1000000d;
 
     }
-
+    @SuppressLint("NewApi")
     private void algorithmToUse() {
         boolean status = true;
         String stockname = ticker;
         Integer initialamount = Integer.parseInt(et_money.getText().toString());
+        String algoName = et_algoName.getText().toString();
         System.out.println("THE PARAMETERS ARE : " + p1 +" AND " + p2 + " AND "+buyingRuleName);
         String[] list = {p1,p2,buyingRuleName};
         String[] list2 = {p3,p4,sellingRuleName};
         ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
         ArrayList<String> sellingrule = new ArrayList<String>(Arrays.asList(list2));
-        java.util.Date date=new java.util.Date();
+        ZonedDateTime date= ZonedDateTime.now();
         String start_date = (date.toString());
         String end_date = null;
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date);
+        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date, algoName);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReference.child(firebaseUser.getUid()).child("Algorithms").push().setValue(algorithm);
         algSet = true;
