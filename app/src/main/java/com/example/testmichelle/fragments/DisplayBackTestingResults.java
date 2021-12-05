@@ -9,6 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.example.testmichelle.R;
+import com.example.testmichelle.model.Algorithm;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import androidx.fragment.app.Fragment;
 import org.ta4j.core.AnalysisCriterion;
 import org.ta4j.core.Rule;
@@ -20,6 +26,9 @@ import org.ta4j.core.analysis.criteria.MaximumDrawdownCriterion;
 import org.ta4j.core.analysis.criteria.RewardRiskRatioCriterion;
 import org.ta4j.core.analysis.criteria.TotalProfitCriterion;
 import org.ta4j.core.analysis.criteria.VersusBuyAndHoldCriterion;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DisplayBackTestingResults extends Fragment {
 
@@ -34,6 +43,8 @@ public class DisplayBackTestingResults extends Fragment {
     public static TimeSeries series;
     public static Rule buying_rule;
     public static Rule selling_rule;
+    public String buyingRuleName;
+    public String sellingRuleName;
 
     double buy_hold;
     double profit_trades_ratio;
@@ -100,10 +111,17 @@ public class DisplayBackTestingResults extends Fragment {
         tvResults2.setText(Double.toString(round(reward_risk_ratio)));
         tvResults3.setText(Double.toString(round(buy_hold)));
         tvResults4.setText(Double.toString(round(profit_trades_ratio)));
+
+        btn_useAlg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                algorithmToUse();
+            }
+        });
         return view;
     }
 
-    public void collectData(TradingRecord record, Rule Buying_rule, Rule Selling_Rule, TimeSeries Series, String p1, String p2, String p3, String p4,String ticker){
+    public void collectData(TradingRecord record, Rule Buying_rule, Rule Selling_Rule, TimeSeries Series, String p1, String p2, String p3, String p4,String ticker, String buyingRuleName, String sellingRuleName){
         tradingRecord = record;
         buying_rule = Buying_rule;
         selling_rule = Selling_Rule;
@@ -113,10 +131,12 @@ public class DisplayBackTestingResults extends Fragment {
         p3=p3;
         p4=p4;
         ticker = ticker;
-        Log.i("MyTag","FIRST PAR: " + p1);
-        Log.i("MyTag","SECOND PAR: " + p2);
-        Log.i("MyTag","THIRD PAR: " + p3);
-        Log.i("MyTag","FOURTH PAR: " + p4);
+        buyingRuleName = buyingRuleName;
+        sellingRuleName = sellingRuleName;
+//        Log.i("MyTag","FIRST PAR: " + p1);
+//        Log.i("MyTag","SECOND PAR: " + p2);
+//        Log.i("MyTag","THIRD PAR: " + p3);
+//        Log.i("MyTag","FOURTH PAR: " + p4);
 
     }
 
@@ -127,5 +147,21 @@ public class DisplayBackTestingResults extends Fragment {
     public Double round(double d){
         return (double)Math.round(d * 1000000d) / 1000000d;
 
+    }
+
+    private void algorithmToUse() {
+        boolean status = true;
+        String stockname = ticker;
+        Integer initialamount = Integer.parseInt(et_money.getText().toString());
+        String[] list = {p1,p2,buyingRuleName};
+        String[] list2 = {p3,p4,sellingRuleName};
+        ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
+        ArrayList<String> sellingrule = new ArrayList<String>(Arrays.asList(list2));
+        String start_date = "12/05/2021";
+        String end_date = "12/15/2021";
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+        databaseReference.child(firebaseUser.getUid()).child("Algorithms").setValue(algorithm);
     }
 }

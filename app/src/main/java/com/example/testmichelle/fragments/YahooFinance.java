@@ -17,10 +17,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
+import com.example.testmichelle.activities.BasicActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -229,6 +231,102 @@ public class YahooFinance {
         requestChart(ticker, range, "1d", act, requestQueue, btfragmnent);
     }
 
+    /*
+     * @param ticker: string of tickers, max 10, seperated by comma. EX: "MSFT,TSLA,AMZN"
+     * @param range: 1d 5d 1mo 3mo 6mo 1y 5y 10y ytd max
+     * @param interval: 1m 5m 15m 1d 1wk 1mo
+     */
+    public static void basicActivityRequestChart(String ticker, Context act, BasicActivity callbackObject, Map.Entry<String, ArrayList<Object>> entry){
+        // SECRET KEY
+        String key = "3Z8LSHmB1l8lfS6qpRoba35QRos3zDZ69s2JS8IJ";
+        // Build URL
+        String url = "https://yfapi.net/v8/finance/chart/";
+        url = url + ticker + "?";               //add ticker
+        url = url + "range=" + "3mo";           //add range
+        url = url + "&region=US";               //add region
+        url = url + "&interval=" + "1d";    //add sampling interval
+        url = url + "&lang=en";                 //add language
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    /* Handles a JSON object response. Returns data in the form:
+                     * [[open1, high1, low1, close1],
+                     *  [open2, high2, low2, close2],
+                     *  ...
+                     * ]
+                     */
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        double[][] finalData;
+                        JSONArray JSONopen;
+                        JSONArray JSONhigh;
+                        JSONArray JSONclose;
+                        JSONArray JSONlow;
+                        try {
+                            JSONArray result = response.getJSONObject("chart").getJSONArray("result");
+                            JSONObject indicators = result.getJSONObject(0).getJSONObject("indicators");
+                            JSONObject quote = indicators.getJSONArray("quote").getJSONObject(0);
+                            JSONopen = quote.getJSONArray("open");
+                            JSONhigh = quote.getJSONArray("high");
+                            JSONclose = quote.getJSONArray("close");
+                            JSONlow = quote.getJSONArray("low");
+                            finalData = new double[JSONopen.length()][4];
+                            for (int i=0; i < JSONopen.length(); i++){
+                                double[] row = {JSONopen.getDouble(i), JSONhigh.getDouble(i), JSONlow.getDouble(i), JSONclose.getDouble(i)};
+                                finalData[i] = row;
+                            }
+                        } catch (Exception e) {
+                            e.getStackTrace();
+                            finalData = arrERROR;
+                        }
+
+                        /** MAKE DELIS CALL USING FINALDATA */
+                        Log.d("getprices", Arrays.deepToString(finalData));
+                        callbackObject.updateAlgorithms(entry, finalData);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("JSONObject VolleyError", "Error: " + error.getMessage());
+
+                        if (error instanceof TimeoutError) {
+                            Toast.makeText(act,
+                                    "Bad Network, Try again",
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof NoConnectionError) {
+                            Toast.makeText(act,
+                                    "Bad Network, Try again",
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof AuthFailureError) {
+                            Toast.makeText(act,
+                                    "Auth failed",
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(act,
+                                    "Server Not Responding",
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof NetworkError) {
+                            Toast.makeText(act,
+                                    "Network Error",
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof ParseError) {
+                            Toast.makeText(act,
+                                    "try again"+error.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("accept", "application/json");
+                params.put("X-API-KEY", key);
+                return params;
+            }
+        };
+        requestQueue.add(jsonObjectRequest);
+    }
+
     public static void requestSummary(String ticker, Context act, TransactionFragment fragmentObj){
         // SECRET KEY
         String key = "3Z8LSHmB1l8lfS6qpRoba35QRos3zDZ69s2JS8IJ";
@@ -244,11 +342,10 @@ public class YahooFinance {
                         JSONObject esgScores;
                         JSONObject defaultKeyStatistics;
                         JSONObject financialData;
-                        String error;
+                        String error = null;
                         try {
                             Log.d("start of try/catch", myDict.toString());
                             JSONArray result = response.getJSONObject("quoteSummary").getJSONArray("result");
-                            error = response.getJSONObject("quoteSummary").getString("error");
                             esgScores = result.getJSONObject(0).getJSONObject("esgScores");
                             defaultKeyStatistics = result.getJSONObject(0).getJSONObject("defaultKeyStatistics");
                             financialData = result.getJSONObject(0).getJSONObject("financialData");
@@ -278,12 +375,15 @@ public class YahooFinance {
                             Log.d("parsedResponse3", myDict.toString());
                         } catch (Exception e) {
                             Log.d("Exception Found!", myDict.toString());
-                            error = "1";
+                            try {
+                                error = response.getJSONObject("quoteSummary").getJSONObject("error").getString("description");
+                            }catch(Exception e2){}
                         }
 
-                        if (!error.equals("0")) {
+                        if (error != null) {
+                            Log.d("error description", error);
                             Toast.makeText(act,
-                                    "Ticker not found",
+                                    error,
                                     Toast.LENGTH_LONG).show();
                         }
 
