@@ -180,7 +180,7 @@ public class TechnicalAnalysis {
      * triggers when the closingPrice decreases minStrength percentage of the time
      * in the timeframe barCount
      */
-    public static Rule fallingRule(int barCount, int minStrength) {
+    public static Rule fallingRule(int barCount, double minStrength) {
 
         ClosePriceIndicator closePrice = new ClosePriceIndicator(series);
         Rule rule = new IsFallingRule(closePrice, barCount, minStrength);
@@ -191,7 +191,7 @@ public class TechnicalAnalysis {
      * triggers when the closingPrice increases minStrength percentage of the time
      * in the timeframe barCount
      */
-    public static Rule risingRule(int barCount, int minStrength) {
+    public static Rule risingRule(int barCount, double minStrength) {
 
         ClosePriceIndicator closePrice = new ClosePriceIndicator(series);
         Rule rule = new IsRisingRule(closePrice, barCount, minStrength);
