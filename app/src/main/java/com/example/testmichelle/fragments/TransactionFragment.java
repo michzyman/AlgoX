@@ -121,15 +121,18 @@ public class TransactionFragment extends Fragment {
     }
 
     public void displayData(Hashtable<String, String> data){
-        for (String key : data.keySet()){
-            if (data.get(key) == null || "NULL".equals(data.get(key)) || "null".equals(data.get(key))){
+        String[] keysToCheck = {"esgRaw", "esgPercentile", "esgPerformance", "environmentScore", "socialScore", "governanceScore",
+                "marketCap", "forwardPE", "profitMargins", "priceToBook", "trailingEPS", "pegRatio", "currentPrice", "recommendationKey", "numberOfAnalystOpinions",
+                "ebitda", "earningsGrowth", "revenueGrowth"};
+        for (String key : keysToCheck){
+            if (data.get(key) == null){
                 data.put(key, "-");
             }
         }
         txtEsg.setText(getString(R.string.esgData, data.get("esgRaw"), data.get("esgPercentile"), data.get("esgPerformance"),
                 data.get("environmentScore"), data.get("socialScore"), data.get("governanceScore")));
-        txtKeyStatistics.setText(getString(R.string.keyStatistics, data.get("marketCap"), data.get("forwardPE"), data.get("profitMargin"),
-                data.get("priceBook"), data.get("trailingEPS"), data.get("pegRatio")));
+        txtKeyStatistics.setText(getString(R.string.keyStatistics, data.get("marketCap"), data.get("forwardPE"), data.get("profitMargins"),
+                data.get("priceToBook"), data.get("trailingEPS"), data.get("pegRatio")));
         txtFinancialData1.setText(getString(R.string.financialData1, data.get("currentPrice"), data.get("recommendationKey"), data.get("numberOfAnalystOpinions")));
         txtFinancialData2.setText(getString(R.string.financialData2, data.get("ebitda"), data.get("earningsGrowth"), data.get("revenueGrowth")));
     }
