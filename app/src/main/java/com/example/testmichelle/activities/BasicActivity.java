@@ -38,7 +38,14 @@ import java.util.Map;
 
 public class BasicActivity extends AppCompatActivity implements FragmentListener {
     FirebaseUser firebaseUser;
-    HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
+
+    // Key: Name of Algorithm
+    // Value: [String buyingrule, String sellingrume, String initialamount, String stockname, String startdate, String enddate, String status]
+    public static HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
+
+    // Key: Name of Algorithm
+    // Value: [TimeSeries series, TradingRecord record]
+    public static HashMap<String, ArrayList<Object>> algorithmsRan = new HashMap<String, ArrayList<Object>>();
 
 
     private DisplayBackTestingResults backTestingResults;
@@ -137,6 +144,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
                 }
             });
+    }
+
+    public void getTimePassed(){
+
     }
 
     public void updateAlgorithms(){
