@@ -11,11 +11,12 @@ public class Algorithm {
     public Integer initialamount;
     public ArrayList<String> buyingrule;
     public ArrayList<String> sellingrule;
+
     public Algorithm(){
         //Empty constructor for firebase
     }
-    public Algorithm(String Stastatustus, String stockname, Integer initialamount,
-                     ArrayList<String> buyingrule, ArrayList<String> sellingrule){
+
+    public Algorithm(String Stastatustus, String stockname, Integer initialamount, ArrayList<String> buyingrule, ArrayList<String> sellingrule){
         this.status = status;
         this.stockname = stockname;
         this.initialamount = initialamount;
@@ -23,9 +24,7 @@ public class Algorithm {
         this.sellingrule = sellingrule;
     }
 
-    public String getStatus() {
-        return status;
-    }
+    public String getStatus() { return status; }
     public String getSotckname(){
         return stockname;
     }
@@ -34,9 +33,7 @@ public class Algorithm {
         return initialamount;
     }
 
-    public ArrayList<String> getBuyingrule() {
-        return buyingrule;
-    }
+    public ArrayList<String> getBuyingrule() { return buyingrule; }
 
     public ArrayList<String> getSellingrule() {
         return sellingrule;
