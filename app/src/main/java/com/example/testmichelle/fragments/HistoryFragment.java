@@ -32,7 +32,9 @@ import org.threeten.bp.ZonedDateTime;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 public class HistoryFragment extends Fragment {
@@ -52,130 +54,75 @@ public class HistoryFragment extends Fragment {
         return view;
     }
 
+
     /**
-     * @param algoName
-     * @param par1
-     * @param par2
-     * @param par3
-     * @param par4
-     * @param ticker
-     * @param amount
-     * @param buyingRuleType
-     * @param sellingRuleType
-     * @return 2-D array. Each row is [Algoname, Buy/Sell, TransactionType, Amount, Date]
+     * Function to get the relevant data to render in the history fragment.
+     * @return 2d array where each row will be a specific recyclerview unit in the form [Algoname, Ticker, Buy/Sell, Amount, Price, Date]
      */
+    public ArrayList<ArrayList<Object>> createDataFromAlgorithms() {
 
-    public ArrayList[][] createDataFromAlgorithm(String algoName, String par1, String par2, String par3, String par4, String ticker, String amount, String buyingRuleType, String sellingRuleType, double[][] data, TimeSeries series) {
-
-//        BasicActivity.algorithms;
-        TechnicalAnalysis.loadData(ticker, getContext(), data);
-
-        Rule buying_rule;
-        switch (buyingRuleType) {
-            case "Price Above":
-                Double.parseDouble(par1);
-                buying_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par1));
-                break;
-            case "Price Below":
-                Double.parseDouble(par1);
-                buying_rule = TechnicalAnalysis.triggerBelow(Double.parseDouble(par1));
-                break;
-            case "SMA":
-                Integer.parseInt(par1);
-                Integer.parseInt(par2);
-                buying_rule = TechnicalAnalysis.SMARule(Integer.parseInt(par1), Integer.parseInt(par2));
-                break;
-            case "EMA":
-                Integer.parseInt(par1);
-                Integer.parseInt(par2);
-                buying_rule = TechnicalAnalysis.EMARule(Integer.parseInt(par1), Integer.parseInt(par2));
-                break;
-            case "Rising":
-                Integer.parseInt(par1);
-                Integer.parseInt(par2);
-                buying_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par1), Double.parseDouble(par2));
-                break;
-            case "Falling":
-                Integer.parseInt(par1);
-                Integer.parseInt(par2);
-                buying_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par1), Double.parseDouble(par2));
-                break;
-            default:
-                buying_rule = null;
+        ArrayList MasterList = new ArrayList<ArrayList<Object>>();
+        for (Map.Entry<String, ArrayList<Object>> entry : BasicActivity.algorithms.entrySet()) {
+            ArrayList dataFromSpecificAlgorithm = createDataFromSingleAlgorithm(entry);
+            MasterList.addAll(dataFromSpecificAlgorithm);
         }
+        return MasterList;
+    }
 
-        // Setting Selling Rule
-        Rule selling_rule;
-
-        switch (sellingRuleType) {
-            case "Price Above":
-                Double.parseDouble(par3);
-                selling_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par3));
-                break;
-            case "Price Below":
-                Double.parseDouble(par3);
-                selling_rule = TechnicalAnalysis.triggerBelow(Double.parseDouble(par3));
-                break;
-            case "SMA":
-                Integer.parseInt(par3);
-                Integer.parseInt(par4);
-                selling_rule = TechnicalAnalysis.SMARule(Integer.parseInt(par3), Integer.parseInt(par4));
-                break;
-            case "EMA":
-                Integer.parseInt(par3);
-                Integer.parseInt(par4);
-                selling_rule = TechnicalAnalysis.EMARule(Integer.parseInt(par3), Integer.parseInt(par4));
-                break;
-            case "Rising":
-                Integer.parseInt(par3);
-                Integer.parseInt(par4);
-                selling_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par3), Double.parseDouble(par4));
-                break;
-            case "Falling":
-                Integer.parseInt(par3);
-                Integer.parseInt(par4);
-                selling_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par3), Double.parseDouble(par4));
-                break;
-            default:
-                selling_rule = null;
-                break;
-        }
-
-        TradingRecord tradingRecord = TechnicalAnalysis.triggerTa4j(buying_rule, selling_rule);
+    /**
+     * Function to get the relevant data to render in the history fragment for a specific algorithm
+     * @return 2d array where each row will be a specific recyclerview unit in the form [Algoname, Ticker, Buy/Sell, Amount, Price, Date]
+     */
+    public ArrayList<ArrayList<Object>> createDataFromSingleAlgorithm(Map.Entry<String, ArrayList<Object>> entry) {
+        TradingRecord tradingRecord = (TradingRecord) entry.getValue().get(0);
+        TimeSeries series = (TimeSeries) entry.getValue().get(1);
+        String ticker = (String) entry.getValue().get(2);
 
         List<Trade> trades = tradingRecord.getTrades();
 
-        ArrayList[][] finalArray = new ArrayList[trades.size() * 2][6];
+        ArrayList finalArray = new ArrayList();
 
         for (int i = 0; i < trades.size(); i++) {
             Trade trade = trades.get(i);
-            //[Algoname, Buy/Sell, Amount, Price, Date]
+            // [Algoname, Ticker, Buy/Sell, Amount, Price, Date]
 
-            // Append buy trade to list
+            // Get entry Order variables
             Order entryTrade = trade.getEntry();
-            String algName = algoName;
+
+            String algName = (String) entry.getKey();
             String type = "Buy";
             double amountTraded = entryTrade.getAmount().doubleValue();
             double priceValue = entryTrade.getPrice().doubleValue();
             int index = entryTrade.getIndex();
             ZonedDateTime date = series.getBar(index).getBeginTime();
 
-            // add it to the finalArray
-            // append([algoname, ticker, type, amountTraded, priceValue, date]);
+            // Append entry Order variables to entry order list
+            ArrayList entryOrderList = new ArrayList<>(Arrays.asList(algName, ticker, type, amountTraded, priceValue, date));
+
+            // Append entry Order List to final Array
+            finalArray.add(entryOrderList);
 
 //            series.getSubSeries(); USE FOR ALGORITHMS WHICH ARENT STILL RUNNING
 
-            // Append buy trade to list
-            Order exitTrade = trade.getEntry();
-            type = "Sell";
-            amountTraded = exitTrade.getAmount().doubleValue();
-            priceValue = exitTrade.getPrice().doubleValue();
-            index = exitTrade.getIndex();
-            date = series.getBar(index).getBeginTime();
+            // Check if the trade is closed yet so know if should append sell order
+            if (trade.isClosed()) {
 
-            //append([algoname, ticker, type, amountTraded, priceValue, date])
+                // Get exit order variables
+                Order exitTrade = trade.getExit();
+                type = "Sell";
+                amountTraded = exitTrade.getAmount().doubleValue();
+                priceValue = exitTrade.getPrice().doubleValue();
+                index = exitTrade.getIndex();
+                date = series.getBar(index).getBeginTime();
 
+                // Append exit order variables to exit order list
+                ArrayList exitOrderList = new ArrayList<>(Arrays.asList(algName, ticker, type, amountTraded, priceValue, date));
+
+                // Append exit Order List to final Array
+                finalArray.add(entryOrderList);
+            }
         }
         return finalArray;
     }
+
 }

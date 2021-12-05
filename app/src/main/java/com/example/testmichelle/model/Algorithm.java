@@ -12,12 +12,14 @@ public class Algorithm {
     public Integer currentbalance;
     public ArrayList<String> buyingrule;
     public ArrayList<String> sellingrule;
-    public String start_date, end_date;
+    public String start_date, end_date, algorithmname;
+
     public Algorithm(){
         //Empty constructor for firebase
     }
+
     public Algorithm(boolean status, String stockname, Integer initialamount,
-                     ArrayList<String> buyingrule, ArrayList<String> sellingrule, String start_date, String end_date){
+                     ArrayList<String> buyingrule, ArrayList<String> sellingrule, String start_date, String end_date, String algorithmname){
         this.status = status;
         this.stockname = stockname;
         this.currentbalance = initialamount;
@@ -25,6 +27,11 @@ public class Algorithm {
         this.sellingrule = sellingrule;
         this.end_date = end_date;
         this.start_date = start_date;
+        this.algorithmname = algorithmname;
+    }
+
+    public String getAlgorithmname(){
+        return algorithmname;
     }
 
     public boolean getStatus() {
@@ -44,6 +51,7 @@ public class Algorithm {
     public ArrayList<String> getSellingrule() {
         return sellingrule;
     }
+
     public String getStart_date(){ return start_date;}
 
     public String getEnd_date() {
@@ -77,4 +85,6 @@ public class Algorithm {
     public void setSellingrule(ArrayList<String> sellingrule) {
         this.sellingrule = sellingrule;
     }
+
+    public void setAlgorithmname(String algorithmname){this.algorithmname = algorithmname;}
 }

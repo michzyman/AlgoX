@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.testmichelle.R;
 import com.example.testmichelle.model.Algorithm;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,8 +29,10 @@ import org.ta4j.core.analysis.criteria.RewardRiskRatioCriterion;
 import org.ta4j.core.analysis.criteria.TotalProfitCriterion;
 import org.ta4j.core.analysis.criteria.VersusBuyAndHoldCriterion;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class DisplayBackTestingResults extends Fragment {
 
@@ -58,6 +62,8 @@ public class DisplayBackTestingResults extends Fragment {
     String p4;
     String ticker;
 
+    boolean algSet;
+
     
     public DisplayBackTestingResults(){
 
@@ -82,6 +88,7 @@ public class DisplayBackTestingResults extends Fragment {
         tv_algo.setText(response);
 
         btn_useAlg.setText("SET ALGORITHM!");
+        algSet=false;
 
         tradingRecord.getTrades();
         // Getting the number of profitable trades
@@ -115,29 +122,34 @@ public class DisplayBackTestingResults extends Fragment {
         btn_useAlg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                algorithmToUse();
+                if(!et_money.getText().toString().equals("") && backTestingFragment.isNumeric(et_money.getText().toString())) {
+                    if(!algSet) {
+                        algorithmToUse();
+                    }
+                    else{
+                        Toast.makeText(getContext(),"Algorithm was already set",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getContext(),"Enter Amount to Invest", Toast.LENGTH_LONG).show();
+                }
             }
         });
         return view;
     }
 
-    public void collectData(TradingRecord record, Rule Buying_rule, Rule Selling_Rule, TimeSeries Series, String p1, String p2, String p3, String p4,String ticker, String buyingRuleName, String sellingRuleName){
+    public void collectData(TradingRecord record, Rule Buying_rule, Rule Selling_Rule, TimeSeries Series, String parameter1, String parameter2, String parameter3, String parameter4,String tickername, String buyingrulename, String sellingrulename){
         tradingRecord = record;
         buying_rule = Buying_rule;
         selling_rule = Selling_Rule;
         series = Series;
-        p1=p1;
-        p2=p2;
-        p3=p3;
-        p4=p4;
-        ticker = ticker;
-        buyingRuleName = buyingRuleName;
-        sellingRuleName = sellingRuleName;
-//        Log.i("MyTag","FIRST PAR: " + p1);
-//        Log.i("MyTag","SECOND PAR: " + p2);
-//        Log.i("MyTag","THIRD PAR: " + p3);
-//        Log.i("MyTag","FOURTH PAR: " + p4);
-
+        p1=parameter1;
+        p2=parameter2;
+        p3=parameter3;
+        p4=parameter4;
+        ticker = tickername;
+        buyingRuleName = buyingrulename;
+        sellingRuleName = sellingrulename;
     }
 
     public void setResultsData(){
@@ -153,15 +165,20 @@ public class DisplayBackTestingResults extends Fragment {
         boolean status = true;
         String stockname = ticker;
         Integer initialamount = Integer.parseInt(et_money.getText().toString());
+        System.out.println("THE PARAMETERS ARE : " + p1 +" AND " + p2 + " AND "+buyingRuleName);
         String[] list = {p1,p2,buyingRuleName};
         String[] list2 = {p3,p4,sellingRuleName};
         ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
         ArrayList<String> sellingrule = new ArrayList<String>(Arrays.asList(list2));
-        String start_date = "12/05/2021";
-        String end_date = "12/15/2021";
+        java.util.Date date=new java.util.Date();
+        String start_date = (date.toString());
+        String end_date = null;
+        String algorithmname = "MYALGO";
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date);
+        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date, algorithmname);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
-        databaseReference.child(firebaseUser.getUid()).child("Algorithms").setValue(algorithm);
+        databaseReference.child(firebaseUser.getUid()).child("Algorithms").push().setValue(algorithm);
+        algSet = true;
+        et_money.setText("");
     }
 }

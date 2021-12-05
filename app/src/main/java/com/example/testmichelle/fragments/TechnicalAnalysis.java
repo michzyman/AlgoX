@@ -37,7 +37,7 @@ import org.threeten.bp.ZonedDateTime;
 
 public class TechnicalAnalysis {
 
-    static TimeSeries series;
+    public static TimeSeries series;
 
     static int num_trades;
     static double close_price;
@@ -106,12 +106,13 @@ public class TechnicalAnalysis {
         // create a new series using the base time series builder
         series = new BaseTimeSeries.SeriesBuilder().withName(ticker).build();
 
-        // set the end time to now
-        ZonedDateTime endTime = ZonedDateTime.now();
+        // set the start time to now minus amount of days
+        ZonedDateTime endTime = ZonedDateTime.now().minusDays(data.length);
 
         for (int i = 0; i < data.length; i++) {
             series.addBar(endTime.plusDays(i), data[i][0], data[i][1], data[i][2], data[i][3]);
         }
+
 
         // Load in random data (to be replaced by API call)
 //        Random rd = new Random();
@@ -120,6 +121,21 @@ public class TechnicalAnalysis {
 //            series.addBar(endTime.plusDays(i), price, price, price, price);
 //        }
 
+    }
+
+    public static void loadData(String ticker, Context context, double[][] data, ZonedDateTime startDate, ZonedDateTime endDate) {
+        // Initiate the android three ten library to get the context for zoned date time
+        AndroidThreeTen.init(context);
+
+        // create a new series using the base time series builder
+        series = new BaseTimeSeries.SeriesBuilder().withName(ticker).build();
+
+        for (int i = 0; i < data.length; i++) {
+            series.addBar(startDate.plusDays(i), data[i][0], data[i][1], data[i][2], data[i][3]);
+            if (startDate.plusDays(i) == endDate) {
+                break;
+            }
+        }
     }
 
     // RUN A STRATEGY
