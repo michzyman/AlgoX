@@ -25,10 +25,16 @@ import com.example.testmichelle.R;
 import com.example.testmichelle.activities.AlgorithmPopUp;
 import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.activities.MainActivity;
+import com.example.testmichelle.model.Algorithm;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.ta4j.core.Rule;
 import org.ta4j.core.TradingRecord;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class backTestingFragment extends Fragment {
@@ -194,6 +200,8 @@ public class backTestingFragment extends Fragment {
                     i.putExtra("rule2", rule2);
 
                     startActivity(i);
+//                    algorithmToUse();
+
                 }
 
                 error = false;
@@ -607,7 +615,7 @@ public void createRules(double[][] data) {
         }
         if(!error) {
             TradingRecord tradingRecord = TechnicalAnalysis.triggerTa4j(buying_rule, selling_rule);
-            FL.passDataToBackTestingResults(tradingRecord, buying_rule, selling_rule, TechnicalAnalysis.series, par1,par2,par3,par4,par6,rule,rule2);
+            FL.passDataToBackTestingResults(tradingRecord, buying_rule, selling_rule, TechnicalAnalysis.series, par1,par2,par3,par4,par5,rule,rule2);
             System.out.println("Number of trades " + String.valueOf(TechnicalAnalysis.num_trades));
             System.out.println("Total Profit " + String.valueOf(TechnicalAnalysis.totProfit));
         }
@@ -632,4 +640,20 @@ public void createRules(double[][] data) {
             return false;
         }
     }
+//    private void algorithmToUse() {
+//        boolean status = true;
+//        String stockname = "test";
+//        Integer initialamount = 10;
+//        String[] list = {par1, par2, "buyingRuleName"};
+//        String[] list2 = {par3,par3,"sellingRuleName"};
+//        ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
+//        ArrayList<String> sellingrule = new ArrayList<String>(Arrays.asList(list2));
+//        String start_date = "12/05/2021";
+//        String end_date = "12/15/2021";
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date);
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+//        databaseReference.child(firebaseUser.getUid()).child("Algorithms").setValue(algorithm);
+//
+//    }
 }

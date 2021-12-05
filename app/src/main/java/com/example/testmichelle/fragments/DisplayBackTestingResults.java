@@ -121,18 +121,18 @@ public class DisplayBackTestingResults extends Fragment {
         return view;
     }
 
-    public void collectData(TradingRecord record, Rule Buying_rule, Rule Selling_Rule, TimeSeries Series, String p1, String p2, String p3, String p4,String ticker, String buyingRuleName, String sellingRuleName){
+    public void collectData(TradingRecord record, Rule Buying_rule, Rule Selling_Rule, TimeSeries Series, String parameter1, String parameter2, String parameter3, String parameter4,String tickername, String buyingrulename, String sellingrulename){
         tradingRecord = record;
         buying_rule = Buying_rule;
         selling_rule = Selling_Rule;
         series = Series;
-        p1=p1;
-        p2=p2;
-        p3=p3;
-        p4=p4;
-        ticker = ticker;
-        buyingRuleName = buyingRuleName;
-        sellingRuleName = sellingRuleName;
+        p1=parameter1;
+        p2=parameter2;
+        p3=parameter3;
+        p4=parameter4;
+        ticker = tickername;
+        buyingRuleName = buyingrulename;
+        sellingRuleName = sellingrulename;
 //        Log.i("MyTag","FIRST PAR: " + p1);
 //        Log.i("MyTag","SECOND PAR: " + p2);
 //        Log.i("MyTag","THIRD PAR: " + p3);
@@ -153,6 +153,7 @@ public class DisplayBackTestingResults extends Fragment {
         boolean status = true;
         String stockname = ticker;
         Integer initialamount = Integer.parseInt(et_money.getText().toString());
+        System.out.println("THE PARAMETERS ARE : " + p1 +" AND " + p2 + " AND "+buyingRuleName);
         String[] list = {p1,p2,buyingRuleName};
         String[] list2 = {p3,p4,sellingRuleName};
         ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
@@ -163,5 +164,6 @@ public class DisplayBackTestingResults extends Fragment {
         Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReference.child(firebaseUser.getUid()).child("Algorithms").setValue(algorithm);
+
     }
 }
