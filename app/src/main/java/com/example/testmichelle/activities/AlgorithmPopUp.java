@@ -32,7 +32,7 @@ public class AlgorithmPopUp extends AppCompatActivity {
 
         System.out.println("width height: " + width + " " + height);
 
-        getWindow().setLayout((int) (width*.6), (int) (height*.6));
+        getWindow().setLayout((int) (width*.75), (int) (height*.75));
 
         Bundle bundle = getIntent().getExtras();
 
