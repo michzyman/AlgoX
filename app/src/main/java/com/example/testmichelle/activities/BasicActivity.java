@@ -1,6 +1,7 @@
 package com.example.testmichelle.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -73,7 +74,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             callAPItoUpdateAlgorithm(entry);
         }
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
+         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -91,7 +92,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                         makeCurrentFragment(historyFragment);
                         break;
                     case R.id.btn_account:
-                        makeCurrentFragment(accountFragment);
+                        Intent intent_sign_in = new Intent(BasicActivity.this, LogInActivity.class);
+                        startActivity(intent_sign_in);
                         break;
                 }
                 return true;
