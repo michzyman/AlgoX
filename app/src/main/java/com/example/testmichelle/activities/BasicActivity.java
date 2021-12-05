@@ -38,7 +38,7 @@ import java.util.Map;
 
 public class BasicActivity extends AppCompatActivity implements FragmentListener {
     FirebaseUser firebaseUser;
-    HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
+    public static HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
 
 
     private DisplayBackTestingResults backTestingResults;
