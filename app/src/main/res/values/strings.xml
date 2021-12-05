@@ -52,6 +52,14 @@
         <item>Rising</item>
         <item>Falling</item>
     </string-array>
+
+    <string-array name= "stockPeriods">
+        <item>day</item>
+        <item>week</item>
+        <item>month</item>
+        <item>year</item>
+    </string-array>
+
     <string-array name="times">
         <item>1 day</item>
         <item>5 days</item>
