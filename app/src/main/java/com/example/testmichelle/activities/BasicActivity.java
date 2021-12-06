@@ -109,7 +109,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         // TESTING
 //        System.out.println(createListOfAlgorithmValues("Algo1"));
 
-         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

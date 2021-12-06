@@ -53,6 +53,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     HashMap<String, ArrayList<Object>> Algorithms;
     HashMap<String, ArrayList<Object>> AlgorithmsRan;
     private FragmentListener FL;
+    Integer amountWeStartedWith;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -95,16 +96,24 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
-                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
-                text_balance.setTextSize(24);
-                text_balance.setGravity(Gravity.CENTER);
-                text_balance.setVisibility(View.VISIBLE);
+//                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
+                amountWeStartedWith = money.getCurrentbalance();
+//                text_balance.setTextSize(24);
+//                text_balance.setGravity(Gravity.CENTER);
+//                text_balance.setVisibility(View.VISIBLE);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
+        Double portfolioValue = getTotalPortfolioValue();
+        System.out.println("total portfolio value = " + portfolioValue);
+        System.out.println("Sum = " + (portfolioValue + amountWeStartedWith));
+
+        updateCurrentBalance(portfolioValue);
+
         text_cash = (TextView) view.findViewById(R.id.text_cash);
         text_cash.setVisibility(View.INVISIBLE);
         databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -238,6 +247,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ArrayList<Double> values = createListOfAlgorithmValues(algorithmName);
         Double finalValue = values.get(values.size() - 1);
         return finalValue;
+    }
+
+    public void updateCurrentBalance(Double totalProfit){
+        text_balance.setText("Your Balance " + "\n" + "$"+ amountWeStartedWith+totalProfit);
+        text_balance.setTextSize(24);
+        text_balance.setGravity(Gravity.CENTER);
+        text_balance.setVisibility(View.VISIBLE);
     }
 
     public Double getAlgorithmProfit(String algorithmName) {
