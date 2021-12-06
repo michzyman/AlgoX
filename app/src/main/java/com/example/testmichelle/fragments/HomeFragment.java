@@ -1,6 +1,7 @@
 package com.example.testmichelle.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,13 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.testmichelle.R;
 import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.activities.BasicActivity;
+import com.example.testmichelle.activities.cancelAlgorithmPopUp;
 import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,11 +35,9 @@ import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +53,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     HashMap<String, ArrayList<Object>> Algorithms;
     HashMap<String, ArrayList<Object>> AlgorithmsRan;
     private FragmentListener FL;
+    Button btnCancelAlgorithm;
     Integer amountWeStartedWith;
 
     public HomeFragment() {
@@ -96,23 +97,23 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
-//                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
-                amountWeStartedWith = money.getCurrentbalance();
-//                text_balance.setTextSize(24);
-//                text_balance.setGravity(Gravity.CENTER);
-//                text_balance.setVisibility(View.VISIBLE);
+                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
+            //    amountWeStartedWith = money.getCurrentbalance();
+                text_balance.setTextSize(24);
+                text_balance.setGravity(Gravity.CENTER);
+                text_balance.setVisibility(View.VISIBLE);
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
 
-        Double portfolioValue = getTotalPortfolioValue();
-        System.out.println("total portfolio value = " + portfolioValue);
-        System.out.println("Sum = " + (portfolioValue + amountWeStartedWith));
+//        Double portfolioValue = getTotalPortfolioValue();
+//        System.out.println("total portfolio value = " + portfolioValue);
+//        System.out.println("Sum = " + (portfolioValue + amountWeStartedWith));
+//        updateCurrentBalance(portfolioValue);
 
-        updateCurrentBalance(portfolioValue);
+        //text_balance.setText("BALANCEEEEEEE");
 
         text_cash = (TextView) view.findViewById(R.id.text_cash);
         text_cash.setVisibility(View.INVISIBLE);
@@ -147,6 +148,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 SpinnerOfAlgorithms.setOnItemSelectedListener(this);
             }
         }
+        btnCancelAlgorithm = view.findViewById(R.id.btnCancelButton);
+        btnCancelAlgorithm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), cancelAlgorithmPopUp.class);
+                intent.putExtra("algorithmName", SpinnerOfAlgorithms.getSelectedItem().toString());
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -174,29 +184,21 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Toast.makeText(getContext(),
-                parent.getItemAtPosition(pos).toString(),
-                Toast.LENGTH_LONG)
-                .show();
         graphAlgorithm(parent.getItemAtPosition(pos).toString());
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
     }
 
 
     public void setAlgorithms(HashMap<String, ArrayList<Object>> algorithms, HashMap<String, ArrayList<Object>> algorithmsRan) {
-
         Algorithms = algorithms;
         AlgorithmsRan = algorithmsRan;
     }
 
     public ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
         ArrayList algorithmData = AlgorithmsRan.get(algorithmName);
-        Log.e("whoops", algorithmData.toString());
-
         TimeSeries series = (TimeSeries) algorithmData.get(1);
         TradingRecord tradingRecord = (TradingRecord) algorithmData.get(0);
         String ticker = (String) algorithmData.get(2);
@@ -226,6 +228,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         Double startingValue = ((Integer) Algorithms.get(algorithmName).get(2)).doubleValue();
 
         ArrayList<Double> finalList = new ArrayList<Double>();
+        if (resultingList.size() == 0 || resultingList.size() == 1) {
+            finalList.add(startingValue);
+            return finalList;
+        }
 
         for (int i = 0; i < resultingList.size(); i++) {
             startingValue *= resultingList.get(i);

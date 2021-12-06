@@ -75,8 +75,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic);
 
-//        getAlgorithmsFromDatabaseTest();
-        getAlgorithmsFromDatabase();
+        getAlgorithmsFromDatabaseTest();
+//        getAlgorithmsFromDatabase();
         for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
             callAPItoUpdateAlgorithm(entry);
         }
