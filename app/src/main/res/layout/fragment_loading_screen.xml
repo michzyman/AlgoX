@@ -43,7 +43,7 @@
             android:layout_marginTop="37dp"
             android:layout_marginEnd="150dp"
             android:layout_marginBottom="58dp"
-            android:src="@drawable/logo"
+            android:src="@drawable/newlogo"
             app:layout_constraintBottom_toBottomOf="@+id/txtLoading"
             app:layout_constraintEnd_toEndOf="@+id/txtLoading"
             app:layout_constraintTop_toTopOf="@+id/txtLoading" />
@@ -55,7 +55,7 @@
             android:layout_marginStart="116dp"
             android:layout_marginTop="124dp"
             android:layout_marginEnd="123dp"
-            android:src="@drawable/logo"
+            android:src="@drawable/newlogo"
             app:layout_constraintEnd_toEndOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="parent" />
