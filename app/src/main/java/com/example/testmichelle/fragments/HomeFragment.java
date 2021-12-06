@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.activities.BasicActivity;
 import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,8 @@ import com.jjoe64.graphview.GraphView;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
@@ -69,6 +72,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
         text_balance = (TextView) view.findViewById(R.id.text_balance);
         text_balance.setVisibility(View.INVISIBLE);
         databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -94,45 +98,7 @@ public class HomeFragment extends Fragment {
 
 
 
-    public static ArrayList<Double> createListOfAlgorithmValues(TimeSeries series, TradingRecord tradingRecord, double startingValue) {
-
-        ArrayList<Double> resultingList = new ArrayList<Double>();
-        for (int i = 0; i < series.getBarCount(); i++) {
-            resultingList.add(1.);
-        }
-
-        int numberOfProfitable = 0;
-        for (Trade trade : tradingRecord.getTrades()) {
-            int entryIndex = trade.getEntry().getIndex();
-            int exitIndex = trade.getExit().getIndex();
-
-            double result;
-            if (trade.getEntry().isBuy()) {
-                // buy-then-sell trade
-                result = series.getBar(exitIndex).getClosePrice().dividedBy(series.getBar(entryIndex).getClosePrice()).doubleValue();
-            } else {
-                // sell-then-buy trade
-                result = series.getBar(entryIndex).getClosePrice().dividedBy(series.getBar(exitIndex).getClosePrice()).doubleValue();
-            }
-
-            resultingList.set(exitIndex, result);
-        }
-
-        ArrayList<Double> finalList = new ArrayList<Double>();
-
-        for (int i = 0; i < resultingList.size(); i++) {
-            startingValue *= resultingList.get(i);
-            finalList.add(startingValue);
-        }
-        return finalList;
-    }
-
-//    public static ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
-//        TradingRecord tradingRecord = (TradingRecord) entry.getValue().get(0);
-//        TimeSeries series = (TimeSeries) entry.getValue().get(1);
-//        String ticker = (String) entry.getValue().get(2);
-//
-//        Timeseries series =
+//    public static ArrayList<Double> createListOfAlgorithmValues(TimeSeries series, TradingRecord tradingRecord, double startingValue) {
 //
 //        ArrayList<Double> resultingList = new ArrayList<Double>();
 //        for (int i = 0; i < series.getBarCount(); i++) {
