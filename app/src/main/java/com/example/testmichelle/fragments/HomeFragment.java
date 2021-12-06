@@ -1,6 +1,7 @@
 package com.example.testmichelle.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,13 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.testmichelle.R;
 import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.activities.BasicActivity;
+import com.example.testmichelle.activities.cancelAlgorithmPopUp;
 import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,11 +35,9 @@ import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +52,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     HashMap<String, ArrayList<Object>> Algorithms;
     HashMap<String, ArrayList<Object>> AlgorithmsRan;
     private FragmentListener FL;
+    Button btnCancelAlgorithm;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -99,10 +100,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 text_balance.setGravity(Gravity.CENTER);
                 text_balance.setVisibility(View.VISIBLE);
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
         text_cash = (TextView) view.findViewById(R.id.text_cash);
         text_cash.setVisibility(View.INVISIBLE);
@@ -137,6 +137,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 SpinnerOfAlgorithms.setOnItemSelectedListener(this);
             }
         }
+        btnCancelAlgorithm = view.findViewById(R.id.btnCancelButton);
+        btnCancelAlgorithm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), cancelAlgorithmPopUp.class);
+            }
+        });
         return view;
     }
 
@@ -164,29 +171,21 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Toast.makeText(getContext(),
-                parent.getItemAtPosition(pos).toString(),
-                Toast.LENGTH_LONG)
-                .show();
         graphAlgorithm(parent.getItemAtPosition(pos).toString());
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        // Another interface callback
     }
 
 
     public void setAlgorithms(HashMap<String, ArrayList<Object>> algorithms, HashMap<String, ArrayList<Object>> algorithmsRan) {
-
         Algorithms = algorithms;
         AlgorithmsRan = algorithmsRan;
     }
 
     public ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
         ArrayList algorithmData = AlgorithmsRan.get(algorithmName);
-        Log.e("whoops", algorithmData.toString());
-
         TimeSeries series = (TimeSeries) algorithmData.get(1);
         TradingRecord tradingRecord = (TradingRecord) algorithmData.get(0);
         String ticker = (String) algorithmData.get(2);
@@ -223,39 +222,4 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         }
         return finalList;
     }
-
-//    public static ArrayList<Double> createListOfAlgorithmValues(TimeSeries series, TradingRecord tradingRecord, double startingValue) {
-//
-//        ArrayList<Double> resultingList = new ArrayList<Double>();
-//        for (int i = 0; i < series.getBarCount(); i++) {
-//            resultingList.add(1.);
-//        }
-//
-//        int numberOfProfitable = 0;
-//        for (Trade trade : tradingRecord.getTrades()) {
-//            int entryIndex = trade.getEntry().getIndex();
-//            int exitIndex = trade.getExit().getIndex();
-//
-//            double result;
-//            if (trade.getEntry().isBuy()) {
-//                // buy-then-sell trade
-//                result = series.getBar(exitIndex).getClosePrice().dividedBy(series.getBar(entryIndex).getClosePrice()).doubleValue();
-//            } else {
-//                // sell-then-buy trade
-//                result = series.getBar(entryIndex).getClosePrice().dividedBy(series.getBar(exitIndex).getClosePrice()).doubleValue();
-//            }
-//
-//            resultingList.set(exitIndex, result);
-//        }
-//
-//        ArrayList<Double> finalList = new ArrayList<Double>();
-//
-//        for (int i = 0; i < resultingList.size(); i++) {
-//            startingValue *= resultingList.get(i);
-//            finalList.add(startingValue);
-//        }
-//        return finalList;
-//    }
-
-
 }
