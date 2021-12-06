@@ -3,6 +3,7 @@ package com.example.testmichelle.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -83,11 +84,21 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         transactionFragment = new TransactionFragment();
         historyFragment = new HistoryFragment();
         accountFragment = new AccountFragment();
-        homeFragment = new HomeFragment();
+
         backTestingFragment = new backTestingFragment();
         backTestingResults = new DisplayBackTestingResults();
         moreInfoFragment = new MoreInfoFragment();
-        makeCurrentFragment(homeFragment);
+
+        new CountDownTimer(3000, 1000) {
+            public void onFinish() {
+                homeFragment = new HomeFragment();
+                makeCurrentFragment(homeFragment);
+            }
+            public void onTick(long millisUntilFinished) {
+
+            }
+        }.start();
+
 
         // Load Data from Database and store variables in "algorithms"
 
@@ -188,6 +199,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     public void getAlgorithmsFromDatabaseTest() {
         // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance, String stockname, String startdate, String enddate, String status]
 
+        AndroidThreeTen.init(getApplicationContext());
         ArrayList<String> buyingRule = new ArrayList<>(Arrays.asList("10", "7", "SMA"));
         ArrayList<String> sellingRule = new ArrayList<>(Arrays.asList("5", "10", "SMA"));
         Integer initialAmount = 1500;
@@ -207,6 +219,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         val.add(startDate);
         val.add(endDate);
         algorithms.put("Algo1",val); // KEY --> NAME OF ALG
+        algorithms.put("Algo2", val);
 
     }
 
