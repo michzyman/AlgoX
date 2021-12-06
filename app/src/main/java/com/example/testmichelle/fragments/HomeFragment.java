@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.testmichelle.R;
 import com.example.testmichelle.activities.FragmentListener;
+import com.example.testmichelle.activities.BasicActivity;
 import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +37,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -82,13 +86,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         });
 
+
         text_balance = (TextView) view.findViewById(R.id.text_balance);
         text_balance.setVisibility(View.INVISIBLE);
         databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
-                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentBalance());
+                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
                 text_balance.setTextSize(34);
                 text_balance.setGravity(Gravity.CENTER);
                 text_balance.setVisibility(View.VISIBLE);
@@ -146,6 +151,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 parent.getItemAtPosition(pos).toString(),
                 Toast.LENGTH_LONG)
                 .show();
+
+        ArrayList test = AlgorithmsRan.get(parent.getItemAtPosition(pos).toString());
+        text_algorithm_results.setText(test.toString());
     }
 
     @Override
@@ -159,14 +167,22 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         AlgorithmsRan = algorithmsRan;
     }
 
-    public static ArrayList<Double> createListOfAlgorithmValues(TimeSeries series, TradingRecord tradingRecord, double startingValue) {
+    public ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
+        System.out.println("KEYSET IN createListOfAlgorithmValues: " + AlgorithmsRan.keySet());
+
+        ArrayList algorithmData = AlgorithmsRan.get(algorithmName);
+        Log.e("whoops", algorithmData.toString());
+
+        TimeSeries series = (TimeSeries) algorithmData.get(0);
+        TradingRecord tradingRecord = (TradingRecord) algorithmData.get(1);
+        String ticker = (String) algorithmData.get(2);
 
         ArrayList<Double> resultingList = new ArrayList<Double>();
+
         for (int i = 0; i < series.getBarCount(); i++) {
             resultingList.add(1.);
         }
 
-        int numberOfProfitable = 0;
         for (Trade trade : tradingRecord.getTrades()) {
             int entryIndex = trade.getEntry().getIndex();
             int exitIndex = trade.getExit().getIndex();
@@ -183,6 +199,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             resultingList.set(exitIndex, result);
         }
 
+        Double startingValue = ((Integer) Algorithms.get(algorithmName).get(2)).doubleValue();
+
         ArrayList<Double> finalList = new ArrayList<Double>();
 
         for (int i = 0; i < resultingList.size(); i++) {
@@ -192,12 +210,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return finalList;
     }
 
-//    public static ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
-//        TradingRecord tradingRecord = (TradingRecord) entry.getValue().get(0);
-//        TimeSeries series = (TimeSeries) entry.getValue().get(1);
-//        String ticker = (String) entry.getValue().get(2);
-//
-//        Timeseries series =
+//    public static ArrayList<Double> createListOfAlgorithmValues(TimeSeries series, TradingRecord tradingRecord, double startingValue) {
 //
 //        ArrayList<Double> resultingList = new ArrayList<Double>();
 //        for (int i = 0; i < series.getBarCount(); i++) {

@@ -29,10 +29,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
+import org.ta4j.core.Trade;
+import org.threeten.bp.ZonedDateTime;
 
 import org.ta4j.core.Rule;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.TradingRecord;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +52,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     FirebaseUser firebaseUser;
 
     // Key: Name of Algorithm
-    // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance, String stockname, String startdate, String enddate, String status]
+    // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance (really initialamount), String stockname, String startdate, String enddate, String status]
     // ArrayList buyingrule / sellingrule: [par1, par2, type]
     public static HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
 
@@ -68,20 +74,28 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         setContentView(R.layout.activity_basic);
 
         getAlgorithmsFromDatabaseTest();
+        for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
+            callAPItoUpdateAlgorithm(entry);
+        }
+
         homeFragment = new HomeFragment();
         transactionFragment = new TransactionFragment();
         historyFragment = new HistoryFragment();
         accountFragment = new AccountFragment();
+        homeFragment = new HomeFragment();
         backTestingFragment = new backTestingFragment();
         backTestingResults = new DisplayBackTestingResults();
         moreInfoFragment = new MoreInfoFragment();
         makeCurrentFragment(homeFragment);
 
+        // Load Data from Database and store variables in "algorithms"
 
-        for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
-            // callAPItoUpdateAlgorithm(entry);
-            callAPItoUpdateAlgorithm(entry);
-        }
+
+
+        System.out.println("KEYSET IN ONCREATE: " + algorithmsRan.keySet());
+
+        // TESTING
+//        System.out.println(createListOfAlgorithmValues("Algo1"));
 
          BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener(){
@@ -131,6 +145,11 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         makeCurrentFragment(backTestingFragment);
     }
 
+    @Override
+    public void goToHome() {
+        makeCurrentFragment(homeFragment);
+    }
+
     public void getAlgorithmsFromDatabase(){
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
@@ -138,19 +157,17 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Log.e("Count " ,""+snapshot.getChildrenCount());
-                    int i = 0;
                     for (DataSnapshot dataSnap : snapshot.getChildren()) {
-                        i+=1;
                         Algorithm algorithm = dataSnap.getValue(Algorithm.class);
                         ArrayList<Object> val = new ArrayList<Object>();
                         val.add(algorithm.buyingrule);
                         val.add(algorithm.sellingrule);
-                        val.add(algorithm.currentbalance);
+                        val.add(algorithm.initialamount);
                         val.add(algorithm.stockname);
                         val.add(algorithm.status);
                         val.add(algorithm.start_date);
                         val.add(algorithm.end_date);
-                        algorithms.put(Integer.toString(i),val); // KEY --> NAME OF ALG
+                        algorithms.put(algorithm.algoname, val); // KEY --> NAME OF ALG
                     }
                     Log.e("ALGO","these are my algorithms: " + algorithms.keySet()); // ACTUAL FIELD HERE SHOULD BE NAME
                     Log.e("ALGO","these are the values: "+ algorithms.values());
@@ -168,22 +185,23 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
         ArrayList<String> buyingRule = new ArrayList<>(Arrays.asList("10", "7", "SMA"));
         ArrayList<String> sellingRule = new ArrayList<>(Arrays.asList("5", "10", "SMA"));
-        Integer currentBalance = 1500;
+        Integer initialAmount = 1500;
         String stockName = "AAPL";
         boolean status = true;
-        String startDate = "09/01/2021";
+        String startDate = ZonedDateTime.now().minusDays(100).toString();
         String endDate = "null";
+
+        // FIX: status was boolean ||| currentBalance was Integer
 
         ArrayList<Object> val = new ArrayList<Object>();
         val.add(buyingRule);
         val.add(sellingRule);
-        val.add(currentBalance);
+        val.add(initialAmount);
         val.add(stockName);
         val.add(status);
         val.add(startDate);
-        val.add(startDate);
+        val.add(endDate);
         algorithms.put("Algo1",val); // KEY --> NAME OF ALG
-        algorithms.put("Algo2",val); // KEY --> NAME OF ALG
 
     }
 
@@ -194,20 +212,20 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         YahooFinance.basicActivityRequestChart(ticker, context, thisObj, entry);
     }
 
-    public void callAPItoUpdateAlgorithmTest(Map.Entry<String, ArrayList<Object>> entry) {
-        String ticker = (String) entry.getValue().get(3);
-        Context context = getApplicationContext();
-        BasicActivity thisObj = this;
-
-        Random rd = new Random();
-        double[][] data = new double[100][5];
-        for(int r = 0; r < data.length; r++) {
-            for(int c = 0; c < data[0].length ; c++){
-                data[r][c] = rd.nextDouble()*1000;
-            }
-        }
-        updateAlgorithms(entry, data);
-    }
+//    public void callAPItoUpdateAlgorithmTest(Map.Entry<String, ArrayList<Object>> entry) {
+//        String ticker = (String) entry.getValue().get(3);
+//        Context context = getApplicationContext();
+//        BasicActivity thisObj = this;
+//
+//        Random rd = new Random();
+//        double[][] data = new double[100][5];
+//        for(int r = 0; r < data.length; r++) {
+//            for(int c = 0; c < data[0].length ; c++){
+//                data[r][c] = rd.nextDouble()*1000;
+//            }
+//        }
+//        updateAlgorithms(entry, data);
+//    }
 
 
     /**
@@ -216,31 +234,40 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
      * @param entry
      */
     public void updateAlgorithms(Map.Entry<String, ArrayList<Object>> entry, double [][] data){
-            System.out.println(entry.getKey() + "/" + entry.getValue());
+        System.out.println(entry.getKey() + "/" + entry.getValue());
 
-            ArrayList<String> buyingRuleList = (ArrayList<String>) entry.getValue().get(0);
-            ArrayList<String> sellingRuleList = (ArrayList<String>) entry.getValue().get(1);
-            Integer currentBalance = (Integer) entry.getValue().get(2);
-            String ticker = (String) entry.getValue().get(3);
-            boolean isRunning = (boolean) entry.getValue().get(4);
-            String startDate = (String) entry.getValue().get(5);
-            String endDate = (String) entry.getValue().get(6);
+        ArrayList<String> buyingRuleList = (ArrayList<String>) entry.getValue().get(0);
+        ArrayList<String> sellingRuleList = (ArrayList<String>) entry.getValue().get(1);
+        Integer initialAmount = (Integer) entry.getValue().get(2);
+        String ticker = (String) entry.getValue().get(3);
+        boolean isRunning = (boolean) entry.getValue().get(4);
+        String start = (String) entry.getValue().get(5);
+        ZonedDateTime startDate = ZonedDateTime.parse(start);
+        String buyingRuleType = buyingRuleList.get(2);
+        String sellingRuleType = sellingRuleList.get(2);
 
-            String buyingRuleType = buyingRuleList.get(2);
-            String sellingRuleType = sellingRuleList.get(2);
+        String par1 = buyingRuleList.get(0);
+        String par2 = buyingRuleList.get(1);
 
-            String par1 = buyingRuleList.get(0);
-            String par2 = buyingRuleList.get(1);
+        String par3 = sellingRuleList.get(0);
+        String par4 = sellingRuleList.get(1);
 
-            String par3 = sellingRuleList.get(0);
-            String par4 = sellingRuleList.get(1);
+        Rule buying_rule;
+        Rule selling_rule;
 
-            Rule buying_rule;
-            Rule selling_rule;
+        ZonedDateTime endDate;
+        if(isRunning) {
+            endDate = ZonedDateTime.now();
+        }
+        else{
+            String end = (String) entry.getValue().get(6);
+            endDate = ZonedDateTime.parse(end);
+//            endDate = (ZonedDateTime) entry.getValue().get(6);
+        }
 
-            TechnicalAnalysis.loadData(ticker, getApplicationContext(), data);
+        TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, startDate, endDate);
 
-            switch(buyingRuleType){
+        switch(buyingRuleType){
                 case "Price Above":
                     buying_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par1));
                     break;
@@ -295,7 +322,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             algorithmsRan.put(entry.getKey(),ran);
     }
 
-    public void passDataToHomeFragment(){
+    public void passDataToHomeFragment() {
         homeFragment.setAlgorithms(algorithms, algorithmsRan);
     }
 }

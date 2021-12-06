@@ -9,4 +9,5 @@ public interface FragmentListener {
     public void goToMoreInfoFragment();
     public void goToBackTestingFragment();
     public void passDataToHomeFragment();
+    public void goToHome();
 }

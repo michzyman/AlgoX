@@ -528,20 +528,18 @@ public void createRules(double[][] data) {
             case "Rising":
                 try {
                     Integer.parseInt(par1);
-                    Integer.parseInt(par2);
                     buying_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par1), Double.parseDouble(par2));
                 } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Check parameter format", Toast.LENGTH_LONG).show();
                     error = true;
                 }
                 break;
             case "Falling":
                 try {
                     Integer.parseInt(par1);
-                    Integer.parseInt(par2);
                     buying_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par1), Double.parseDouble(par2));
                 } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Check parameter format", Toast.LENGTH_LONG).show();
                     error = true;
                 }
                 break;
@@ -594,20 +592,18 @@ public void createRules(double[][] data) {
                 case "Rising":
                     try {
                         Integer.parseInt(par3);
-                        Integer.parseInt(par4);
                         selling_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par3), Double.parseDouble(par4));
                     } catch (NumberFormatException e) {
-                        Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Check parameter format", Toast.LENGTH_LONG).show();
                         error = true;
                     }
                     break;
                 case "Falling":
                     try {
                         Integer.parseInt(par3);
-                        Integer.parseInt(par4);
                         selling_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par3), Double.parseDouble(par4));
                     } catch (NumberFormatException e) {
-                        Toast.makeText(getContext(), "Parameter must be an integer", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Check parameter format", Toast.LENGTH_LONG).show();
                         error = true;
                     }
                     break;

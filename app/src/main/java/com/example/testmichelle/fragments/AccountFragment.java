@@ -92,7 +92,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
-                text_balance2.setText("Your Balance " + "\n" + "$"+ money.getCurrentBalance());
+                text_balance2.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
                 text_balance2.setTextSize(34);
                 text_balance2.setGravity(Gravity.CENTER);
                 text_balance2.setVisibility(View.VISIBLE);
