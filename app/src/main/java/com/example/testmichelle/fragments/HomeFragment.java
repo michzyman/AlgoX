@@ -226,6 +226,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         Double startingValue = ((Integer) Algorithms.get(algorithmName).get(2)).doubleValue();
 
         ArrayList<Double> finalList = new ArrayList<Double>();
+        if (resultingList.size() == 0 || resultingList.size() == 1) {
+            finalList.add(startingValue);
+            return finalList;
+        }
 
         for (int i = 0; i < resultingList.size(); i++) {
             startingValue *= resultingList.get(i);
