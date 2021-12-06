@@ -12,12 +12,12 @@ public class Algorithm {
     public Integer currentbalance;
     public ArrayList<String> buyingrule;
     public ArrayList<String> sellingrule;
-    public String start_date, end_date;
+    public String start_date, end_date, algorithmname;
     public Algorithm(){
         //Empty constructor for firebase
     }
     public Algorithm(boolean status, String stockname, Integer initialamount,
-                     ArrayList<String> buyingrule, ArrayList<String> sellingrule, String start_date, String end_date){
+                     ArrayList<String> buyingrule, ArrayList<String> sellingrule, String start_date, String end_date, String algorithmname){
         this.status = status;
         this.stockname = stockname;
         this.currentbalance = initialamount;
@@ -25,6 +25,10 @@ public class Algorithm {
         this.sellingrule = sellingrule;
         this.end_date = end_date;
         this.start_date = start_date;
+        this.algorithmname = algorithmname;
+    }
+    public String getAlgorithmname(){
+        return algorithmname;
     }
 
     public boolean getStatus() {
@@ -78,19 +82,6 @@ public class Algorithm {
     public void setSellingrule(ArrayList<String> sellingrule) {
         this.sellingrule = sellingrule;
     }
-    /*
-    private void algorithmToUse() {
-    String status = "Running";
-    String stockname = "APPL";
-    Integer initialamount = 100;
-    String[] list = {"p1","p2","type"};
-    ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
-    ArrayList<String> sellingrule = new ArrayList<String>(Arrays.asList(list));
-    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule);
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
-    databaseReference.child(firebaseUser.getUid()).child("Algorithms").setValue(algorithm);
-}
+    public void setAlgorithmname(String algorithmname){this.algorithmname = algorithmname;}
 
-     */
 }

@@ -173,8 +173,9 @@ public class DisplayBackTestingResults extends Fragment {
         java.util.Date date=new java.util.Date();
         String start_date = (date.toString());
         String end_date = null;
+        String algorithmname = "MYALGO";
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date);
+        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date, algorithmname);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReference.child(firebaseUser.getUid()).child("Algorithms").push().setValue(algorithm);
         algSet = true;
