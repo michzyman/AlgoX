@@ -1,6 +1,7 @@
 package com.example.testmichelle.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,11 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.model.Algorithm;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import androidx.fragment.app.Fragment;
 import org.ta4j.core.AnalysisCriterion;
@@ -30,9 +33,12 @@ import org.ta4j.core.analysis.criteria.RewardRiskRatioCriterion;
 import org.ta4j.core.analysis.criteria.TotalProfitCriterion;
 import org.ta4j.core.analysis.criteria.VersusBuyAndHoldCriterion;
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.temporal.TemporalAccessor;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -44,6 +50,7 @@ public class DisplayBackTestingResults extends Fragment {
     private TextView tvResults4;
     private TextView tv_algo;
     private Button btn_useAlg;
+    private Button btn_newAlg;
     private EditText et_money;
     private EditText et_algoName;
     public static TradingRecord tradingRecord;
@@ -67,9 +74,16 @@ public class DisplayBackTestingResults extends Fragment {
 
     boolean algSet;
 
-    
+    private FragmentListener FL;
+
     public DisplayBackTestingResults(){
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        FL = (FragmentListener) context;
     }
 
     @Override
@@ -81,6 +95,7 @@ public class DisplayBackTestingResults extends Fragment {
         tvResults4 = (TextView) view.findViewById(R.id.tvResults4);
         tv_algo = (TextView) view.findViewById(R.id.tv_algo);
         btn_useAlg = (Button) view.findViewById(R.id.btn_useAlg);
+        btn_newAlg = (Button) view.findViewById(R.id.btn_newAlg);
         et_money = (EditText) view.findViewById(R.id.et_money);
 //        et_money.setText("");
         et_algoName = (EditText) view.findViewById(R.id.et_algoName);
@@ -93,6 +108,8 @@ public class DisplayBackTestingResults extends Fragment {
 
         btn_useAlg.setText("SET ALGORITHM!");
         algSet=false;
+
+        btn_newAlg.setText("Go back");
 
         tradingRecord.getTrades();
         // Getting the number of profitable trades
@@ -129,6 +146,7 @@ public class DisplayBackTestingResults extends Fragment {
                 if(!et_money.getText().toString().equals("") && !et_algoName.getText().toString().equals("") && backTestingFragment.isNumeric(et_money.getText().toString())) {
                     if(!algSet) {
                         algorithmToUse();
+                        FL.goToHome();
                     }
                     else{
                         Toast.makeText(getContext(),"Algorithm was already set",Toast.LENGTH_LONG).show();
@@ -143,6 +161,13 @@ public class DisplayBackTestingResults extends Fragment {
                 else{
                     Toast.makeText(getContext(),"Enter parameters for your algo!", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        btn_newAlg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FL.goToBackTestingFragment();
             }
         });
         return view;
@@ -181,7 +206,8 @@ public class DisplayBackTestingResults extends Fragment {
         String[] list2 = {p3,p4,sellingRuleName};
         ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
         ArrayList<String> sellingrule = new ArrayList<String>(Arrays.asList(list2));
-        ZonedDateTime date= ZonedDateTime.now();
+        AndroidThreeTen.init(getContext());
+        ZonedDateTime date = ZonedDateTime.now();
         String start_date = (date.toString());
         String end_date = null;
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -190,5 +216,6 @@ public class DisplayBackTestingResults extends Fragment {
         databaseReference.child(firebaseUser.getUid()).child("Algorithms").push().setValue(algorithm);
         algSet = true;
         et_money.setText("");
+        et_algoName.setText("");
     }
 }

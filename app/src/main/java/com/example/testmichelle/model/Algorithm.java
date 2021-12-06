@@ -14,11 +14,12 @@ public class Algorithm {
     public ArrayList<String> sellingrule;
     public String start_date, end_date;
     public String algoname;
+
     public Algorithm(){
         //Empty constructor for firebase
     }
     public Algorithm(boolean status, String stockname, Integer initialamount,
-                     ArrayList<String> buyingrule, ArrayList<String> sellingrule, String start_date, String end_date, String algoname){
+                     ArrayList<String> buyingrule, ArrayList<String> sellingrule, String start_date, String end_date, String algoname) {
         this.status = status;
         this.stockname = stockname;
         this.currentbalance = initialamount;
@@ -29,11 +30,11 @@ public class Algorithm {
         this.algoname = algoname;
     }
 
-    public boolean getStatus() {
-
+    public boolean getStatus(){
         return status;
     }
-    public String getStockname(){
+
+    public String getStockname() {
 
         return stockname;
     }
@@ -104,19 +105,4 @@ public class Algorithm {
     }
 
 
-    /*
-    private void algorithmToUse() {
-    String status = "Running";
-    String stockname = "APPL";
-    Integer initialamount = 100;
-    String[] list = {"p1","p2","type"};
-    ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
-    ArrayList<String> sellingrule = new ArrayList<String>(Arrays.asList(list));
-    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule);
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
-    databaseReference.child(firebaseUser.getUid()).child("Algorithms").setValue(algorithm);
-}
-
-     */
 }

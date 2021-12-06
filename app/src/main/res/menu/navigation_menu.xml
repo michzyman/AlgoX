@@ -7,8 +7,8 @@
         />
     <item
         android:id="@+id/btn_transaction"
-        android:icon="@drawable/ic_transaction"
-        android:title="@string/transaction"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
         />
     <item
         android:id="@+id/btn_algo"
@@ -22,8 +22,8 @@
         />
     <item
         android:id="@+id/btn_account"
-        android:icon="@drawable/ic_account"
-        android:title="@string/account"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout"
         />
 
 </menu>

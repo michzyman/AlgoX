@@ -1,6 +1,7 @@
 package com.example.testmichelle.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -55,13 +56,14 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     private DisplayBackTestingResults backTestingResults;
     private MoreInfoFragment moreInfoFragment;
     private backTestingFragment backTestingFragment;
+    private HomeFragment homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic);
 
-        HomeFragment homeFragment = new HomeFragment();
+        homeFragment = new HomeFragment();
         TransactionFragment transactionFragment = new TransactionFragment();
         HistoryFragment historyFragment = new HistoryFragment();
         AccountFragment accountFragment = new AccountFragment();
@@ -75,7 +77,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             callAPItoUpdateAlgorithm(entry);
         }
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
+         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -93,7 +95,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                         makeCurrentFragment(historyFragment);
                         break;
                     case R.id.btn_account:
-                        makeCurrentFragment(accountFragment);
+                        Intent intent_sign_in = new Intent(BasicActivity.this, LogInActivity.class);
+                        startActivity(intent_sign_in);
                         break;
                 }
                 return true;
@@ -120,6 +123,11 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
     public void goToBackTestingFragment(){
         makeCurrentFragment(backTestingFragment);
+    }
+
+    @Override
+    public void goToHome() {
+        makeCurrentFragment(homeFragment);
     }
 
     public void getAlgorithmsFromDatabase(){
