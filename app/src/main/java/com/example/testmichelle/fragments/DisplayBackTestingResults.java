@@ -1,5 +1,7 @@
 package com.example.testmichelle.fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,11 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.model.Algorithm;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import androidx.fragment.app.Fragment;
 import org.ta4j.core.AnalysisCriterion;
@@ -28,21 +32,27 @@ import org.ta4j.core.analysis.criteria.MaximumDrawdownCriterion;
 import org.ta4j.core.analysis.criteria.RewardRiskRatioCriterion;
 import org.ta4j.core.analysis.criteria.TotalProfitCriterion;
 import org.ta4j.core.analysis.criteria.VersusBuyAndHoldCriterion;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.temporal.TemporalAccessor;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
 public class DisplayBackTestingResults extends Fragment {
-
     private TextView tvResults;
     private TextView tvResults2;
     private TextView tvResults3;
     private TextView tvResults4;
     private TextView tv_algo;
     private Button btn_useAlg;
+    private Button btn_newAlg;
     private EditText et_money;
+    private EditText et_algoName;
     public static TradingRecord tradingRecord;
     public static TimeSeries series;
     public static Rule buying_rule;
@@ -64,9 +74,16 @@ public class DisplayBackTestingResults extends Fragment {
 
     boolean algSet;
 
-    
+    private FragmentListener FL;
+
     public DisplayBackTestingResults(){
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        FL = (FragmentListener) context;
     }
 
     @Override
@@ -78,8 +95,10 @@ public class DisplayBackTestingResults extends Fragment {
         tvResults4 = (TextView) view.findViewById(R.id.tvResults4);
         tv_algo = (TextView) view.findViewById(R.id.tv_algo);
         btn_useAlg = (Button) view.findViewById(R.id.btn_useAlg);
+        btn_newAlg = (Button) view.findViewById(R.id.btn_newAlg);
         et_money = (EditText) view.findViewById(R.id.et_money);
-        et_money.setText("");
+//        et_money.setText("");
+        et_algoName = (EditText) view.findViewById(R.id.et_algoName);
 
         Integer tradeCount = tradingRecord.getTradeCount();
         String tradeCountString = tradeCount.toString();
@@ -89,6 +108,8 @@ public class DisplayBackTestingResults extends Fragment {
 
         btn_useAlg.setText("SET ALGORITHM!");
         algSet=false;
+
+        btn_newAlg.setText("Go back");
 
         tradingRecord.getTrades();
         // Getting the number of profitable trades
@@ -122,17 +143,31 @@ public class DisplayBackTestingResults extends Fragment {
         btn_useAlg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!et_money.getText().toString().equals("") && backTestingFragment.isNumeric(et_money.getText().toString())) {
+                if(!et_money.getText().toString().equals("") && !et_algoName.getText().toString().equals("") && backTestingFragment.isNumeric(et_money.getText().toString())) {
                     if(!algSet) {
                         algorithmToUse();
+                        FL.goToHome();
                     }
                     else{
                         Toast.makeText(getContext(),"Algorithm was already set",Toast.LENGTH_LONG).show();
                     }
                 }
-                else{
-                    Toast.makeText(getContext(),"Enter Amount to Invest", Toast.LENGTH_LONG).show();
+                else if (et_algoName.getText().toString().equals("")){
+                    Toast.makeText(getContext(),"Enter Algorithm Name", Toast.LENGTH_LONG).show();
                 }
+                else if (et_money.getText().toString().equals("")){
+                    Toast.makeText(getContext(),"Enter Amount to invest", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(getContext(),"Enter parameters for your algo!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btn_newAlg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FL.goToBackTestingFragment();
             }
         });
         return view;
@@ -160,25 +195,27 @@ public class DisplayBackTestingResults extends Fragment {
         return (double)Math.round(d * 1000000d) / 1000000d;
 
     }
-
+    @SuppressLint("NewApi")
     private void algorithmToUse() {
         boolean status = true;
         String stockname = ticker;
-        Integer initialamount = Integer.parseInt(et_money.getText().toString());
+        Integer initialamount = Integer.getInteger(et_money.getText().toString());
+        String algoName = et_algoName.getText().toString();
         System.out.println("THE PARAMETERS ARE : " + p1 +" AND " + p2 + " AND "+buyingRuleName);
         String[] list = {p1,p2,buyingRuleName};
         String[] list2 = {p3,p4,sellingRuleName};
         ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
         ArrayList<String> sellingrule = new ArrayList<String>(Arrays.asList(list2));
-        java.util.Date date=new java.util.Date();
-        String start_date = (date.toString());
+        AndroidThreeTen.init(getContext());
+        ZonedDateTime startZoned = ZonedDateTime.now();
+        String start_date = startZoned.toString();
         String end_date = null;
-        String algorithmname = "MYALGO";
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date, algorithmname);
+        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date, algoName);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReference.child(firebaseUser.getUid()).child("Algorithms").push().setValue(algorithm);
         algSet = true;
         et_money.setText("");
+        et_algoName.setText("");
     }
 }

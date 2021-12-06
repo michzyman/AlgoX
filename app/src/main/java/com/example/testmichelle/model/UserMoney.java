@@ -3,20 +3,31 @@ package com.example.testmichelle.model;
 import com.example.testmichelle.activities.SignUpActivity;
 
 public class UserMoney {
-    private Integer currentbalance;
+    public Integer currentbalance;
+    public  Integer freecash;
+
 
     public UserMoney(){} //Default used for Firebase/API
 
 
-    public UserMoney(Integer currentbalance){
+    public UserMoney(Integer currentbalance, Integer freecash ){
         this.currentbalance = currentbalance;
+        this.freecash = freecash;
     }
 
-    public Integer getCurrentBalance() {
+    public Integer getFreecash() {
+        return freecash;
+    }
+
+    public Integer getCurrentbalance() {
         return currentbalance;
     }
 
-    public void setCurrentBalance(Integer currentbalance) {
+    public void setFreecash(Integer freecash) {
+        this.freecash = freecash;
+    }
+
+    public void setCurrentbalance(Integer currentbalance) {
         this.currentbalance = currentbalance;
     }
 

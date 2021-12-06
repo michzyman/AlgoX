@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
-                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentBalance());
+                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
                 text_balance.setTextSize(34);
                 text_balance.setGravity(Gravity.CENTER);
                 text_balance.setVisibility(View.VISIBLE);

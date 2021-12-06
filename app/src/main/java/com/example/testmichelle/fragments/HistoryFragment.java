@@ -38,24 +38,26 @@ import java.util.Map;
 
 
 public class HistoryFragment extends Fragment {
+    RecyclerView myRecyclerView;
 
     public HistoryFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
-        ArrayList masterList = createDataFromAlgorithms();
-        System.out.println("MASTERLIST:" + masterList);
-
+        ArrayList<ArrayList<Object>> data = createDataFromAlgorithms();
+        System.out.println("MASTERLIST:" + data);
+        myRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_history); // create recycler view obj
+        HistoryItemAdapter adapter = new HistoryItemAdapter(data); // create adapter and initialize with data
+        myRecyclerView.setAdapter(adapter); // set adapter
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
+
     }
-
-
     /**
      * Function to get the relevant data to render in the history fragment.
      * @return 2d array where each row will be a specific recyclerview unit in the form [Algoname, Ticker, Buy/Sell, Amount, Price, Date]

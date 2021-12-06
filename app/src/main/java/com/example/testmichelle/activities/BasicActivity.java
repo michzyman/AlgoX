@@ -37,6 +37,8 @@ import org.threeten.bp.ZonedDateTime;
 import org.ta4j.core.Rule;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.TradingRecord;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,13 +63,14 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     private DisplayBackTestingResults backTestingResults;
     private MoreInfoFragment moreInfoFragment;
     private backTestingFragment backTestingFragment;
+    private HomeFragment homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic);
 
-        HomeFragment homeFragment = new HomeFragment();
+        homeFragment = new HomeFragment();
         TransactionFragment transactionFragment = new TransactionFragment();
         HistoryFragment historyFragment = new HistoryFragment();
         AccountFragment accountFragment = new AccountFragment();
@@ -77,7 +80,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         makeCurrentFragment(homeFragment);
 
         // Load Data from Database and store variables in "algorithms"
-        getAlgorithmsFromDatabaseTest(); // getAlgorithmsFromDatabase();
+        getAlgorithmsFromDatabase(); // getAlgorithmsFromDatabase();
 
         // Load data from "algorithms", run them and variables it in "algorithmsRan"
         for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
@@ -137,6 +140,11 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         makeCurrentFragment(backTestingFragment);
     }
 
+    @Override
+    public void goToHome() {
+        makeCurrentFragment(homeFragment);
+    }
+
     public void getAlgorithmsFromDatabase(){
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
@@ -144,19 +152,17 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Log.e("Count " ,""+snapshot.getChildrenCount());
-                    int i = 0;
                     for (DataSnapshot dataSnap : snapshot.getChildren()) {
-                        i+=1;
                         Algorithm algorithm = dataSnap.getValue(Algorithm.class);
                         ArrayList<Object> val = new ArrayList<Object>();
                         val.add(algorithm.buyingrule);
                         val.add(algorithm.sellingrule);
-                        val.add(algorithm.currentbalance);
+                        val.add(algorithm.initialamount);
                         val.add(algorithm.stockname);
                         val.add(algorithm.status);
                         val.add(algorithm.start_date);
                         val.add(algorithm.end_date);
-                        algorithms.put(Integer.toString(i),val); // KEY --> NAME OF ALG
+                        algorithms.put(algorithm.algoname, val); // KEY --> NAME OF ALG
                     }
                     Log.e("ALGO","these are my algorithms: " + algorithms.keySet()); // ACTUAL FIELD HERE SHOULD BE NAME
                     Log.e("ALGO","these are the values: "+ algorithms.values());
@@ -176,7 +182,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
         ArrayList<String> buyingRule = new ArrayList<>(Arrays.asList("10", "7", "SMA"));
         ArrayList<String> sellingRule = new ArrayList<>(Arrays.asList("5", "10", "SMA"));
-        Integer currentBalance = 1500;
+        Integer initialAmount = 1500;
         String stockName = "AAPL";
         boolean status = true;
         String startDate = ZonedDateTime.now().minusDays(100).toString();
@@ -187,7 +193,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         ArrayList<Object> val = new ArrayList<Object>();
         val.add(buyingRule);
         val.add(sellingRule);
-        val.add(currentBalance);
+        val.add(initialAmount);
         val.add(stockName);
         val.add(status);
         val.add(startDate);
@@ -225,31 +231,40 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
      * @param entry
      */
     public void updateAlgorithms(Map.Entry<String, ArrayList<Object>> entry, double [][] data){
-            System.out.println(entry.getKey() + "/" + entry.getValue());
+        System.out.println(entry.getKey() + "/" + entry.getValue());
 
-            ArrayList<String> buyingRuleList = (ArrayList<String>) entry.getValue().get(0);
-            ArrayList<String> sellingRuleList = (ArrayList<String>) entry.getValue().get(1);
-            Integer currentBalance = (Integer) entry.getValue().get(2);
-            String ticker = (String) entry.getValue().get(3);
-            boolean isRunning = (boolean) entry.getValue().get(4);
-            String startDate = (String) entry.getValue().get(5);
-            String endDate = (String) entry.getValue().get(6);
+        ArrayList<String> buyingRuleList = (ArrayList<String>) entry.getValue().get(0);
+        ArrayList<String> sellingRuleList = (ArrayList<String>) entry.getValue().get(1);
+        Integer initialAmount = (Integer) entry.getValue().get(2);
+        String ticker = (String) entry.getValue().get(3);
+        boolean isRunning = (boolean) entry.getValue().get(4);
+        String start = (String) entry.getValue().get(5);
+        ZonedDateTime startDate = ZonedDateTime.parse(start);
+        String buyingRuleType = buyingRuleList.get(2);
+        String sellingRuleType = sellingRuleList.get(2);
 
-            String buyingRuleType = buyingRuleList.get(2);
-            String sellingRuleType = sellingRuleList.get(2);
+        String par1 = buyingRuleList.get(0);
+        String par2 = buyingRuleList.get(1);
 
-            String par1 = buyingRuleList.get(0);
-            String par2 = buyingRuleList.get(1);
+        String par3 = sellingRuleList.get(0);
+        String par4 = sellingRuleList.get(1);
 
-            String par3 = sellingRuleList.get(0);
-            String par4 = sellingRuleList.get(1);
+        Rule buying_rule;
+        Rule selling_rule;
 
-            Rule buying_rule;
-            Rule selling_rule;
+        ZonedDateTime endDate;
+        if(isRunning) {
+            endDate = ZonedDateTime.now();
+        }
+        else{
+            String end = (String) entry.getValue().get(6);
+            endDate = ZonedDateTime.parse(end);
+//            endDate = (ZonedDateTime) entry.getValue().get(6);
+        }
 
-            TechnicalAnalysis.loadData(ticker, getApplicationContext(), data);
+        TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, startDate, endDate);
 
-            switch(buyingRuleType){
+        switch(buyingRuleType){
                 case "Price Above":
                     buying_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par1));
                     break;

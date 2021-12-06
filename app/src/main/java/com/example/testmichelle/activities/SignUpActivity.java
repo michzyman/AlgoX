@@ -34,6 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText signup_Lastname;
     private Button btn_Done;
     Integer currentbalance = 20000;
+    Integer freecash = 20000;
 
     //Firebase
     FirebaseAuth mAuth;
@@ -107,6 +108,7 @@ public class SignUpActivity extends AppCompatActivity {
                     });
 
                     databaseReference.child(firebaseUser.getUid()).child("currentbalance").setValue(currentbalance);
+                    databaseReference.child(firebaseUser.getUid()).child("freecash").setValue(freecash);
                     databaseReference.child(firebaseUser.getUid()).child("Algorithms");
 
                     /*
