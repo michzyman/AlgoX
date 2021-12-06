@@ -124,7 +124,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void graphAlgorithm(String Algorithm){
-        ArrayList<Double> stockPrices = new ArrayList<Double>();
+        ArrayList<Double> stockPrices = createListOfAlgorithmValues(Algorithm);
         graphAlgorithms.removeAllSeries();
         graphAlgorithms.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
             @Override
@@ -151,9 +151,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 parent.getItemAtPosition(pos).toString(),
                 Toast.LENGTH_LONG)
                 .show();
-
-        ArrayList test = AlgorithmsRan.get(parent.getItemAtPosition(pos).toString());
-        text_algorithm_results.setText(test.toString());
+        graphAlgorithm(parent.getItemAtPosition(pos).toString());
     }
 
     @Override
@@ -163,18 +161,17 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
 
     public void setAlgorithms(HashMap<String, ArrayList<Object>> algorithms, HashMap<String, ArrayList<Object>> algorithmsRan) {
+
         Algorithms = algorithms;
         AlgorithmsRan = algorithmsRan;
     }
 
     public ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
-        System.out.println("KEYSET IN createListOfAlgorithmValues: " + AlgorithmsRan.keySet());
-
         ArrayList algorithmData = AlgorithmsRan.get(algorithmName);
         Log.e("whoops", algorithmData.toString());
 
-        TimeSeries series = (TimeSeries) algorithmData.get(0);
-        TradingRecord tradingRecord = (TradingRecord) algorithmData.get(1);
+        TimeSeries series = (TimeSeries) algorithmData.get(1);
+        TradingRecord tradingRecord = (TradingRecord) algorithmData.get(0);
         String ticker = (String) algorithmData.get(2);
 
         ArrayList<Double> resultingList = new ArrayList<Double>();
