@@ -228,7 +228,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public Double getTotalPortfolioValue() {
         Double totalValue = 0.;
         for (Map.Entry<String, ArrayList<Object>> entry : BasicActivity.algorithms.entrySet()) {
-//            callAPItoUpdateAlgorithm(entry);
             totalValue += getAlgorithmValue(entry.getKey());
         }
         return totalValue;
