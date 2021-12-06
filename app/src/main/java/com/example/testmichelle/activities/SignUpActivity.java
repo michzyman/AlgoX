@@ -109,10 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     databaseReference.child(firebaseUser.getUid()).child("currentbalance").setValue(currentbalance);
                     databaseReference.child(firebaseUser.getUid()).child("freecash").setValue(freecash);
-<<<<<<< HEAD
-=======
                     databaseReference.child(firebaseUser.getUid()).child("Algorithms");
->>>>>>> e5c05b44235c375536d78aa5815e2cdd5a5a330c
 
                 } else {
                     Toast.makeText(SignUpActivity.this, "ERROR" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
