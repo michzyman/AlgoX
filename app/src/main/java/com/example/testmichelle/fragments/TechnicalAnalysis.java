@@ -125,6 +125,7 @@ public class TechnicalAnalysis {
     }
 
     public static void loadData(String ticker, Context context, double[][] data, ZonedDateTime startDate, ZonedDateTime endDate) {
+        System.out.println("loading data");
         // Initiate the android three ten library to get the context for zoned date time
         AndroidThreeTen.init(context);
 

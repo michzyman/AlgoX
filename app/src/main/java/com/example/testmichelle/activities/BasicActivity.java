@@ -131,7 +131,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             }
         });
 
-        new CountDownTimer(10000, 1000) {
+        new CountDownTimer(1000000, 1000) {
             public void onFinish() {
                 homeFragment = new HomeFragment();
                 makeCurrentFragment(homeFragment);
@@ -302,16 +302,27 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         System.out.println(entry.getKey() + "/" + entry.getValue());
 
         ArrayList<String> buyingRuleList = (ArrayList<String>) entry.getValue().get(0);
+        System.out.println("buying rule list: " + buyingRuleList.toString());
+
         ArrayList<String> sellingRuleList = (ArrayList<String>) entry.getValue().get(1);
+        System.out.println("selling rule list: " + sellingRuleList.toString());
+
         Integer initialAmount = (Integer) entry.getValue().get(2);
+        System.out.println("initial amount: " + initialAmount.toString());
+
         String ticker = (String) entry.getValue().get(3);
+        System.out.println("ticker: " + ticker);
+
         boolean isRunning = (boolean) entry.getValue().get(4);
-        String start = (String) entry.getValue().get(5);
-        ZonedDateTime startDate = ZonedDateTime.parse(start);
+        System.out.println("is running: " + isRunning);
+
+//        String start = (String) entry.getValue().get(5);
+//        ZonedDateTime startDate = ZonedDateTime.parse(start);
+//        System.out.println("got the start date: "+ startDate.toString());
+
         String buyingRuleType = buyingRuleList.get(2);
         String sellingRuleType = sellingRuleList.get(2);
 
-        System.out.println("founnnnnddd selling rule type: " + buyingRuleType);
         String par1 = buyingRuleList.get(0);
         String par2 = buyingRuleList.get(1);
 
@@ -321,18 +332,25 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         Rule buying_rule;
         Rule selling_rule;
 
+//
+//        ZonedDateTime endDate;
+//        if(isRunning) {
+//            endDate = ZonedDateTime.now();
+//            System.out.println("got the end date: "+ endDate.toString());
+//
+//        }
+//        else{
+//            String end = (String) entry.getValue().get(6);
+//            endDate = ZonedDateTime.parse(end);
+//            System.out.println("got the end date: "+ endDate.toString());
+//
+////            endDate = (ZonedDateTime) entry.getValue().get(6);
+//        }
 
-        ZonedDateTime endDate;
-        if(isRunning) {
-            endDate = ZonedDateTime.now();
-        }
-        else{
-            String end = (String) entry.getValue().get(6);
-            endDate = ZonedDateTime.parse(end);
-//            endDate = (ZonedDateTime) entry.getValue().get(6);
-        }
+        System.out.println("ok got all the data for " + entry.getKey());
 
-        TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, startDate, endDate);
+//        TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, startDate, endDate);
+        TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, ZonedDateTime.now().minusMonths(1), ZonedDateTime.now());
 
         switch(buyingRuleType){
                 case "Price Above":
