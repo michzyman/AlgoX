@@ -98,13 +98,19 @@ public class HomeFragment extends Fragment {
         text_algorithm_results = (TextView) view.findViewById(R.id.text_algorithm_results);
         SpinnerOfAlgorithms = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
         FL.passDataToHomeFragment();
-        ArrayList<String> SpinnerValues = new ArrayList<String>();
-        for(String key: Algorithms.keySet()){
-            SpinnerValues.add(key);
+        if (Algorithms != null) {
+            text_algorithm_results.setText("Algorithm is Nullll");
+            if (!Algorithms.isEmpty()){
+                text_algorithm_results.setText("Algorithm is Empty");
+                ArrayList<String> SpinnerValues = new ArrayList<String>();
+                for(String key: Algorithms.keySet()){
+                    SpinnerValues.add(key);
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, SpinnerValues);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                SpinnerOfAlgorithms.setAdapter(adapter);
+            }
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, SpinnerValues);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        SpinnerOfAlgorithms.setAdapter(adapter);
         return view;
     }
 

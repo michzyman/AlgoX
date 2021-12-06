@@ -64,6 +64,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic);
 
+        getAlgorithmsFromDatabase();
         homeFragment = new HomeFragment();
         transactionFragment = new TransactionFragment();
         historyFragment = new HistoryFragment();
@@ -73,7 +74,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         moreInfoFragment = new MoreInfoFragment();
         makeCurrentFragment(homeFragment);
 
-        getAlgorithmsFromDatabase();
         for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
             callAPItoUpdateAlgorithm(entry);
         }
