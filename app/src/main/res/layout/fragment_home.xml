@@ -96,6 +96,7 @@
             android:id="@+id/text_balance"
             android:layout_width="205dp"
             android:layout_height="93dp"
+
             android:fontFamily="@font/pt_sans"
             android:text="@string/balance"
             android:textColor="#000000"

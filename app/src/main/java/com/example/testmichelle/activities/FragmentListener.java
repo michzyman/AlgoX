@@ -8,5 +8,6 @@ public interface FragmentListener {
     public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series,String p1, String p2, String p3, String p4,String ticker, String buyingRuleName, String sellingRuleName);
     public void goToMoreInfoFragment();
     public void goToBackTestingFragment();
+    public void passDataToHomeFragment();
     public void goToHome();
 }

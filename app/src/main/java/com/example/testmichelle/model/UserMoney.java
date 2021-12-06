@@ -6,7 +6,6 @@ public class UserMoney {
     public Integer currentbalance;
     public  Integer freecash;
 
-
     public UserMoney(){} //Default used for Firebase/API
 
 
