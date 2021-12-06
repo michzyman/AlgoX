@@ -68,10 +68,10 @@ public class AlgorithmPopUp extends AppCompatActivity {
                 info += "the average stock price (weighted more heavily towards recent prices) in the past " + par1 + " days goes above the average stock price (weighted more heavily towards recent prices) in the past " + par2 + " days.";
                 break;
             case "Rising":
-                info += "considering a window of the past " + par1 + " days, the stock rose in price " + par2 + "percentage of the time";
+                info += "considering a window of the past " + par1 + " days, the stock rose in price " + par2 + "% of the time";
                 break;
             case "Falling":
-                info += "considering a window of the past " + par1 + " days, the stock fell in price " + par2 + "percentage of the time";
+                info += "considering a window of the past " + par1 + " days, the stock fell in price " + par2 + "% of the time";
                 break;
         }
 
@@ -91,10 +91,10 @@ public class AlgorithmPopUp extends AppCompatActivity {
                 info += "the average stock price (weighted more heavily towards recent prices) in the past " + par3 + " days goes above the average stock price (weighted more heavily towards recent prices) in the past " + par4 + " days.";
                 break;
             case "Rising":
-                info += "considering a window of the past " + par3 + " days, the stock rose in price " + par4 + "percentage of the time.";
+                info += "considering a window of the past " + par3 + " days, the stock rose in price " + par4 + "% of the time.";
                 break;
             case "Falling":
-                info += "considering a window of the past " + par3 + " days, the stock fell in price " + par4 + "percentage of the time.";
+                info += "considering a window of the past " + par3 + " days, the stock fell in price " + par4 + "% of the time.";
                 break;
         }
 
