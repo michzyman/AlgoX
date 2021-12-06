@@ -26,6 +26,10 @@
 >>>>>>> 595146784dde55800296465d0222629c061b2b4b
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_moreinfo.xml" value="0.1" />
+<<<<<<< HEAD
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.165" />
+=======
+>>>>>>> e5c05b44235c375536d78aa5815e2cdd5a5a330c
         <entry key="app/src/main/res/layout/fragment_transaction.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/login.xml" value="0.12760416666666666" />
