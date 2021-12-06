@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.example.testmichelle.R;
@@ -22,9 +23,12 @@ import com.example.testmichelle.fragments.TransactionFragment;
 import com.example.testmichelle.fragments.YahooFinance;
 import com.example.testmichelle.fragments.backTestingFragment;
 import com.example.testmichelle.model.Algorithm;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,17 +73,16 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     private HistoryFragment historyFragment;
     private AccountFragment accountFragment;
     private LoadingScreenFragment loadingFragment;
+    boolean done = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic);
 
-        getAlgorithmsFromDatabaseTest();
-//        getAlgorithmsFromDatabase();
-        for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
-            callAPItoUpdateAlgorithm(entry);
-        }
+/*-------------------FRAGMENTS - BOTTON NAV ----------------------------*/
+
 
         homeFragment = new HomeFragment();
         transactionFragment = new TransactionFragment();
@@ -92,20 +95,75 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
         loadingFragment = new LoadingScreenFragment();
         makeCurrentFragment(loadingFragment);
-        new CountDownTimer(3000, 1000) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+        databaseReference.child(firebaseUser.getUid()).child("Algorithms").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int i = 0;
+                for (DataSnapshot dataSnap : snapshot.getChildren()) {
+                    Algorithm algo = dataSnap.getValue(Algorithm.class);
+                    Log.i("DATABASE", "Adding "+algo.algoname);
+                    ArrayList<Object> vals = new ArrayList<>();
+                    vals.add(algo.buyingrule);
+                    vals.add(algo.sellingrule);
+                    vals.add(algo.initialamount);
+                    vals.add(algo.stockname);
+                    vals.add(algo.status);
+                    vals.add(algo.start_date);
+                    vals.add(algo.end_date);
+                    i++;
+                    algorithms.put(algo.algoname, vals);
+                }
+                Log.i("DATABASE", "got em all");
+                Log.i("DATABASE", algorithms.toString());
+
+                for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
+                    System.out.println("yay, next entry! it's " + entry.toString());
+                    callAPItoUpdateAlgorithm(entry);
+                }
+//                    done = true;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        new CountDownTimer(10000, 1000) {
             public void onFinish() {
                 homeFragment = new HomeFragment();
                 makeCurrentFragment(homeFragment);
             }
+
             public void onTick(long millisUntilFinished) {
 
             }
         }.start();
+        /*-------------------FRAGMENTS - BOTTON NAV ----------------------------*/
+
+
+        /* --- GETTING ALGORITHMS FROM FIREBASE INTO ALGORITHMS HASHMAP --- */
+
+//        getAlgorithmsFromDatabase();
+//        while(!done) {
+
+//        }
+        Log.i("ACTIVITY", "out of that listener!");
+
+//        System.out.println(algorithms.toString());
+
+        /*-------------------FOR EACH ALGO, RUN THRU FINANCE & TA4J API ----------------------------*/
+
+//        for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
+//            System.out.println("yay, next entry! it's " + entry.toString());
+//            callAPItoUpdateAlgorithm(entry);
+//        }
+
 
 
         // Load Data from Database and store variables in "algorithms"
-
-
 
         System.out.println("KEYSET IN ONCREATE: " + algorithmsRan.keySet());
 
@@ -113,7 +171,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 //        System.out.println(createListOfAlgorithmValues("Algo1"));
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
-        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener(){
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -137,26 +195,24 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                 return true;
             }
         });
-
-
-
     }
+
     //Changes the fragment that corresponds to the button that is clicked
-    private void makeCurrentFragment(Fragment fragment){
+    private void makeCurrentFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, fragment).commit();
     }
 
-    public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series, String p1, String p2, String p3, String p4,String ticker, String buyingRuleName, String sellingRuleName){
+    public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series, String p1, String p2, String p3, String p4, String ticker, String buyingRuleName, String sellingRuleName) {
         makeCurrentFragment(backTestingResults);
-        backTestingResults.collectData(tradingRecord, Buying_rule,Selling_Rule, series, p1,p2,p3,p4,ticker,buyingRuleName, sellingRuleName);
+        backTestingResults.collectData(tradingRecord, Buying_rule, Selling_Rule, series, p1, p2, p3, p4, ticker, buyingRuleName, sellingRuleName);
         backTestingResults.setResultsData();
     }
 
-    public void goToMoreInfoFragment(){
+    public void goToMoreInfoFragment() {
         makeCurrentFragment(moreInfoFragment);
     }
 
-    public void goToBackTestingFragment(){
+    public void goToBackTestingFragment() {
         makeCurrentFragment(backTestingFragment);
     }
 
@@ -165,39 +221,27 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         makeCurrentFragment(homeFragment);
     }
 
-    public void goToHistory(){
+    public void goToHistory() {
         makeCurrentFragment(historyFragment);
     }
 
-    public void getAlgorithmsFromDatabase(){
-            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
-            databaseReference.child(firebaseUser.getUid()).child("Algorithm").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Log.e("Count " ,""+snapshot.getChildrenCount());
-                    for (DataSnapshot dataSnap : snapshot.getChildren()) {
-                        Algorithm algorithm = dataSnap.getValue(Algorithm.class);
-                        ArrayList<Object> val = new ArrayList<Object>();
-                        val.add(algorithm.buyingrule);
-                        val.add(algorithm.sellingrule);
-                        val.add(algorithm.initialamount);
-                        val.add(algorithm.stockname);
-                        val.add(algorithm.status);
-                        val.add(algorithm.start_date);
-                        val.add(algorithm.end_date);
-                        algorithms.put(algorithm.algoname, val); // KEY --> NAME OF ALG
-                    }
-                    Log.e("ALGO","these are my algorithms: " + algorithms.keySet()); // ACTUAL FIELD HERE SHOULD BE NAME
-                    Log.e("ALGO","these are the values: "+ algorithms.values());
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-    }
+//    public void getAlgorithmsFromDatabase() {
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+//        databaseReference.child(firebaseUser.getUid()).child("Algorithms").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                if(!task.isSuccessful()){
+//                    Log.e("FIREBASE","ERROR", task.getException());
+//                }
+//                else{
+//                    Log.e("firebase", String.valueOf(task.getResult().getValue().toString()));
+//
+//                }
+//            }
+//        });
+//        Log.i("GET ALGO","got out of loop");
+//    }
 
     public void getAlgorithmsFromDatabaseTest() {
         // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance, String stockname, String startdate, String enddate, String status]
@@ -227,8 +271,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     }
 
     public void callAPItoUpdateAlgorithm(Map.Entry<String, ArrayList<Object>> entry) {
+        System.out.println("calling finance api to get this chart!");
         String ticker = (String) entry.getValue().get(3);
-        Context context = getApplicationContext();
+        Context context = this;
         BasicActivity thisObj = this;
         YahooFinance.basicActivityRequestChart(ticker, context, thisObj, entry);
     }
@@ -267,6 +312,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         String buyingRuleType = buyingRuleList.get(2);
         String sellingRuleType = sellingRuleList.get(2);
 
+        System.out.println("founnnnnddd selling rule type: " + buyingRuleType);
         String par1 = buyingRuleList.get(0);
         String par2 = buyingRuleList.get(1);
 
@@ -275,6 +321,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
         Rule buying_rule;
         Rule selling_rule;
+
 
         ZonedDateTime endDate;
         if(isRunning) {
@@ -341,6 +388,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             ran.add(ticker);
 
             algorithmsRan.put(entry.getKey(),ran);
+            System.out.println("ALGORITHMS RAN! " + entry.getKey());
     }
 
     public void passDataToHomeFragment() {

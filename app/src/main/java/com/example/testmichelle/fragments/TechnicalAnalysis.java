@@ -68,6 +68,7 @@ public class TechnicalAnalysis {
     }
 
     public static TradingRecord triggerTa4j(Rule buying, Rule selling){
+        Log.i("TA4J","Creating trading record");
         // Getting the close price of the ticks
         Num firstClosePrice = series.getBar(0).getClosePrice();
         returnClosePrice(firstClosePrice);
@@ -136,6 +137,7 @@ public class TechnicalAnalysis {
                 break;
             }
         }
+        Log.i("TA4J","making the series");
     }
 
     // RUN A STRATEGY
