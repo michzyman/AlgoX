@@ -53,12 +53,12 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     FirebaseUser firebaseUser;
 
     // Key: Name of Algorithm
-    // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance (really initialamount), String stockname, String startdate, String enddate, String status]
+    // Value: [ArrayList buyingrule, ArrayList sellingrule, Integer currentbalance (really initialamount), String stockname, String startdate, String enddate, boolean status]
     // ArrayList buyingrule / sellingrule: [par1, par2, type]
     public static HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
 
     // Key: Name of Algorithm
-    // Value: [TimeSeries series, TradingRecord record, String Ticker, ZonedDateTime start, ZonedDateTime end]
+    // Value: [TradingRecord record, TimeSeries series, String Ticker, ZonedDateTime start, ZonedDateTime end]
     public static HashMap<String, ArrayList<Object>> algorithmsRan = new HashMap<String, ArrayList<Object>>();
 
     private DisplayBackTestingResults backTestingResults;
@@ -75,6 +75,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         setContentView(R.layout.activity_basic);
 
         getAlgorithmsFromDatabaseTest();
+//        getAlgorithmsFromDatabase();
         for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
             callAPItoUpdateAlgorithm(entry);
         }
@@ -159,6 +160,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     @Override
     public void goToHome() {
         makeCurrentFragment(homeFragment);
+    }
+
+    public void goToHistory(){
+        makeCurrentFragment(historyFragment);
     }
 
     public void getAlgorithmsFromDatabase(){

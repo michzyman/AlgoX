@@ -41,6 +41,7 @@ import org.ta4j.core.TradingRecord;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     TextView text_name;
@@ -110,7 +111,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
-                text_cash.setText("Cash Remaining " + "\n" + "$"+ money.getCurrentbalance());
+                text_cash.setText("Cash Remaining " + "\n" + "$"+ money.getFreecash());
                 text_cash.setTextSize(24);
                 text_cash.setGravity(Gravity.CENTER);
                 text_cash.setVisibility(View.VISIBLE);
@@ -142,6 +143,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), cancelAlgorithmPopUp.class);
+                intent.putExtra("algorithmName", SpinnerOfAlgorithms.getSelectedItem().toString());
+                startActivity(intent);
             }
         });
         return view;
@@ -221,5 +224,32 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             finalList.add(startingValue);
         }
         return finalList;
+    }
+
+    public Double getTotalPortfolioValue() {
+        Double totalValue = 0.;
+        for (Map.Entry<String, ArrayList<Object>> entry : BasicActivity.algorithms.entrySet()) {
+//            callAPItoUpdateAlgorithm(entry);
+            totalValue += getAlgorithmValue(entry.getKey());
+        }
+        return totalValue;
+    }
+
+    public Double getAlgorithmValue(String algorithmName) {
+        ArrayList<Double> values = createListOfAlgorithmValues(algorithmName);
+        Double finalValue = values.get(values.size() - 1);
+        return finalValue;
+    }
+
+    public Double getAlgorithmProfit(String algorithmName) {
+        ArrayList<Double> values = createListOfAlgorithmValues(algorithmName);
+        Double finalValue = values.get(values.size() - 1);
+        Double startingValue = getAlgorithmStartingValue(algorithmName);
+        Double profit = finalValue - startingValue;
+        return profit;
+    }
+
+    public Double getAlgorithmStartingValue(String algorithmName) {
+        return ((Integer) BasicActivity.algorithms.get(algorithmName).get(2)).doubleValue();
     }
 }

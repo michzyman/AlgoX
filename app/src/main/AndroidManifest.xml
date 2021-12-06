@@ -22,6 +22,7 @@
         <activity android:name=".activities.LogInActivity" />
         <activity android:name=".activities.SignUpActivity"/>
         <activity android:name=".activities.BasicActivity"/>
+        <activity android:name=".activities.cancelAlgorithmPopUp" android:theme="@style/Theme.AppCompat.PopUpTheme"/>
         <activity android:name=".activities.AlgorithmPopUp" android:theme="@style/Theme.AppCompat.PopUpTheme"/>
 
         <meta-data

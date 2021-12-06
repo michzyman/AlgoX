@@ -17,7 +17,7 @@ public class cancelAlgorithmPopUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_algorithmpopup);
+        setContentView(R.layout.activity_cancelalgorithmpopup);
 
         tv_canceltext = (TextView) findViewById(R.id.tv_canceltext);
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
