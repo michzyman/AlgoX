@@ -57,7 +57,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     FirebaseUser firebaseUser;
 
     // Key: Name of Algorithm
-    // Value: [ArrayList buyingrule, ArrayList sellingrule, Integer currentbalance (really initialamount), String stockname, String startdate, String enddate, boolean status]
+    // Value: [ArrayList buyingrule, ArrayList sellingrule, Integer initialAmount, String stockname, boolean status, String start_date, String end_date]
     // ArrayList buyingrule / sellingrule: [par1, par2, type]
     public static HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
 
@@ -244,7 +244,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 //    }
 
     public void getAlgorithmsFromDatabaseTest() {
-        // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance, String stockname, String startdate, String enddate, String status]
 
         AndroidThreeTen.init(getApplicationContext());
         ArrayList<String> buyingRule = new ArrayList<>(Arrays.asList("10", "7", "SMA"));
