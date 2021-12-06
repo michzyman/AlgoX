@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.testmichelle.R;
 import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.model.Algorithm;
+import com.example.testmichelle.model.UserMoney;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -200,6 +201,7 @@ public class DisplayBackTestingResults extends Fragment {
         boolean status = true;
         String stockname = ticker;
         Integer initialamount = Integer.getInteger(et_money.getText().toString());
+        updateFreeCash();
         String algoName = et_algoName.getText().toString();
         System.out.println("THE PARAMETERS ARE : " + p1 +" AND " + p2 + " AND "+buyingRuleName);
         String[] list = {p1,p2,buyingRuleName};
@@ -217,5 +219,16 @@ public class DisplayBackTestingResults extends Fragment {
         algSet = true;
         et_money.setText("");
         et_algoName.setText("");
+    }
+    private void updateFreeCash(){
+        UserMoney userMoney = new UserMoney();
+        Integer userFreeCash = userMoney.getFreecash();
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+        databaseReference.child(firebaseUser.getUid()).child("freecash").setValue(userFreeCash-Integer.getInteger(et_money.getText().toString()));
+
+
+
     }
 }

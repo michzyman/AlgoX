@@ -35,6 +35,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     TextView text_name;
     TextView text_balance;
+    TextView text_cash;
     TextView text_algorithm_results;
     Spinner SpinnerOfAlgorithms;
     GraphView graphAlgorithms;
@@ -80,9 +81,25 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
                 text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
-                text_balance.setTextSize(34);
+                text_balance.setTextSize(24);
                 text_balance.setGravity(Gravity.CENTER);
                 text_balance.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        text_cash = (TextView) view.findViewById(R.id.text_cash);
+        text_cash.setVisibility(View.INVISIBLE);
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserMoney money = snapshot.getValue(UserMoney.class);
+                text_cash.setText("Cash Remaining " + "\n" + "$"+ money.getCurrentbalance());
+                text_cash.setTextSize(24);
+                text_cash.setGravity(Gravity.CENTER);
+                text_cash.setVisibility(View.VISIBLE);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
