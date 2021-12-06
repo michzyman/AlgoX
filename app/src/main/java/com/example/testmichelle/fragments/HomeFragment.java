@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     HashMap<String, ArrayList<Object>> AlgorithmsRan;
     private FragmentListener FL;
     Button btnCancelAlgorithm;
+    Integer amountWeStartedWith;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -97,6 +98,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
                 text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
+            //    amountWeStartedWith = money.getCurrentbalance();
                 text_balance.setTextSize(24);
                 text_balance.setGravity(Gravity.CENTER);
                 text_balance.setVisibility(View.VISIBLE);
@@ -105,6 +107,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
+
+//        Double portfolioValue = getTotalPortfolioValue();
+//        System.out.println("total portfolio value = " + portfolioValue);
+//        System.out.println("Sum = " + (portfolioValue + amountWeStartedWith));
+//        updateCurrentBalance(portfolioValue);
+
+        //text_balance.setText("BALANCEEEEEEE");
+
         text_cash = (TextView) view.findViewById(R.id.text_cash);
         text_cash.setVisibility(View.INVISIBLE);
         databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -218,6 +228,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         Double startingValue = ((Integer) Algorithms.get(algorithmName).get(2)).doubleValue();
 
         ArrayList<Double> finalList = new ArrayList<Double>();
+        if (resultingList.size() == 0 || resultingList.size() == 1) {
+            finalList.add(startingValue);
+            return finalList;
+        }
 
         for (int i = 0; i < resultingList.size(); i++) {
             startingValue *= resultingList.get(i);
@@ -229,7 +243,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public Double getTotalPortfolioValue() {
         Double totalValue = 0.;
         for (Map.Entry<String, ArrayList<Object>> entry : BasicActivity.algorithms.entrySet()) {
-//            callAPItoUpdateAlgorithm(entry);
             totalValue += getAlgorithmValue(entry.getKey());
         }
         return totalValue;
@@ -239,6 +252,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ArrayList<Double> values = createListOfAlgorithmValues(algorithmName);
         Double finalValue = values.get(values.size() - 1);
         return finalValue;
+    }
+
+    public void updateCurrentBalance(Double totalProfit){
+        text_balance.setText("Your Balance " + "\n" + "$"+ amountWeStartedWith+totalProfit);
+        text_balance.setTextSize(24);
+        text_balance.setGravity(Gravity.CENTER);
+        text_balance.setVisibility(View.VISIBLE);
     }
 
     public Double getAlgorithmProfit(String algorithmName) {

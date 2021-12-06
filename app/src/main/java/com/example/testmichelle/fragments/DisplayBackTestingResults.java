@@ -231,8 +231,7 @@ public class DisplayBackTestingResults extends Fragment {
                 UserMoney money = snapshot.getValue(UserMoney.class);
                 Integer current_freecash = money.getFreecash();
                 databaseReference.child(firebaseUser.getUid()).child("freecash").setValue(current_freecash-amountToInvest);
-//                money.setFreecash(current_freecash-amountToInvest);
-                System.out.println(money.freecash + " should be " + (current_freecash-amountToInvest));
+                System.out.println("Remaining amount should be " + (current_freecash-amountToInvest));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -249,18 +248,6 @@ public class DisplayBackTestingResults extends Fragment {
 //        et_algoName.setText("");
     }
 
-    private void updateFreeCash(){
-        UserMoney userMoney = new UserMoney();
-        Integer userFreeCash = userMoney.getFreecash();
-        System.out.println(userFreeCash);
-        userMoney.setFreecash(userFreeCash-amountToInvest);
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
-//        assert firebaseUser != null;
-//        databaseReference.child(firebaseUser.getUid()).child("freecash").setValue(userFreeCash-amountToInvest);
 
-
-
-    }
 
 }
