@@ -68,6 +68,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     private TransactionFragment transactionFragment;
     private HistoryFragment historyFragment;
     private AccountFragment accountFragment;
+    private LoadingScreenFragment loadingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         backTestingResults = new DisplayBackTestingResults();
         moreInfoFragment = new MoreInfoFragment();
 
+        loadingFragment = new LoadingScreenFragment();
+        makeCurrentFragment(loadingFragment);
         new CountDownTimer(3000, 1000) {
             public void onFinish() {
                 homeFragment = new HomeFragment();

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.LoadingScreenFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- TODO: Update blank fragment layout -->
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtLoading"
+            android:layout_width="210dp"
+            android:layout_height="114dp"
+            android:layout_marginTop="308dp"
+            android:layout_marginBottom="180dp"
+            android:text="Cooking up some se  y algorithms"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_marginTop="37dp"
+            android:layout_marginEnd="150dp"
+            android:layout_marginBottom="58dp"
+            android:src="@drawable/logo"
+            app:layout_constraintBottom_toBottomOf="@+id/txtLoading"
+            app:layout_constraintEnd_toEndOf="@+id/txtLoading"
+            app:layout_constraintTop_toTopOf="@+id/txtLoading" />
+
+        <ImageView
+            android:id="@+id/imgBigLogo"
+            android:layout_width="172dp"
+            android:layout_height="175dp"
+            android:layout_marginStart="116dp"
+            android:layout_marginTop="124dp"
+            android:layout_marginEnd="123dp"
+            android:src="@drawable/logo"
+            app:layout_constraintEnd_toEndOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</FrameLayout>
