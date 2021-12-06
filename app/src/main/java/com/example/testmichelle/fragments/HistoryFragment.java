@@ -49,7 +49,8 @@ public class HistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
-
+        ArrayList masterList = createDataFromAlgorithms();
+        System.out.println("MASTERLIST:" + masterList);
 
         return view;
     }
@@ -62,7 +63,8 @@ public class HistoryFragment extends Fragment {
     public ArrayList<ArrayList<Object>> createDataFromAlgorithms() {
 
         ArrayList MasterList = new ArrayList<ArrayList<Object>>();
-        for (Map.Entry<String, ArrayList<Object>> entry : BasicActivity.algorithms.entrySet()) {
+        for (Map.Entry<String, ArrayList<Object>> entry : BasicActivity.algorithmsRan.entrySet()) {
+            System.out.println("CALLING createDataFromSingleAlgorithm FOR " + entry.getKey());
             ArrayList dataFromSpecificAlgorithm = createDataFromSingleAlgorithm(entry);
             MasterList.addAll(dataFromSpecificAlgorithm);
         }
@@ -84,7 +86,6 @@ public class HistoryFragment extends Fragment {
 
         for (int i = 0; i < trades.size(); i++) {
             Trade trade = trades.get(i);
-            // [Algoname, Ticker, Buy/Sell, Amount, Price, Date]
 
             // Get entry Order variables
             Order entryTrade = trade.getEntry();
@@ -119,7 +120,7 @@ public class HistoryFragment extends Fragment {
                 ArrayList exitOrderList = new ArrayList<>(Arrays.asList(algName, ticker, type, amountTraded, priceValue, date));
 
                 // Append exit Order List to final Array
-                finalArray.add(entryOrderList);
+                finalArray.add(exitOrderList);
             }
         }
         return finalArray;
