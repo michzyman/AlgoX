@@ -29,6 +29,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
+import org.ta4j.core.Trade;
+import org.threeten.bp.ZonedDateTime;
 
 import org.ta4j.core.Rule;
 import org.ta4j.core.TimeSeries;
@@ -48,7 +52,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     FirebaseUser firebaseUser;
 
     // Key: Name of Algorithm
-    // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance, String stockname, String startdate, String enddate, String status]
+    // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance (really initialamount), String stockname, String startdate, String enddate, String status]
     // ArrayList buyingrule / sellingrule: [par1, par2, type]
     public static HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
 
@@ -80,9 +84,13 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
         // Load data from "algorithms", run them and variables it in "algorithmsRan"
         for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
-            // callAPItoUpdateAlgorithm(entry);
             callAPItoUpdateAlgorithm(entry);
         }
+
+        System.out.println("KEYSET IN ONCREATE: " + algorithmsRan.keySet());
+
+        // TESTING
+//        System.out.println(createListOfAlgorithmValues("Algo1"));
 
          BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener(){
@@ -170,13 +178,17 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     public void getAlgorithmsFromDatabaseTest() {
         // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance, String stockname, String startdate, String enddate, String status]
 
+        AndroidThreeTen.init(getApplicationContext());
+
         ArrayList<String> buyingRule = new ArrayList<>(Arrays.asList("10", "7", "SMA"));
         ArrayList<String> sellingRule = new ArrayList<>(Arrays.asList("5", "10", "SMA"));
         Integer initialAmount = 1500;
         String stockName = "AAPL";
         boolean status = true;
-        String startDate = "09/01/2021";
+        String startDate = ZonedDateTime.now().minusDays(100).toString();
         String endDate = "null";
+
+        // FIX: status was boolean ||| currentBalance was Integer
 
         ArrayList<Object> val = new ArrayList<Object>();
         val.add(buyingRule);
@@ -185,7 +197,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         val.add(stockName);
         val.add(status);
         val.add(startDate);
-        val.add(startDate);
+        val.add(endDate);
         algorithms.put("Algo1",val); // KEY --> NAME OF ALG
 
     }
@@ -197,20 +209,20 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         YahooFinance.basicActivityRequestChart(ticker, context, thisObj, entry);
     }
 
-    public void callAPItoUpdateAlgorithmTest(Map.Entry<String, ArrayList<Object>> entry) {
-        String ticker = (String) entry.getValue().get(3);
-        Context context = getApplicationContext();
-        BasicActivity thisObj = this;
-
-        Random rd = new Random();
-        double[][] data = new double[100][5];
-        for(int r = 0; r < data.length; r++) {
-            for(int c = 0; c < data[0].length ; c++){
-                data[r][c] = rd.nextDouble()*1000;
-            }
-        }
-        updateAlgorithms(entry, data);
-    }
+//    public void callAPItoUpdateAlgorithmTest(Map.Entry<String, ArrayList<Object>> entry) {
+//        String ticker = (String) entry.getValue().get(3);
+//        Context context = getApplicationContext();
+//        BasicActivity thisObj = this;
+//
+//        Random rd = new Random();
+//        double[][] data = new double[100][5];
+//        for(int r = 0; r < data.length; r++) {
+//            for(int c = 0; c < data[0].length ; c++){
+//                data[r][c] = rd.nextDouble()*1000;
+//            }
+//        }
+//        updateAlgorithms(entry, data);
+//    }
 
 
     /**
@@ -305,6 +317,49 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             ran.add(ticker);
 
             algorithmsRan.put(entry.getKey(),ran);
+    }
+
+    public static ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
+        System.out.println("KEYSET IN createListOfAlgorithmValues: " + algorithmsRan.keySet());
+
+        ArrayList algorithmData = BasicActivity.algorithmsRan.get(algorithmName);
+        System.out.println("ALGORITHMDATA: " + algorithmData);
+
+        TimeSeries series = (TimeSeries) algorithmData.get(0);
+        TradingRecord tradingRecord = (TradingRecord) algorithmData.get(1);
+        String ticker = (String) algorithmData.get(2);
+
+        ArrayList<Double> resultingList = new ArrayList<Double>();
+
+        for (int i = 0; i < series.getBarCount(); i++) {
+            resultingList.add(1.);
+        }
+
+        for (Trade trade : tradingRecord.getTrades()) {
+            int entryIndex = trade.getEntry().getIndex();
+            int exitIndex = trade.getExit().getIndex();
+
+            double result;
+            if (trade.getEntry().isBuy()) {
+                // buy-then-sell trade
+                result = series.getBar(exitIndex).getClosePrice().dividedBy(series.getBar(entryIndex).getClosePrice()).doubleValue();
+            } else {
+                // sell-then-buy trade
+                result = series.getBar(entryIndex).getClosePrice().dividedBy(series.getBar(exitIndex).getClosePrice()).doubleValue();
+            }
+
+            resultingList.set(exitIndex, result);
+        }
+
+        Double startingValue = ((Integer) BasicActivity.algorithms.get(algorithmName).get(2)).doubleValue();
+
+        ArrayList<Double> finalList = new ArrayList<Double>();
+
+        for (int i = 0; i < resultingList.size(); i++) {
+            startingValue *= resultingList.get(i);
+            finalList.add(startingValue);
+        }
+        return finalList;
     }
 }
 
