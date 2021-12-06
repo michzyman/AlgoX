@@ -38,7 +38,7 @@ public class TransactionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_transaction, container, false);
         stock_graph = (GraphView) view.findViewById(R.id.stock_graph);
         edtStock = (EditText) view.findViewById(R.id.edtStock);
         txtEsg = (TextView)view.findViewById(R.id.txtEsg);

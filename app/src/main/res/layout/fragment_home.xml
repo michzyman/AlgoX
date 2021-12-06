@@ -18,86 +18,92 @@
         android:id="@+id/text_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/pt_sans"
         android:text="@string/name"
         android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Spinner
         android:id="@+id/SpinnerOfAlgorithms"
-        android:layout_width="299dp"
-        android:layout_height="46dp"
+        android:layout_width="298dp"
+        android:layout_height="38dp"
         android:background="@android:drawable/btn_dropdown"
         android:minHeight="48dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/text_algorithm_results"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.393"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+        app:layout_constraintVertical_bias="0.281"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graphAlgorithms"
         android:layout_width="327dp"
         android:layout_height="210dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.959" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/text_algorithm_results"
         android:layout_width="274dp"
         android:layout_height="38dp"
+        android:layout_marginBottom="40dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/graphAlgorithms"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout3"
+        android:id="@+id/constraintLayout4"
         android:layout_width="414dp"
         android:layout_height="122dp"
         android:background="@color/green"
-        tools:layout_editor_absoluteX="-2dp"
-        tools:layout_editor_absoluteY="58dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.143">
 
         <TextView
-            android:id="@+id/text_balance"
-            android:layout_width="200dp"
-            android:layout_height="122dp"
+            android:id="@+id/text_cash"
+            android:layout_width="198dp"
+            android:layout_height="93dp"
             android:fontFamily="@font/pt_sans"
             android:text="@string/balance"
             android:textColor="#000000"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_balance"
             app:layout_constraintTop_toTopOf="parent"
             tools:textAlignment="center"
             tools:textSize="48sp" />
 
         <TextView
-            android:id="@+id/text_cash"
-            android:layout_width="200dp"
-            android:layout_height="122dp"
+            android:id="@+id/text_balance"
+            android:layout_width="205dp"
+            android:layout_height="93dp"
+
             android:fontFamily="@font/pt_sans"
             android:text="@string/balance"
             android:textColor="#000000"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="214dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:textAlignment="center"
             tools:textSize="48sp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
