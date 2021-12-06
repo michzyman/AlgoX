@@ -1,5 +1,6 @@
 package com.example.testmichelle.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,10 +10,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +31,7 @@ import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeFragment extends Fragment {
     TextView text_name;
@@ -35,14 +39,18 @@ public class HomeFragment extends Fragment {
     TextView text_algorithm_results;
     Spinner SpinnerOfAlgorithms;
     GraphView graphAlgorithms;
+    HashMap<String, ArrayList<Object>> Algorithms;
+    HashMap<String, ArrayList<Object>> AlgorithmsRan;
+    private FragmentListener FL;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        FL = (FragmentListener) context;
     }
 
     @Override
@@ -86,13 +94,28 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        SpinnerOfAlgorithms = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
         graphAlgorithms = (GraphView) view.findViewById(R.id.graphAlgorithms);
         text_algorithm_results = (TextView) view.findViewById(R.id.text_algorithm_results);
+        SpinnerOfAlgorithms = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
+        FL.passDataToHomeFragment();
+        ArrayList<String> SpinnerValues = new ArrayList<String>();
+        for(String key: Algorithms.keySet()){
+            SpinnerValues.add(key);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, SpinnerValues);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        SpinnerOfAlgorithms.setAdapter(adapter);
         return view;
     }
 
+    public void graphAlgorithm(String Algorithm){
+        //
+    }
 
+    public void setAlgorithms(HashMap<String, ArrayList<Object>> algorithms, HashMap<String, ArrayList<Object>> algorithmsRan) {
+        Algorithms = algorithms;
+        AlgorithmsRan = algorithmsRan;
+    }
 
     public static ArrayList<Double> createListOfAlgorithmValues(TimeSeries series, TradingRecord tradingRecord, double startingValue) {
 

@@ -54,9 +54,7 @@ public class Algorithm {
 
     public String getStart_date(){ return start_date;}
 
-    public String getEnd_date() {
-        return end_date;
-    }
+    public String getEnd_date() { return end_date; }
 
     public void setStatus(boolean status) {
         this.status = status;

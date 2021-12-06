@@ -54,16 +54,20 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     private DisplayBackTestingResults backTestingResults;
     private MoreInfoFragment moreInfoFragment;
     private backTestingFragment backTestingFragment;
+    private HomeFragment homeFragment;
+    private TransactionFragment transactionFragment;
+    private HistoryFragment historyFragment;
+    private AccountFragment accountFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic);
 
-        HomeFragment homeFragment = new HomeFragment();
-        TransactionFragment transactionFragment = new TransactionFragment();
-        HistoryFragment historyFragment = new HistoryFragment();
-        AccountFragment accountFragment = new AccountFragment();
+        homeFragment = new HomeFragment();
+        transactionFragment = new TransactionFragment();
+        historyFragment = new HistoryFragment();
+        accountFragment = new AccountFragment();
         backTestingFragment = new backTestingFragment();
         backTestingResults = new DisplayBackTestingResults();
         moreInfoFragment = new MoreInfoFragment();
@@ -248,6 +252,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             ran.add(ticker);
 
             algorithmsRan.put(entry.getKey(),ran);
+    }
+
+    public void passDataToHomeFragment(){
+        homeFragment.setAlgorithms(algorithms, algorithmsRan);
     }
 }
 
