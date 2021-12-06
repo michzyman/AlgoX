@@ -198,6 +198,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     public void getAlgorithmsFromDatabaseTest() {
         // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance, String stockname, String startdate, String enddate, String status]
 
+        AndroidThreeTen.init(getApplicationContext());
+
         ArrayList<String> buyingRule = new ArrayList<>(Arrays.asList("10", "7", "SMA"));
         ArrayList<String> sellingRule = new ArrayList<>(Arrays.asList("5", "10", "SMA"));
         Integer initialAmount = 1500;

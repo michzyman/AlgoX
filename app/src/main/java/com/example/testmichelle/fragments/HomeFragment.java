@@ -153,7 +153,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 .show();
 
         ArrayList test = AlgorithmsRan.get(parent.getItemAtPosition(pos).toString());
-        text_algorithm_results.setText(test.toString());
     }
 
     @Override

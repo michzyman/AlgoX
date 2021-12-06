@@ -289,14 +289,13 @@ public class YahooFinance {
                                 double[] row = {JSONopen.getDouble(i), JSONhigh.getDouble(i), JSONlow.getDouble(i), JSONclose.getDouble(i)};
                                 finalData[i] = row;
                             }
+                            /** MAKE DELIS CALL USING FINALDATA */
+                            Log.d("getprices", Arrays.deepToString(finalData));
+                            callbackObject.updateAlgorithms(entry, finalData);
                         } catch (Exception e) {
                             e.getStackTrace();
                             finalData = arrERROR;
                         }
-
-                        /** MAKE DELIS CALL USING FINALDATA */
-                        Log.d("getprices", Arrays.deepToString(finalData));
-                        callbackObject.updateAlgorithms(entry, finalData);
                     }
                 }, new Response.ErrorListener() {
                     @Override
