@@ -21,6 +21,7 @@ import com.example.testmichelle.fragments.TransactionFragment;
 import com.example.testmichelle.fragments.YahooFinance;
 import com.example.testmichelle.fragments.backTestingFragment;
 import com.example.testmichelle.model.Algorithm;
+import com.example.testmichelle.model.UserMoney;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -99,10 +100,24 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                 return true;
             }
         });
-
-
-
     }
+    /*
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserMoney money = snapshot.getValue(UserMoney.class);
+                Integer current_freecash = money.getFreecash();
+                money.setFreecash(current_freecash - 10);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+     */
     //Changes the fragment that corresponds to the button that is clicked
     private void makeCurrentFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, fragment).commit();
