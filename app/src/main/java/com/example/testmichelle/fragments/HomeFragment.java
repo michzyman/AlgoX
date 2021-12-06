@@ -191,6 +191,24 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
+    // Key: Name of Algorithm
+    // Value: [ArrayList buyingrule, ArrayList sellingrule, Integer currentbalance (really initialamount), String stockname, String startdate, String enddate, boolean status]
+    // ArrayList buyingrule / sellingrule: [par1, par2, type]
+    public void displayData(String AlgorithmName){
+        ArrayList algorithmData = Algorithms.get(AlgorithmName);
+        ArrayList<String> buyingRuleData = (ArrayList<String>) algorithmData.get(0);
+        ArrayList<String> sellingRuleData = (ArrayList<String>) algorithmData.get(1);
+        String buyingRulePar1 = buyingRuleData.get(0);
+        String buyingRulePar2 = buyingRuleData.get(1);
+        String buyingRule = buyingRuleData.get(2);
+        String sellingRulePar1 = sellingRuleData.get(0);
+        String sellingRulePar2 = sellingRuleData.get(1);
+        String sellingRule = sellingRuleData.get(2);
+        Double initialValue = getAlgorithmStartingValue(AlgorithmName);
+        Double finalValue = getAlgorithmValue(AlgorithmName);
+        Double profit = getAlgorithmProfit(AlgorithmName);
+    }
+
 
     public void setAlgorithms(HashMap<String, ArrayList<Object>> algorithms, HashMap<String, ArrayList<Object>> algorithmsRan) {
         Algorithms = algorithms;
