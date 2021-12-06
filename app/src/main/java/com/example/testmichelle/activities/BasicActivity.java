@@ -131,7 +131,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             }
         });
 
-        new CountDownTimer(1000000, 1000) {
+        new CountDownTimer(3000, 1000) {
             public void onFinish() {
                 homeFragment = new HomeFragment();
                 makeCurrentFragment(homeFragment);
@@ -299,7 +299,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
      * @param entry
      */
     public void updateAlgorithms(Map.Entry<String, ArrayList<Object>> entry, double [][] data){
+        AndroidThreeTen.init(getApplicationContext());
+
         System.out.println(entry.getKey() + "/" + entry.getValue());
+        System.out.println(Arrays.deepToString(data));
 
         ArrayList<String> buyingRuleList = (ArrayList<String>) entry.getValue().get(0);
         System.out.println("buying rule list: " + buyingRuleList.toString());
@@ -350,8 +353,14 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         System.out.println("ok got all the data for " + entry.getKey());
 
 //        TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, startDate, endDate);
-        TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, ZonedDateTime.now().minusMonths(1), ZonedDateTime.now());
+        try{
+            System.out.println("trying to load data from basic activity");
 
+            TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, ZonedDateTime.now().minusMonths(1), ZonedDateTime.now());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         switch(buyingRuleType){
                 case "Price Above":
                     buying_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par1));
