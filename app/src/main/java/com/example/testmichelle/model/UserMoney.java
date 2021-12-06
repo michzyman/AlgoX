@@ -3,7 +3,8 @@ package com.example.testmichelle.model;
 import com.example.testmichelle.activities.SignUpActivity;
 
 public class UserMoney {
-    public Integer currentbalance, freecash;
+    public Integer currentbalance;
+    public  Integer freecash;
 
     public UserMoney(){} //Default used for Firebase/API
 

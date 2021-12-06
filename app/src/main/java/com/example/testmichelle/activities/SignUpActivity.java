@@ -111,6 +111,30 @@ public class SignUpActivity extends AppCompatActivity {
                     databaseReference.child(firebaseUser.getUid()).child("freecash").setValue(freecash);
                     databaseReference.child(firebaseUser.getUid()).child("Algorithms");
 
+                    /*
+
+                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("StockName").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").child("AlgorithmName").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").child("AlgorithmType").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").child("AlgorithmParameter").setValue("");
+
+                    String [] currentalgorithms = {"StockName", "TransactionType", "Money", "DateofTransaction"};
+                    List historyList = new ArrayList<String>(Arrays.asList(currentalgorithms));
+                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").setValue(historyList);
+
+
+
+
+                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("StockName").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("TransactionType").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("Money").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("DateOfTransaction").setValue("");
+                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("Algorithm").setValue("");
+
+*/
                 } else {
                     Toast.makeText(SignUpActivity.this, "ERROR" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }

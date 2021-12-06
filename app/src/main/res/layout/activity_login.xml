@@ -10,10 +10,8 @@
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:fontFamily="@font/pt_sans"
         android:text="@string/sign_in"
         android:textColor="#000000"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_Password"
@@ -27,7 +25,6 @@
         android:fontFamily="@font/pt_sans"
         android:text="@string/sign_up"
         android:textColor="#000000"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_SignIn"
@@ -50,7 +47,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="#ACABAB"
-        tools:fontFamily="@font/pt_sans"
         tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
