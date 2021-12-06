@@ -9,11 +9,7 @@
     <androidx.constraintlayout.widget.Constraints
         android:id="@+id/constraints"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
 
     </androidx.constraintlayout.widget.Constraints>
@@ -22,65 +18,73 @@
         android:id="@+id/text_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:fontFamily="@font/pt_sans"
         android:text="@string/name"
         android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_balance"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
-        android:background="@color/green"
-        android:fontFamily="@font/pt_sans"
-        android:text="@string/balance"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_username"
-        tools:textAlignment="center"
-        tools:textSize="60sp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
 
     <Spinner
         android:id="@+id/SpinnerOfAlgorithms"
         android:layout_width="299dp"
         android:layout_height="46dp"
-        android:layout_marginTop="32dp"
         android:background="@android:drawable/btn_dropdown"
         android:minHeight="48dp"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_balance"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="190dp" />
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graphAlgorithms"
         android:layout_width="327dp"
         android:layout_height="210dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="361dp" />
 
     <TextView
         android:id="@+id/text_algorithm_results"
         android:layout_width="274dp"
         android:layout_height="38dp"
-        android:layout_marginTop="46dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/graphAlgorithms"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SpinnerOfAlgorithms"
-        app:layout_constraintVertical_bias="0.0" />
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="282dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="414dp"
+        android:layout_height="122dp"
+        android:background="@color/green"
+        tools:layout_editor_absoluteX="-2dp"
+        tools:layout_editor_absoluteY="58dp">
+
+        <TextView
+            android:id="@+id/text_balance"
+            android:layout_width="199dp"
+            android:layout_height="122dp"
+            android:fontFamily="@font/pt_sans"
+            android:text="@string/balance"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="4dp"
+            tools:layout_editor_absoluteY="1dp"
+            tools:textAlignment="center"
+            tools:textSize="48sp" />
+
+        <TextView
+            android:id="@+id/text_cash"
+            android:layout_width="202dp"
+            android:layout_height="121dp"
+            android:fontFamily="@font/pt_sans"
+            android:text="@string/balance"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="212dp"
+            tools:layout_editor_absoluteY="0dp"
+            tools:textAlignment="center"
+            tools:textSize="48sp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

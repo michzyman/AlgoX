@@ -38,23 +38,26 @@ import java.util.Map;
 
 
 public class HistoryFragment extends Fragment {
+    RecyclerView myRecyclerView;
 
     public HistoryFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
-
-
+        ArrayList<ArrayList<Object>> data = createDataFromAlgorithms();
+        System.out.println("MASTERLIST:" + data);
+        myRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_history); // create recycler view obj
+        HistoryItemAdapter adapter = new HistoryItemAdapter(data); // create adapter and initialize with data
+        myRecyclerView.setAdapter(adapter); // set adapter
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
+
     }
-
-
     /**
      * Function to get the relevant data to render in the history fragment.
      * @return 2d array where each row will be a specific recyclerview unit in the form [Algoname, Ticker, Buy/Sell, Amount, Price, Date]
@@ -62,7 +65,8 @@ public class HistoryFragment extends Fragment {
     public ArrayList<ArrayList<Object>> createDataFromAlgorithms() {
 
         ArrayList MasterList = new ArrayList<ArrayList<Object>>();
-        for (Map.Entry<String, ArrayList<Object>> entry : BasicActivity.algorithms.entrySet()) {
+        for (Map.Entry<String, ArrayList<Object>> entry : BasicActivity.algorithmsRan.entrySet()) {
+            System.out.println("CALLING createDataFromSingleAlgorithm FOR " + entry.getKey());
             ArrayList dataFromSpecificAlgorithm = createDataFromSingleAlgorithm(entry);
             MasterList.addAll(dataFromSpecificAlgorithm);
         }
@@ -84,7 +88,6 @@ public class HistoryFragment extends Fragment {
 
         for (int i = 0; i < trades.size(); i++) {
             Trade trade = trades.get(i);
-            // [Algoname, Ticker, Buy/Sell, Amount, Price, Date]
 
             // Get entry Order variables
             Order entryTrade = trade.getEntry();
@@ -119,7 +122,7 @@ public class HistoryFragment extends Fragment {
                 ArrayList exitOrderList = new ArrayList<>(Arrays.asList(algName, ticker, type, amountTraded, priceValue, date));
 
                 // Append exit Order List to final Array
-                finalArray.add(entryOrderList);
+                finalArray.add(exitOrderList);
             }
         }
         return finalArray;
