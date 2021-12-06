@@ -73,7 +73,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic);
 
-        getAlgorithmsFromDatabaseTest();
+//        getAlgorithmsFromDatabaseTest();
+        getAlgorithmsFromDatabase();
         for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
             callAPItoUpdateAlgorithm(entry);
         }
@@ -148,6 +149,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     @Override
     public void goToHome() {
         makeCurrentFragment(homeFragment);
+    }
+
+    public void goToHistory(){
+        makeCurrentFragment(historyFragment);
     }
 
     public void getAlgorithmsFromDatabase(){

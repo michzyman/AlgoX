@@ -10,4 +10,5 @@ public interface FragmentListener {
     public void goToBackTestingFragment();
     public void passDataToHomeFragment();
     public void goToHome();
+    public void goToHistory();
 }
