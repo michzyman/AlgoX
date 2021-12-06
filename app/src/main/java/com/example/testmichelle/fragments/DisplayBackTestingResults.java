@@ -199,7 +199,7 @@ public class DisplayBackTestingResults extends Fragment {
     private void algorithmToUse() {
         boolean status = true;
         String stockname = ticker;
-        Integer initialamount = Integer.parseInt(et_money.getText().toString());
+        Integer initialamount = Integer.getInteger(et_money.getText().toString());
         String algoName = et_algoName.getText().toString();
         System.out.println("THE PARAMETERS ARE : " + p1 +" AND " + p2 + " AND "+buyingRuleName);
         String[] list = {p1,p2,buyingRuleName};
@@ -207,8 +207,8 @@ public class DisplayBackTestingResults extends Fragment {
         ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
         ArrayList<String> sellingrule = new ArrayList<String>(Arrays.asList(list2));
         AndroidThreeTen.init(getContext());
-        ZonedDateTime date = ZonedDateTime.now();
-        String start_date = (date.toString());
+        ZonedDateTime startZoned = ZonedDateTime.now();
+        String start_date = startZoned.toString();
         String end_date = null;
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date, algoName);

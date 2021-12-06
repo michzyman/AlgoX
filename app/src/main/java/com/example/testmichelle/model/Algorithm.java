@@ -2,6 +2,8 @@ package com.example.testmichelle.model;
 
 import android.hardware.lights.LightState;
 
+import org.threeten.bp.ZonedDateTime;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
 public class Algorithm {
     public boolean status;
     public String stockname;
-    public Integer currentbalance;
+    public Integer initialamount;
     public ArrayList<String> buyingrule;
     public ArrayList<String> sellingrule;
     public String start_date, end_date;
@@ -22,7 +24,7 @@ public class Algorithm {
                      ArrayList<String> buyingrule, ArrayList<String> sellingrule, String start_date, String end_date, String algoname) {
         this.status = status;
         this.stockname = stockname;
-        this.currentbalance = initialamount;
+        this.initialamount = initialamount;
         this.buyingrule = buyingrule;
         this.sellingrule = sellingrule;
         this.end_date = end_date;
@@ -39,10 +41,6 @@ public class Algorithm {
         return stockname;
     }
 
-    public Integer getCurrentbalance() {
-
-        return currentbalance;
-    }
 
     public ArrayList<String> getBuyingrule() {
 
@@ -81,9 +79,9 @@ public class Algorithm {
         this.stockname = stockname;
     }
 
-    public void setCurrentbalance(Integer initialamount) {
+    public void setInitialamount(Integer initialamount) {
 
-        this.currentbalance = initialamount;
+        this.initialamount = initialamount;
     }
 
     public void setBuyingrule(ArrayList<String> buyingrule) {
@@ -97,12 +95,16 @@ public class Algorithm {
     }
 
     public void setAlgoname(String name){
+
         this.algoname = name;
     }
 
     public void getAlgoname(String name){
+
         this.algoname = name;
     }
 
-
+    public void getInitialamount(Integer initialamount){
+        this.initialamount = initialamount;
+    }
 }

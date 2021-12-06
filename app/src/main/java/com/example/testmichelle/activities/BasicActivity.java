@@ -76,7 +76,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         makeCurrentFragment(homeFragment);
 
         // Load Data from Database and store variables in "algorithms"
-        getAlgorithmsFromDatabaseTest(); // getAlgorithmsFromDatabase();
+        getAlgorithmsFromDatabase(); // getAlgorithmsFromDatabase();
 
         // Load data from "algorithms", run them and variables it in "algorithmsRan"
         for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
@@ -149,7 +149,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                         ArrayList<Object> val = new ArrayList<Object>();
                         val.add(algorithm.buyingrule);
                         val.add(algorithm.sellingrule);
-                        val.add(algorithm.currentbalance);
+                        val.add(algorithm.initialamount);
                         val.add(algorithm.stockname);
                         val.add(algorithm.status);
                         val.add(algorithm.start_date);
@@ -172,7 +172,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
         ArrayList<String> buyingRule = new ArrayList<>(Arrays.asList("10", "7", "SMA"));
         ArrayList<String> sellingRule = new ArrayList<>(Arrays.asList("5", "10", "SMA"));
-        Integer currentBalance = 1500;
+        Integer initialAmount = 1500;
         String stockName = "AAPL";
         boolean status = true;
         String startDate = "09/01/2021";
@@ -181,7 +181,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         ArrayList<Object> val = new ArrayList<Object>();
         val.add(buyingRule);
         val.add(sellingRule);
-        val.add(currentBalance);
+        val.add(initialAmount);
         val.add(stockName);
         val.add(status);
         val.add(startDate);
@@ -223,10 +223,11 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
         ArrayList<String> buyingRuleList = (ArrayList<String>) entry.getValue().get(0);
         ArrayList<String> sellingRuleList = (ArrayList<String>) entry.getValue().get(1);
-        String currentBalance = (String) entry.getValue().get(2);
+        Integer initialAmount = (Integer) entry.getValue().get(2);
         String ticker = (String) entry.getValue().get(3);
         boolean isRunning = (boolean) entry.getValue().get(4);
-        ZonedDateTime startDate = (ZonedDateTime) entry.getValue().get(5);
+        String start = (String) entry.getValue().get(5);
+        ZonedDateTime startDate = ZonedDateTime.parse(start);
         String buyingRuleType = buyingRuleList.get(2);
         String sellingRuleType = sellingRuleList.get(2);
 
@@ -244,7 +245,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             endDate = ZonedDateTime.now();
         }
         else{
-            endDate = (ZonedDateTime) entry.getValue().get(6);
+            String end = (String) entry.getValue().get(6);
+            endDate = ZonedDateTime.parse(end);
+//            endDate = (ZonedDateTime) entry.getValue().get(6);
         }
 
         TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, startDate, endDate);
