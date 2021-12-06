@@ -96,11 +96,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
-//                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
-                amountWeStartedWith = money.getCurrentbalance();
-//                text_balance.setTextSize(24);
-//                text_balance.setGravity(Gravity.CENTER);
-//                text_balance.setVisibility(View.VISIBLE);
+                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
+            //    amountWeStartedWith = money.getCurrentbalance();
+                text_balance.setTextSize(24);
+                text_balance.setGravity(Gravity.CENTER);
+                text_balance.setVisibility(View.VISIBLE);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -108,11 +108,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         });
 
-        Double portfolioValue = getTotalPortfolioValue();
-        System.out.println("total portfolio value = " + portfolioValue);
-        System.out.println("Sum = " + (portfolioValue + amountWeStartedWith));
+//        Double portfolioValue = getTotalPortfolioValue();
+//        System.out.println("total portfolio value = " + portfolioValue);
+//        System.out.println("Sum = " + (portfolioValue + amountWeStartedWith));
+//        updateCurrentBalance(portfolioValue);
 
-        updateCurrentBalance(portfolioValue);
+        //text_balance.setText("BALANCEEEEEEE");
 
         text_cash = (TextView) view.findViewById(R.id.text_cash);
         text_cash.setVisibility(View.INVISIBLE);
