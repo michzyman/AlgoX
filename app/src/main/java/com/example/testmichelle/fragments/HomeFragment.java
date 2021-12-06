@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
-                text_cash.setText("Cash Remaining " + "\n" + "$"+ money.getCurrentbalance());
+                text_cash.setText("Cash Remaining " + "\n" + "$"+ money.getFreecash());
                 text_cash.setTextSize(24);
                 text_cash.setGravity(Gravity.CENTER);
                 text_cash.setVisibility(View.VISIBLE);

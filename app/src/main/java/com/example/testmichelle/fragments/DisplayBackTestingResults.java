@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,14 @@ import com.example.testmichelle.model.Algorithm;
 import com.example.testmichelle.model.UserMoney;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import org.ta4j.core.AnalysisCriterion;
 import org.ta4j.core.Rule;
@@ -74,6 +79,7 @@ public class DisplayBackTestingResults extends Fragment {
     String ticker;
 
     boolean algSet;
+    int amountToInvest;
 
     private FragmentListener FL;
 
@@ -146,8 +152,10 @@ public class DisplayBackTestingResults extends Fragment {
             public void onClick(View v) {
                 if(!et_money.getText().toString().equals("") && !et_algoName.getText().toString().equals("") && backTestingFragment.isNumeric(et_money.getText().toString())) {
                     if(!algSet) {
+                        amountToInvest = Integer.parseInt(et_money.getText().toString());
+//                        updateFreeCash();
                         algorithmToUse();
-                        FL.goToHome();
+                        FL.goToHistory();
                     }
                     else{
                         Toast.makeText(getContext(),"Algorithm was already set",Toast.LENGTH_LONG).show();
@@ -200,8 +208,9 @@ public class DisplayBackTestingResults extends Fragment {
     private void algorithmToUse() {
         boolean status = true;
         String stockname = ticker;
-        Integer initialamount = Integer.getInteger(et_money.getText().toString());
-        updateFreeCash();
+        Log.d("gettext.tostring", et_money.getText().toString());
+        Log.d("parse(gettext.tostring)", String.valueOf(Integer.parseInt(et_money.getText().toString())));
+        Integer initialamount = Integer.parseInt(et_money.getText().toString());
         String algoName = et_algoName.getText().toString();
         System.out.println("THE PARAMETERS ARE : " + p1 +" AND " + p2 + " AND "+buyingRuleName);
         String[] list = {p1,p2,buyingRuleName};
@@ -216,19 +225,42 @@ public class DisplayBackTestingResults extends Fragment {
         Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date, algoName);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReference.child(firebaseUser.getUid()).child("Algorithms").push().setValue(algorithm);
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserMoney money = snapshot.getValue(UserMoney.class);
+                Integer current_freecash = money.getFreecash();
+                databaseReference.child(firebaseUser.getUid()).child("freecash").setValue(current_freecash-amountToInvest);
+//                money.setFreecash(current_freecash-amountToInvest);
+                System.out.println(money.freecash + " should be " + (current_freecash-amountToInvest));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+//        UserMoney money = new UserMoney();
+//        Integer money1 = money.getFreecash();
+
+//        databaseReference.child(firebaseUser.getUid()).child("freecash").push().setValue()
         algSet = true;
-        et_money.setText("");
-        et_algoName.setText("");
+//        et_money.setText("");
+//        et_algoName.setText("");
     }
+
     private void updateFreeCash(){
         UserMoney userMoney = new UserMoney();
         Integer userFreeCash = userMoney.getFreecash();
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
-        databaseReference.child(firebaseUser.getUid()).child("freecash").setValue(userFreeCash-Integer.getInteger(et_money.getText().toString()));
+        System.out.println(userFreeCash);
+        userMoney.setFreecash(userFreeCash-amountToInvest);
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+//        assert firebaseUser != null;
+//        databaseReference.child(firebaseUser.getUid()).child("freecash").setValue(userFreeCash-amountToInvest);
 
 
 
     }
+
 }
