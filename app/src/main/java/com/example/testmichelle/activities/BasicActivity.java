@@ -37,20 +37,23 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class BasicActivity extends AppCompatActivity implements FragmentListener {
     FirebaseUser firebaseUser;
 
     // Key: Name of Algorithm
-    // Value: [String buyingrule, String sellingrule, String initialamount, String stockname, String startdate, String enddate, String status]
+    // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance, String stockname, String startdate, String enddate, String status]
+    // ArrayList buyingrule / sellingrule: [par1, par2, type]
     public static HashMap<String, ArrayList<Object>> algorithms = new HashMap<String, ArrayList<Object>>();
 
     // Key: Name of Algorithm
-    // Value: [TimeSeries series, TradingRecord record, String Ticker, ZonedDateTime Start, ZonedDateTime end]
+    // Value: [TimeSeries series, TradingRecord record, String Ticker, ZonedDateTime start, ZonedDateTime end]
     public static HashMap<String, ArrayList<Object>> algorithmsRan = new HashMap<String, ArrayList<Object>>();
 
     private DisplayBackTestingResults backTestingResults;
@@ -72,8 +75,12 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         moreInfoFragment = new MoreInfoFragment();
         makeCurrentFragment(homeFragment);
 
-        getAlgorithmsFromDatabase();
+        // Load Data from Database and store variables in "algorithms"
+        getAlgorithmsFromDatabaseTest(); // getAlgorithmsFromDatabase();
+
+        // Load data from "algorithms", run them and variables it in "algorithmsRan"
         for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
+            // callAPItoUpdateAlgorithm(entry);
             callAPItoUpdateAlgorithm(entry);
         }
 
@@ -160,6 +167,28 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             });
     }
 
+    public void getAlgorithmsFromDatabaseTest() {
+        // Value: [ArrayList buyingrule, ArrayList sellingrule, String currentbalance, String stockname, String startdate, String enddate, String status]
+
+        ArrayList<String> buyingRule = new ArrayList<>(Arrays.asList("10", "7", "SMA"));
+        ArrayList<String> sellingRule = new ArrayList<>(Arrays.asList("5", "10", "SMA"));
+        Integer currentBalance = 1500;
+        String stockName = "AAPL";
+        boolean status = true;
+        String startDate = "09/01/2021";
+        String endDate = "null";
+
+        ArrayList<Object> val = new ArrayList<Object>();
+        val.add(buyingRule);
+        val.add(sellingRule);
+        val.add(currentBalance);
+        val.add(stockName);
+        val.add(status);
+        val.add(startDate);
+        val.add(startDate);
+        algorithms.put("Algo1",val); // KEY --> NAME OF ALG
+
+    }
 
     public void callAPItoUpdateAlgorithm(Map.Entry<String, ArrayList<Object>> entry) {
         String ticker = (String) entry.getValue().get(3);
@@ -167,6 +196,22 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         BasicActivity thisObj = this;
         YahooFinance.basicActivityRequestChart(ticker, context, thisObj, entry);
     }
+
+    public void callAPItoUpdateAlgorithmTest(Map.Entry<String, ArrayList<Object>> entry) {
+        String ticker = (String) entry.getValue().get(3);
+        Context context = getApplicationContext();
+        BasicActivity thisObj = this;
+
+        Random rd = new Random();
+        double[][] data = new double[100][5];
+        for(int r = 0; r < data.length; r++) {
+            for(int c = 0; c < data[0].length ; c++){
+                data[r][c] = rd.nextDouble()*1000;
+            }
+        }
+        updateAlgorithms(entry, data);
+    }
+
 
     /**
      * Takes in hashmap entry and data (from api call), and updates the corresponding entry
@@ -182,7 +227,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         String ticker = (String) entry.getValue().get(3);
         boolean isRunning = (boolean) entry.getValue().get(4);
         ZonedDateTime startDate = (ZonedDateTime) entry.getValue().get(5);
-
         String buyingRuleType = buyingRuleList.get(2);
         String sellingRuleType = sellingRuleList.get(2);
 
