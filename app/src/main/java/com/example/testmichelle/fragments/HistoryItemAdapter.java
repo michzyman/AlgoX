@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class HistoryItemAdapter extends RecyclerView.Adapter<HistoryItemAdapter.ViewHolder> {
@@ -64,6 +66,7 @@ public class HistoryItemAdapter extends RecyclerView.Adapter<HistoryItemAdapter.
     @Override
     public void onBindViewHolder(HistoryItemAdapter.ViewHolder holder, int position) {
         // Get the data model based on position
+        // dataitem is of the format: [Algoname, Ticker, Buy/Sell, Amount, Price, Date]
         ArrayList<Object> dataItem = historyData.get(position);
 
         // Set item views based on your views and data model
@@ -73,11 +76,19 @@ public class HistoryItemAdapter extends RecyclerView.Adapter<HistoryItemAdapter.
         TextView history_transactiontype = holder.history_transactiontype;
         history_transactiontype.setText(dataItem.get(2).toString());
 
+        NumberFormat formatter = new DecimalFormat("#0.00");
         TextView history_amount = holder.history_amount;
-        history_amount.setText(dataItem.get(3).toString());
+        history_amount.setText(formatter.format(dataItem.get(4))); // this actually sets the price, lol
 
         TextView history_date = holder.history_date;
-        history_date.setText(dataItem.get(5).toString());
+        String dateStr = dataItem.get(5).toString();
+        int indexEndDate = dateStr.indexOf("T");
+        int indexEndTime = dateStr.indexOf(".");
+        if (indexEndDate !=-1 && indexEndTime != -1 ) {
+            history_date.setText(dateStr.substring(0, indexEndDate) + ", " + dateStr.substring(indexEndDate + 1, indexEndTime));
+        } else{
+            history_date.setText(dataItem.get(5).toString());
+        }
 
         TextView history_algorithm = holder.history_algorithm;
         history_algorithm.setText(dataItem.get(0).toString());
