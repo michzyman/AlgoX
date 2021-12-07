@@ -121,9 +121,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         });
 
         graphAlgorithms = (GraphView) view.findViewById(R.id.graphAlgorithms);
+        graphAlgorithms.setVisibility(View.INVISIBLE);
+
         text_algorithm_results = (TextView) view.findViewById(R.id.text_algorithm_results);
+        text_algorithm_results.setVisibility(View.INVISIBLE);
         text_buying_rule = (TextView) view.findViewById(R.id.text_buying_rule);
+        text_buying_rule.setVisibility(View.INVISIBLE);
         text_selling_rule = (TextView) view.findViewById(R.id.text_selling_rule);
+        text_selling_rule.setVisibility(View.INVISIBLE);
         SpinnerOfAlgorithms = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
         if (Algorithms != null) {
             if (!Algorithms.isEmpty()){
@@ -193,6 +198,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         series.setColor(getResources().getColor(R.color.green));
         series.setThickness(10);
         graphAlgorithms.addSeries(series);
+        graphAlgorithms.setVisibility(View.VISIBLE);
         graphAlgorithms.setTitle(Algorithm + "'s performance so far");
     }
 
@@ -229,17 +235,21 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         resultText += "Profit: " + Math.round(profit * 100.0) / 100.0 + "\n";
         text_buying_rule.setText(buyingRuleText);
         text_buying_rule.setTextSize(13);
+        text_buying_rule.setVisibility(View.VISIBLE);
 
         text_selling_rule.setText(sellingRuleText);
         text_selling_rule.setTextSize(13);
+        text_selling_rule.setVisibility(View.VISIBLE);
+
         text_algorithm_results.setText(resultText);
         text_algorithm_results.setTextSize(13);
+        text_algorithm_results.setVisibility(View.VISIBLE);
     }
 
     public String generateStringForAlgorithmText(String rule, String Algorithmtype, String par1, String par2){
         String result = rule + ": " + Algorithmtype + "\n";
         if (Algorithmtype.equals("Price Above")  || Algorithmtype.equals("Price Below")){
-            result += "Cuteoff: " + par1;
+            result += "Cutoff: " + par1;
         } else if (Algorithmtype.equals("SMA")  || Algorithmtype.equals("EMA")){
             result += "Duration 1: " + par1 + "\n";
             result += "Duration 2: " + par2 + "\n";
@@ -308,7 +318,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             return finalList;
         } else {
-            return new ArrayList<>();
+            ArrayList defaultList = new ArrayList();
+            Double startingValue = ((Integer) Algorithms.get(algorithmName).get(2)).doubleValue();
+            defaultList.add(startingValue);
+            return defaultList;
         }
     }
 

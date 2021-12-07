@@ -256,7 +256,7 @@ public class YahooFinance {
         // Build URL
         String url = "https://yfapi.net/v8/finance/chart/";
         url = url + ticker + "?";               //add ticker
-        url = url + "range=" + "3mo";           //add range
+        url = url + "range=" + "1y";           //add range
         url = url + "&region=US";               //add region
         url = url + "&interval=" + "1d";    //add sampling interval
         url = url + "&lang=en";                 //add language

@@ -66,6 +66,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        algorithms = new HashMap<String,ArrayList<Object>>();
+        algorithmsRan = new HashMap<String,ArrayList<Object>>();
+
         setContentView(R.layout.activity_basic);
 
 /*-------------------FRAGMENTS - BOTTON NAV ----------------------------*/
@@ -116,7 +119,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             }
         });
 
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(8000, 1000) {
             public void onFinish() {
                 homeFragment = new HomeFragment();
                 makeCurrentFragment(homeFragment);
@@ -350,7 +353,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         catch (Exception e){
             e.printStackTrace();
         }
-        switch(buyingRuleType){
+
+        try {
+            switch (buyingRuleType) {
                 case "Price Above":
                     buying_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par1));
                     break;
@@ -364,15 +369,15 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                     buying_rule = TechnicalAnalysis.EMARule(Integer.parseInt(par1), Integer.parseInt(par2));
                     break;
                 case "Rising":
-                    buying_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par1), Integer.parseInt(par2));
+                    buying_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par1), Double.parseDouble(par2));
                     break;
                 case "Falling":
-                    buying_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par1), Integer.parseInt(par2));
+                    buying_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par1), Double.parseDouble(par2));
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + buyingRuleType);
             }
-            switch(sellingRuleType){
+            switch (sellingRuleType) {
                 case "Price Above":
                     selling_rule = TechnicalAnalysis.triggerAbove(Double.parseDouble(par3));
                     break;
@@ -386,10 +391,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                     selling_rule = TechnicalAnalysis.EMARule(Integer.parseInt(par3), Integer.parseInt(par4));
                     break;
                 case "Rising":
-                    selling_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par3), Integer.parseInt(par4));
+                    selling_rule = TechnicalAnalysis.risingRule(Integer.parseInt(par3), Double.parseDouble(par4));
                     break;
                 case "Falling":
-                    selling_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par3), Integer.parseInt(par4));
+                    selling_rule = TechnicalAnalysis.fallingRule(Integer.parseInt(par3), Double.parseDouble(par4));
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + sellingRuleType);
@@ -402,8 +407,12 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             ran.add(TechnicalAnalysis.series);
             ran.add(ticker);
 
-            algorithmsRan.put(entry.getKey(),ran);
+            algorithmsRan.put(entry.getKey(), ran);
             System.out.println("ALGORITHMS RAN! " + entry.getKey());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void passDataToHomeFragment() {
