@@ -189,6 +189,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void graphAlgorithm(String Algorithm){
         ArrayList<Double> stockPrices = createListOfAlgorithmValues(Algorithm);
+        System.out.println("STOCK PRICES: " + stockPrices.toString());
         System.out.println("SIZE: " + stockPrices.size());
         graphAlgorithms.removeAllSeries();
         String startDateString = (String) Algorithms.get(Algorithm).get(5);
