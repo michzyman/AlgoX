@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:layout_marginBottom="4dp"
-        android:text="run"
+        android:text="@string/run"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.718"
@@ -28,15 +28,17 @@
         android:id="@+id/et_p2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.648"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_p1"
-        tools:fontFamily="@font/pt_sans" />
+        tools:fontFamily="@font/pt_sans"
+        tools:ignore="LabelFor" />
 
     <Spinner
         android:id="@+id/dropdown_buy"
@@ -53,7 +55,7 @@
 
     <EditText
         android:id="@+id/et_p1"
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:ems="10"
@@ -87,7 +89,7 @@
             android:layout_marginStart="2dp"
             android:layout_marginEnd="2dp"
             android:fontFamily="@font/pt_sans"
-            android:text="Select Text View"
+            android:text="@string/textview"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -106,6 +108,7 @@
         android:layout_marginTop="28dp"
         android:fontFamily="@font/pt_sans"
         android:textColor="?android:attr/textColorSecondary"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_p2"
@@ -117,6 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:textColor="?android:attr/textColorSecondary"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout19"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.126"
@@ -154,7 +158,7 @@
             android:id="@+id/tv_select2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Select Text View"
+            android:text="@string/textview"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -190,6 +194,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
         android:layout_marginBottom="104dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.664"
@@ -204,6 +209,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="59dp"
         android:textColor="?android:attr/textColorSecondary"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/dropdown_days"
         app:layout_constraintTop_toTopOf="parent"
@@ -224,7 +230,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.884"
         tools:fontFamily="@font/pt_sans"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/et_p4"
@@ -239,7 +245,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_p3"
         tools:fontFamily="@font/pt_sans"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/et_p3"
@@ -255,7 +262,8 @@
         app:layout_constraintEnd_toEndOf="@+id/dropdown_sell"
         app:layout_constraintStart_toStartOf="@+id/tv_p3"
         app:layout_constraintTop_toBottomOf="@+id/dropdown_sell"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/tv_p3"
@@ -263,6 +271,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:textColor="?android:attr/textColorSecondary"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_p4"
@@ -275,6 +284,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textColor="?android:attr/textColorSecondary"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.126"
@@ -301,7 +311,7 @@
             android:id="@+id/tv_etc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Select Text View"
+            android:text="@string/textview"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -316,8 +326,8 @@
     <Button
         android:id="@+id/btnToMoreInfoPage"
         android:layout_width="122dp"
-        android:layout_height="47dp"
-        android:text="More Info"
+        android:layout_height="48dp"
+        android:text="@string/more_info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.221"

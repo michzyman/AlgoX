@@ -7,8 +7,8 @@
 
     <TextView
         android:id="@+id/tv_canceltext"
-        android:layout_width="268dp"
-        android:layout_height="139dp"
+        android:layout_width="389dp"
+        android:layout_height="50dp"
         android:layout_marginTop="192dp"
         android:fontFamily="@font/pt_sans"
         android:text="@string/cancel_text_view"
