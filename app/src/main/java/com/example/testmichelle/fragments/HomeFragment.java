@@ -22,6 +22,7 @@ import com.example.testmichelle.R;
 import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.activities.BasicActivity;
 import com.example.testmichelle.activities.cancelAlgorithmPopUp;
+import com.example.testmichelle.model.Algorithm;
 import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +39,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
+import org.threeten.bp.ZonedDateTime;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -140,9 +143,31 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btnCancelAlgorithm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), cancelAlgorithmPopUp.class);
-                intent.putExtra("algorithmName", SpinnerOfAlgorithms.getSelectedItem().toString());
-                startActivity(intent);
+                String algoToCancel = SpinnerOfAlgorithms.getSelectedItem().toString();
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users").child(firebaseUser.getUid()).child("Algorithms");
+                databaseReference.orderByChild("algoname").equalTo(algoToCancel).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Algorithm algo = child.getValue(Algorithm.class);
+                            boolean currently = algo.status;
+                            if(currently) {
+                                Intent intent = new Intent(getContext(), cancelAlgorithmPopUp.class);
+                                intent.putExtra("algorithmName", SpinnerOfAlgorithms.getSelectedItem().toString());
+                                startActivity(intent);
+                            }
+                            else{
+                                Toast.makeText(getContext(), "This algorithm was already canceled",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
         return view;
