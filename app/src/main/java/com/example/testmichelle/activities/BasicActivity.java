@@ -69,8 +69,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         setContentView(R.layout.activity_basic);
 
 /*-------------------FRAGMENTS - BOTTON NAV ----------------------------*/
-
-
         homeFragment = new HomeFragment();
         transactionFragment = new TransactionFragment();
         historyFragment = new HistoryFragment();
@@ -81,6 +79,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
         loadingFragment = new LoadingScreenFragment();
         makeCurrentFragment(loadingFragment);
+        YahooFinance.initRequestQueue(this);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReference.child(firebaseUser.getUid()).child("Algorithms").addValueEventListener(new ValueEventListener() {
