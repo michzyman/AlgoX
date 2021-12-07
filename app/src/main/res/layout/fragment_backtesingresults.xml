@@ -150,14 +150,14 @@
             android:layout_marginStart="24dp"
             android:ems="10"
             android:fontFamily="@font/pt_sans"
+            android:hint="@string/amount"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
-            android:text="@string/amount"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            android:importantForAutofill="no"
             tools:ignore="LabelFor" />
 
         <EditText
@@ -167,15 +167,15 @@
             android:layout_marginStart="20dp"
             android:ems="10"
             android:fontFamily="@font/pt_sans"
+            android:hint="@string/algo_name"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
-            android:text="@string/algo_name"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/et_money"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            android:importantForAutofill="no"
             tools:ignore="LabelFor" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
