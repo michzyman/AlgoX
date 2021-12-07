@@ -332,13 +332,13 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         Rule selling_rule;
 
 
+        ZonedDateTime startDate;
+        ZonedDateTime endDate;
         try {
             String start = (String) entry.getValue().get(5);
-            ZonedDateTime startDate = ZonedDateTime.parse(start);
+            startDate = ZonedDateTime.parse(start);
             System.out.println("got the start date: "+ startDate.toString());
 
-
-            ZonedDateTime endDate;
             if(isRunning) {
                 endDate = ZonedDateTime.now();
                 System.out.println("got the end date: "+ endDate.toString());
@@ -352,11 +352,13 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
             System.out.println("ok got all the data for " + entry.getKey());
         } catch (Exception e) {
+            startDate = null;
+            endDate = null;
             System.out.println("EXCEPTION");
             e.printStackTrace();
         }
 
-        ZonedDateTime fakeStart = ZonedDateTime.now().minusDays(30);
+        ZonedDateTime fakeStart = ZonedDateTime.now();
         ZonedDateTime fakeEnd = ZonedDateTime.now();
 
 
@@ -364,7 +366,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             System.out.println("trying to load data from basic activity");
 
             // TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, ZonedDateTime.now().minusMonths(1), ZonedDateTime.now());
-            TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, fakeStart, fakeEnd);
+            TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, startDate, endDate);
         }
         catch (Exception e){
             e.printStackTrace();

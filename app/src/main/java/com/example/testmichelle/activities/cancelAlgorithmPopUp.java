@@ -71,7 +71,7 @@ public class cancelAlgorithmPopUp extends AppCompatActivity {
 //                            if(currently) {
                                 databaseReference.child(idToCancel).child("status").setValue(false);
                                 String ending = String.valueOf(ZonedDateTime.now());
-                                databaseReference.child(idToCancel).child("endDate").setValue(ending);
+                                databaseReference.child(idToCancel).child("end_date").setValue(ending);
 //                            }
 //                            else{
 //                                Toast.makeText(getApplicationContext(), "This algorithm was already canceled",Toast.LENGTH_LONG).show();
