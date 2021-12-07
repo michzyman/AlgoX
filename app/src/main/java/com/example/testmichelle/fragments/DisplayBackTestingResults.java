@@ -43,6 +43,8 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.temporal.TemporalAccessor;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -113,7 +115,7 @@ public class DisplayBackTestingResults extends Fragment {
         Integer tradeCount = tradingRecord.getTradeCount();
         String tradeCountString = tradeCount.toString();
         String response = "In total, " + tradeCountString + " trades were made by your algorithm.\n"+
-                "\nIf you would like to use this algorithm on this stock, enter the amount to invest below.";
+                "If you would like to use this algorithm on this stock, enter the amount to invest below.";
         tv_algo.setText(response);
 
         btn_useAlg.setText("SET ALGORITHM!");
@@ -121,20 +123,26 @@ public class DisplayBackTestingResults extends Fragment {
 
         btn_newAlg.setText("Go back");
 
+        NumberFormat formatter = new DecimalFormat("#0.00");
+
         tradingRecord.getTrades();
         // Getting the number of profitable trades
         AnalysisCriterion profitTradesRatio = new AverageProfitableTradesCriterion();
         profit_trades_ratio = profitTradesRatio.calculate(series, tradingRecord);
+
         // Getting the average profit
         AnalysisCriterion averageProfit = new AverageProfitCriterion();
         avgProfit = averageProfit.calculate(series, tradingRecord);
+
         // Getting the total profit
         AnalysisCriterion totalProfit = new TotalProfitCriterion();
         totProfit = totalProfit.calculate(series,tradingRecord);
+        totProfit = (totProfit - 1) * 100;
 
         // Getting the reward-risk ratio
         AnalysisCriterion rewardRiskRatio = new RewardRiskRatioCriterion();
         reward_risk_ratio= rewardRiskRatio.calculate(series, tradingRecord);
+
 
         // Getting the maximum drawdown ratio
         AnalysisCriterion maxDrawdown = new MaximumDrawdownCriterion();
@@ -144,11 +152,12 @@ public class DisplayBackTestingResults extends Fragment {
         // vs total profit of a buy-and-hold strategy
         AnalysisCriterion vsBuyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
         buy_hold = vsBuyAndHold.calculate(series, tradingRecord);
+        buy_hold = buy_hold * 100;
 
-        tvResults.setText(Double.toString(round(totProfit)));
-        tvResults2.setText(Double.toString(round(reward_risk_ratio)));
-        tvResults3.setText(Double.toString(round(buy_hold)));
-        tvResults4.setText(Double.toString(round(profit_trades_ratio)));
+        tvResults.setText(formatter.format(totProfit) + "%");
+        tvResults2.setText(formatter.format(reward_risk_ratio));
+        tvResults3.setText(formatter.format(buy_hold) + "%");
+        tvResults4.setText(formatter.format(profit_trades_ratio));
 
         btn_useAlg.setOnClickListener(new View.OnClickListener() {
             @Override

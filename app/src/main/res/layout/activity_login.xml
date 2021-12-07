@@ -35,10 +35,11 @@
         android:id="@+id/edt_Email"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:autofillHints=""
         android:backgroundTint="#A1A1A1"
         android:ems="10"
         android:fontFamily="@font/pt_sans"
-        android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:textColor="@color/black"
@@ -46,8 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:background="#ACABAB"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck,TextContrastCheck,TextContrastCheck" />
 
     <EditText
         android:id="@+id/edt_Password"
@@ -56,13 +56,13 @@
         android:layout_marginTop="28dp"
         android:ems="10"
         android:fontFamily="@font/pt_sans"
-        android:hint="@string/password"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_Email"
-        tools:background="#A1A1A1" />
+        tools:backgroundTint="#A1A1A1"
+        android:hint="@string/password"/>
 
     <ImageView
         android:id="@+id/imageView"
@@ -70,6 +70,7 @@
         android:layout_height="544dp"
         android:layout_marginTop="74dp"
         android:layout_marginBottom="68dp"
+        android:contentDescription="@string/todo"
         app:layout_constraintBottom_toTopOf="@+id/edt_Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.336"
