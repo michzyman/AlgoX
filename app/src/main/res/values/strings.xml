@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">AlgoX</string>
     <string name="signin">SignIn</string>
     <string name="email">Email</string>
@@ -12,7 +12,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="full_name">Full Name</string>
-    <string name="buy">Buy</string>
     <string name="sell">Sell</string>
 
     <string name="esgData">
@@ -89,9 +88,32 @@
     <string name="enhance_your_future">Enhance Your Future</string>
     <string name="clickbutton">ClickButton</string>
     <string name="balance">Balance</string>
-    <string name="run">run</string>
     <string name="select_text_view">Select Text View</string>
     <string name="last_name">Last Name</string>
     <string name="logo">logo</string>
     <string name="todo">TODO</string>
+    <string name="algoingo">AlgoInfo</string>
+    <string name="first_name">First Name</string>
+    <string name="profitable_trades_ratio">Profitable Trades Ratio</string>
+    <string name="reward_risk">Reward/Risk</string>
+    <string name="profit">Profit</string>
+    <string name="profitable">Profitable</string>
+    <string name="buy_hold">Buy/Hold</string>
+    <string name="textview">TextView</string>
+    <string name="amount">Amount</string>
+    <string name="algo_name">Algo Name</string>
+    <string name="total_profit">Total Profit</string>
+    <string name="reward_risk_ratio">Reward/Risk Ratio</string>
+    <string name="run">run</string>
+    <string name="more_info">More Info</string>
+    <string name="cancel_algorithm">Cancel Algorithm</string>
+    <string name="loading_screen_text">Cooking up some se y algorithms</string>
+    <string name="stock">Stock: </string>
+    <string name="stockName">stockName</string>
+    <string name="algoName">algoName</string>
+    <string name="algorithm">Algorithm: </string>
+    <string name="date">Date: </string>
+    <string name="price">Price: </string>
+    <string name="buy">Buy</string>
+    <string name="transaction_type">Transaction Type: </string>
 </resources>
