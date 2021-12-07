@@ -179,7 +179,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public String formatLabel(double value, boolean isValueX){
                 if(isValueX){
-                    return Double.toString(value);
+                    return "";
                 } else {
                     return "$" + (Math.round(value * 100.0) / 100.0);
                 }
