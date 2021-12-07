@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -76,10 +75,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         transactionFragment = new TransactionFragment();
         historyFragment = new HistoryFragment();
         accountFragment = new AccountFragment();
-
         backTestingFragment = new backTestingFragment();
         backTestingResults = new DisplayBackTestingResults();
-
         loadingFragment = new LoadingScreenFragment();
         makeCurrentFragment(loadingFragment);
         YahooFinance.initRequestQueue(this);

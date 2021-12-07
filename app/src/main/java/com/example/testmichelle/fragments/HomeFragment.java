@@ -39,6 +39,7 @@ import org.ta4j.core.TradingRecord;
 import org.threeten.bp.ZonedDateTime;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,10 +82,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserProfile name = snapshot.getValue(UserProfile.class);
-                text_name.setText("Hello," +" "+ name.getName());
+                text_name.setText("Hello," + " " + name.getName());
                 text_name.setTextSize(34);
                 text_name.setVisibility(View.VISIBLE);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -92,7 +94,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         });
         FL.passDataToHomeFragment();
         text_balance = (TextView) view.findViewById(R.id.text_balance);
-        text_balance.setText("Portfolio Value " + "\n" + "$"+ getTotalPortfolioValue());
+        text_balance.setText("Portfolio Value " + "\n" + "$" + getTotalPortfolioValue());
         text_balance.setTextSize(20);
         text_balance.setGravity(Gravity.CENTER);
         text_balance.setVisibility(View.VISIBLE);
@@ -116,8 +118,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 text_cash.setGravity(Gravity.CENTER);
                 text_cash.setVisibility(View.VISIBLE);
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
 
         graphAlgorithms = (GraphView) view.findViewById(R.id.graphAlgorithms);
@@ -131,9 +135,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         text_selling_rule.setVisibility(View.INVISIBLE);
         SpinnerOfAlgorithms = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
         if (Algorithms != null) {
-            if (!Algorithms.isEmpty()){
+            if (!Algorithms.isEmpty()) {
                 ArrayList<String> SpinnerValues = new ArrayList<String>();
-                for(String key: Algorithms.keySet()){
+                for (String key : Algorithms.keySet()) {
                     SpinnerValues.add(key);
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, SpinnerValues);
@@ -155,13 +159,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             Algorithm algo = child.getValue(Algorithm.class);
                             boolean currently = algo.status;
-                            if(currently) {
+                            if (currently) {
                                 Intent intent = new Intent(getContext(), cancelAlgorithmPopUp.class);
                                 intent.putExtra("algorithmName", SpinnerOfAlgorithms.getSelectedItem().toString());
                                 startActivity(intent);
-                            }
-                            else{
-                                Toast.makeText(getContext(), "This algorithm was already canceled",Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getContext(), "This algorithm was already canceled", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -176,15 +179,33 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return view;
     }
 
+    public String ZonedDateTimetoString(ZonedDateTime date){
+        String result = "";
+        result += date.getMonth().getValue() + "/";
+        result += date.getDayOfMonth() + "/";
+        result += date.getYear();
+        return result;
+    }
+
     public void graphAlgorithm(String Algorithm){
         ArrayList<Double> stockPrices = createListOfAlgorithmValues(Algorithm);
         System.out.println("SIZE: " + stockPrices.size());
         graphAlgorithms.removeAllSeries();
+        String startDateString = (String) Algorithms.get(Algorithm).get(5);
+        ZonedDateTime startDate = ZonedDateTime.parse(startDateString);
+        final Boolean[] print = {true};
         graphAlgorithms.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
             @Override
             public String formatLabel(double value, boolean isValueX){
                 if(isValueX){
-                    return "";
+                    String date = ZonedDateTimetoString(startDate.plusDays(Double.valueOf(value).longValue()));
+                    if(print[0]){
+                        print[0] = false;
+                        return date;
+                    } else {
+                        print[0] = true;
+                        return "";
+                    }
                 } else {
                     return "$" + (Math.round(value * 100.0) / 100.0);
                 }
