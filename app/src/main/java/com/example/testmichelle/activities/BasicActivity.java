@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,7 +49,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class BasicActivity extends AppCompatActivity implements FragmentListener {
     FirebaseUser firebaseUser;
@@ -82,17 +79,13 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         setContentView(R.layout.activity_basic);
 
 /*-------------------FRAGMENTS - BOTTON NAV ----------------------------*/
-
-
         homeFragment = new HomeFragment();
         transactionFragment = new TransactionFragment();
         historyFragment = new HistoryFragment();
         accountFragment = new AccountFragment();
-
         backTestingFragment = new backTestingFragment();
         backTestingResults = new DisplayBackTestingResults();
         moreInfoFragment = new MoreInfoFragment();
-
         loadingFragment = new LoadingScreenFragment();
         makeCurrentFragment(loadingFragment);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
