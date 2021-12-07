@@ -244,45 +244,49 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
         ArrayList algorithmData = AlgorithmsRan.get(algorithmName);
-        TimeSeries series = (TimeSeries) algorithmData.get(1);
-        TradingRecord tradingRecord = (TradingRecord) algorithmData.get(0);
-        String ticker = (String) algorithmData.get(2);
+        if (algorithmData!=null) {
+            TimeSeries series = (TimeSeries) algorithmData.get(1);
+            TradingRecord tradingRecord = (TradingRecord) algorithmData.get(0);
+            String ticker = (String) algorithmData.get(2);
 
-        ArrayList<Double> resultingList = new ArrayList<Double>();
+            ArrayList<Double> resultingList = new ArrayList<Double>();
 
-        for (int i = 0; i < series.getBarCount(); i++) {
-            resultingList.add(1.);
-        }
-
-        for (Trade trade : tradingRecord.getTrades()) {
-            int entryIndex = trade.getEntry().getIndex();
-            int exitIndex = trade.getExit().getIndex();
-
-            double result;
-            if (trade.getEntry().isBuy()) {
-                // buy-then-sell trade
-                result = series.getBar(exitIndex).getClosePrice().dividedBy(series.getBar(entryIndex).getClosePrice()).doubleValue();
-            } else {
-                // sell-then-buy trade
-                result = series.getBar(entryIndex).getClosePrice().dividedBy(series.getBar(exitIndex).getClosePrice()).doubleValue();
+            for (int i = 0; i < series.getBarCount(); i++) {
+                resultingList.add(1.);
             }
 
-            resultingList.set(exitIndex, result);
-        }
+            for (Trade trade : tradingRecord.getTrades()) {
+                int entryIndex = trade.getEntry().getIndex();
+                int exitIndex = trade.getExit().getIndex();
 
-        Double startingValue = ((Integer) Algorithms.get(algorithmName).get(2)).doubleValue();
+                double result;
+                if (trade.getEntry().isBuy()) {
+                    // buy-then-sell trade
+                    result = series.getBar(exitIndex).getClosePrice().dividedBy(series.getBar(entryIndex).getClosePrice()).doubleValue();
+                } else {
+                    // sell-then-buy trade
+                    result = series.getBar(entryIndex).getClosePrice().dividedBy(series.getBar(exitIndex).getClosePrice()).doubleValue();
+                }
 
-        ArrayList<Double> finalList = new ArrayList<Double>();
-        if (resultingList.size() == 0 || resultingList.size() == 1) {
-            finalList.add(startingValue);
+                resultingList.set(exitIndex, result);
+            }
+
+            Double startingValue = ((Integer) Algorithms.get(algorithmName).get(2)).doubleValue();
+
+            ArrayList<Double> finalList = new ArrayList<Double>();
+            if (resultingList.size() == 0 || resultingList.size() == 1) {
+                finalList.add(startingValue);
+                return finalList;
+            }
+
+            for (int i = 0; i < resultingList.size(); i++) {
+                startingValue *= resultingList.get(i);
+                finalList.add(startingValue);
+            }
             return finalList;
+        } else {
+            return new ArrayList<>();
         }
-
-        for (int i = 0; i < resultingList.size(); i++) {
-            startingValue *= resultingList.get(i);
-            finalList.add(startingValue);
-        }
-        return finalList;
     }
 
     public Double getTotalPortfolioValue() {

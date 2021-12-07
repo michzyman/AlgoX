@@ -290,6 +290,7 @@ public class YahooFinance {
                                 finalData[i] = row;
                             }
                             /** MAKE DELIS CALL USING FINALDATA */
+                            System.out.println("getting prices & updating ;)");
                             Log.d("getprices", Arrays.deepToString(finalData));
                             callbackObject.updateAlgorithms(entry, finalData);
                         } catch (Exception e) {

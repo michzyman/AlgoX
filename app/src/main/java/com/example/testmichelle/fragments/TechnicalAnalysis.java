@@ -68,6 +68,7 @@ public class TechnicalAnalysis {
     }
 
     public static TradingRecord triggerTa4j(Rule buying, Rule selling){
+        Log.i("TA4J","Creating trading record");
         // Getting the close price of the ticks
         Num firstClosePrice = series.getBar(0).getClosePrice();
         returnClosePrice(firstClosePrice);
@@ -124,6 +125,7 @@ public class TechnicalAnalysis {
     }
 
     public static void loadData(String ticker, Context context, double[][] data, ZonedDateTime startDate, ZonedDateTime endDate) {
+        System.out.println("loading data");
         // Initiate the android three ten library to get the context for zoned date time
         AndroidThreeTen.init(context);
 
@@ -136,6 +138,7 @@ public class TechnicalAnalysis {
                 break;
             }
         }
+        Log.i("TA4J","making the series");
     }
 
     // RUN A STRATEGY
