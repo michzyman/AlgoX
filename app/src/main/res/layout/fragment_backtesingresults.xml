@@ -9,96 +9,87 @@
         android:id="@+id/tv_profitableTrades"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="3dp"
         android:text="Profitable Trades Ratio"
         android:textAlignment="center"
         android:textColor="?android:attr/textColorHint"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvResults3"
-        app:layout_constraintTop_toBottomOf="@+id/tvResults3" />
+        app:layout_constraintStart_toStartOf="@+id/tvResults4"
+        app:layout_constraintTop_toBottomOf="@+id/tvResults4" />
 
     <TextView
         android:id="@+id/tv_buyHold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="65dp"
-        android:layout_marginEnd="94dp"
-        android:layout_marginBottom="50dp"
-        android:text="Buy/Hold"
+        android:layout_marginStart="4dp"
+        android:text="Total Profit - Stock Price Change"
         android:textAlignment="center"
         android:textColor="?android:attr/textColorHint"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintEnd_toStartOf="@+id/tvResults4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_profit" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_profitableTrades"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvResults2"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="22dp"
         android:layout_marginEnd="16dp"
         android:text="Reward/Risk"
         android:textAlignment="center"
         android:textColor="#83B385"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvResults"
+        app:layout_constraintBottom_toTopOf="@+id/tv_rewardRiskRatio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_profit"
-        app:layout_constraintTop_toTopOf="@+id/tvResults" />
+        app:layout_constraintStart_toEndOf="@+id/tvResults" />
 
     <TextView
         android:id="@+id/tvResults"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="59dp"
+        android:layout_height="90dp"
+        android:layout_marginBottom="1dp"
         android:text="Profit"
         android:textAlignment="center"
         android:textColor="#83B385"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_rewardRiskRatio"
-        app:layout_constraintEnd_toStartOf="@+id/tv_rewardRiskRatio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvResults2"
+        app:layout_constraintEnd_toEndOf="@+id/tvResults3"
+        app:layout_constraintStart_toStartOf="@+id/tvResults3" />
 
     <TextView
         android:id="@+id/tvResults4"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="17dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="36dp"
         android:text="Profitable "
         android:textAlignment="center"
         android:textColor="#83B385"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_buyHold"
-        app:layout_constraintTop_toBottomOf="@+id/tv_rewardRiskRatio" />
+        app:layout_constraintStart_toStartOf="@+id/tvResults2"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvResults3"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="41dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="11dp"
         android:text="Buy/Hold"
         android:textAlignment="center"
         android:textColor="#83B385"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_profitableTrades"
-        app:layout_constraintEnd_toStartOf="@+id/tv_profitableTrades"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_rewardRiskRatio" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_buyHold"
+        app:layout_constraintStart_toStartOf="@+id/tv_buyHold"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="144dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="21dp"
+        android:layout_marginBottom="19dp"
         app:layout_constraintBottom_toTopOf="@+id/tvResults"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,24 +99,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="77dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="69dp"
+        android:layout_marginBottom="78dp"
         android:background="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_buyHold">
+        app:layout_constraintTop_toTopOf="@+id/tv_buyHold">
 
         <TextView
             android:id="@+id/tv_algo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="43dp"
-            android:text="TextView"
+            android:layout_width="370dp"
+            android:layout_height="63dp"
+            android:text="TextEdit"
             android:textAlignment="center"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/et_algoName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -164,57 +153,48 @@
         android:id="@+id/btn_useAlg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="39dp"
         android:layout_marginBottom="18dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_newAlg" />
 
     <TextView
         android:id="@+id/tv_profit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="65dp"
-        android:layout_marginTop="207dp"
-        android:layout_marginEnd="83dp"
-        android:layout_marginBottom="115dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginEnd="61dp"
         android:text="Total Profit"
         android:textAlignment="center"
         android:textColor="?android:attr/textColorHint"
-        app:layout_constraintBottom_toTopOf="@+id/tv_buyHold"
-        app:layout_constraintEnd_toStartOf="@+id/tvResults2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/tvResults"
+        app:layout_constraintStart_toStartOf="@+id/tv_buyHold"
+        app:layout_constraintTop_toBottomOf="@+id/tvResults" />
 
     <TextView
         android:id="@+id/tv_rewardRiskRatio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="41dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="33dp"
         android:text="Reward/Risk Ratio"
         android:textAlignment="center"
         android:textColor="?android:attr/textColorHint"
-        app:layout_constraintBottom_toTopOf="@+id/tvResults3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvResults"
-        app:layout_constraintTop_toBottomOf="@+id/tvResults" />
+        app:layout_constraintBottom_toTopOf="@+id/tvResults4"
+        app:layout_constraintEnd_toEndOf="@+id/tvResults2" />
 
     <Button
         android:id="@+id/btn_newAlg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="17dp"
         android:background="@color/grey"
         android:backgroundTint="@color/grey"
         android:text="Button"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.549"
-        app:layout_constraintStart_toEndOf="@+id/btn_useAlg" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
