@@ -213,14 +213,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         });
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
-        for (int i = 0; i < stockPrices.size(); i++){
-            DataPoint currentDataPoint = new DataPoint(i, stockPrices.get(i));
-            series.appendData(currentDataPoint, true, stockPrices.size());
+        for (int x = 0; x < stockPrices.size() - 1; x++){
+            Double y = stockPrices.get(x);
+            series.appendData(new DataPoint(x, y), true, stockPrices.size());
         }
         series.setColor(getResources().getColor(R.color.green));
         series.setThickness(10);
         graphAlgorithms.addSeries(series);
         graphAlgorithms.setVisibility(View.VISIBLE);
+        //graphAlgorithms.getGridLabelRenderer().setHumanRounding(false);
+
+        graphAlgorithms.getViewport().setScalable(true);
+        graphAlgorithms.getViewport().setScrollable(true);
         graphAlgorithms.setTitle(Algorithm + "'s performance so far");
     }
 
