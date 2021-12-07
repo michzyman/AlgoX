@@ -89,24 +89,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             }
         });
-
-
+        FL.passDataToHomeFragment();
         text_balance = (TextView) view.findViewById(R.id.text_balance);
-        text_balance.setVisibility(View.INVISIBLE);
-        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserMoney money = snapshot.getValue(UserMoney.class);
-                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
-            //    amountWeStartedWith = money.getCurrentbalance();
-                text_balance.setTextSize(24);
-                text_balance.setGravity(Gravity.CENTER);
-                text_balance.setVisibility(View.VISIBLE);
-            }
+        text_balance.setText("Portfolio Value " + "\n" + "$"+ getTotalPortfolioValue());
+        text_balance.setTextSize(20);
+        text_balance.setGravity(Gravity.CENTER);
+        text_balance.setVisibility(View.VISIBLE);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
 
 //        Double portfolioValue = getTotalPortfolioValue();
 //        System.out.println("total portfolio value = " + portfolioValue);
@@ -135,7 +124,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         graphAlgorithms = (GraphView) view.findViewById(R.id.graphAlgorithms);
         text_algorithm_results = (TextView) view.findViewById(R.id.text_algorithm_results);
         SpinnerOfAlgorithms = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
-        FL.passDataToHomeFragment();
         if (Algorithms != null) {
             if (!Algorithms.isEmpty()){
                 ArrayList<String> SpinnerValues = new ArrayList<String>();
@@ -216,6 +204,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
+        System.out.println("algoname: " + algorithmName);
+        System.out.println("algorithmsran: " + AlgorithmsRan);
+        if (algorithmName == null) {
+            System.out.println("ALGONAME IS NULL");
+        }
+        if (AlgorithmsRan == null) {
+            System.out.println("ALGORITHMSRAN IS NULL");
+        }
+
         ArrayList algorithmData = AlgorithmsRan.get(algorithmName);
         if (algorithmData!=null) {
             TimeSeries series = (TimeSeries) algorithmData.get(1);
@@ -277,8 +274,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void updateCurrentBalance(Double totalProfit){
-        text_balance.setText("Your Balance " + "\n" + "$"+ amountWeStartedWith+totalProfit);
-        text_balance.setTextSize(24);
+        text_balance.setText("Portfolio Value " + "\n" + "$"+ getTotalPortfolioValue());
+        text_balance.setTextSize(20);
         text_balance.setGravity(Gravity.CENTER);
         text_balance.setVisibility(View.VISIBLE);
     }
