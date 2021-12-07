@@ -116,6 +116,8 @@ public class TransactionFragment extends Fragment {
             DataPoint currentDataPoint = new DataPoint(i, stockPrices[i]);
             series.appendData(currentDataPoint, true, stockPrices.length);
         }
+        series.setColor(getResources().getColor(R.color.green));
+        series.setThickness(10);
         stock_graph.addSeries(series);
         stock_graph.setTitle("Growth of " + ticker + "'s stock over the last " + period);
     }

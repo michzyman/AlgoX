@@ -3,11 +3,8 @@ package com.example.testmichelle.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.testmichelle.R;
 import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.activities.BasicActivity;
@@ -38,7 +34,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +42,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     TextView text_name;
     TextView text_balance;
     TextView text_cash;
+    TextView text_buying_rule;
+    TextView text_selling_rule;
     TextView text_algorithm_results;
     Spinner SpinnerOfAlgorithms;
     GraphView graphAlgorithms;
@@ -134,6 +131,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         graphAlgorithms = (GraphView) view.findViewById(R.id.graphAlgorithms);
         text_algorithm_results = (TextView) view.findViewById(R.id.text_algorithm_results);
+        text_buying_rule = (TextView) view.findViewById(R.id.text_buying_rule);
+        text_selling_rule = (TextView) view.findViewById(R.id.text_selling_rule);
         SpinnerOfAlgorithms = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
         FL.passDataToHomeFragment();
         if (Algorithms != null) {
@@ -178,6 +177,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             DataPoint currentDataPoint = new DataPoint(i, stockPrices.get(i));
             series.appendData(currentDataPoint, true, stockPrices.size());
         }
+        series.setColor(getResources().getColor(R.color.green));
+        series.setThickness(10);
         graphAlgorithms.addSeries(series);
         graphAlgorithms.setTitle(Algorithm + "'s performance so far");
     }
@@ -185,6 +186,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         graphAlgorithm(parent.getItemAtPosition(pos).toString());
+        displayData(parent.getItemAtPosition(pos).toString());
     }
 
     @Override
@@ -207,6 +209,31 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         Double initialValue = getAlgorithmStartingValue(AlgorithmName);
         Double finalValue = getAlgorithmValue(AlgorithmName);
         Double profit = getAlgorithmProfit(AlgorithmName);
+        String buyingRuleText = generateStringForAlgorithmText("Buying rule", buyingRule, buyingRulePar1, buyingRulePar2);
+        String sellingRuleText = generateStringForAlgorithmText("Selling rule", sellingRule, sellingRulePar1, sellingRulePar2);
+        String resultText = "Initial Value: " + initialValue + "\n";
+        resultText += "Final Value: " + Math.round(finalValue * 100.0) / 100.0 + "\n";
+        resultText += "Profit: " + Math.round(profit * 100.0) / 100.0 + "\n";
+        text_buying_rule.setText(buyingRuleText);
+        text_buying_rule.setTextSize(10);
+        text_selling_rule.setText(sellingRuleText);
+        text_selling_rule.setTextSize(10);
+        text_algorithm_results.setText(resultText);
+        text_algorithm_results.setTextSize(10);
+    }
+
+    public String generateStringForAlgorithmText(String rule, String Algorithmtype, String par1, String par2){
+        String result = rule + ": " + Algorithmtype + "\n";
+        if (Algorithmtype == "Price Above" || Algorithmtype == "Price Below"){
+            result += "Cuteoff: " + par1;
+        } else if (Algorithmtype == "SMA" || Algorithmtype == "EMA"){
+            result += "Duration 1: " + par1 + "\n";
+            result += "Duration 2: " + par2 + "\n";
+        } else if (Algorithmtype == "Rising" || Algorithmtype == "Falling"){
+            result += "Bar count: " + par1 + "\n";
+            result += "Min Strength: " + par2 + "\n";
+        }
+        return result;
     }
 
 
