@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.activities.BasicActivity;
 import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.model.Algorithm;
 import com.example.testmichelle.model.UserMoney;
@@ -82,6 +83,7 @@ public class DisplayBackTestingResults extends Fragment {
 
     boolean algSet;
     int amountToInvest;
+    Integer freecashNOW;
 
     private FragmentListener FL;
 
@@ -109,6 +111,7 @@ public class DisplayBackTestingResults extends Fragment {
 //        et_money.setText("");
         et_algoName = (EditText) view.findViewById(R.id.et_algoName);
 
+        checkFreecash();
         Integer tradeCount = tradingRecord.getTradeCount();
         String tradeCountString = tradeCount.toString();
         String response = "In total, " + tradeCountString + " trades were made by your algorithm.\n"+
@@ -161,10 +164,18 @@ public class DisplayBackTestingResults extends Fragment {
             public void onClick(View v) {
                 if(!et_money.getText().toString().equals("") && !et_algoName.getText().toString().equals("") && backTestingFragment.isNumeric(et_money.getText().toString())) {
                     if(!algSet) {
-                        amountToInvest = Integer.parseInt(et_money.getText().toString());
-//                        updateFreeCash();
-                        algorithmToUse();
-                        FL.goToHistory();
+                        if (Double.parseDouble(et_money.getText().toString()) > freecashNOW) {
+                            Toast.makeText(getContext(),"You only have $" + freecashNOW + " available to invest", Toast.LENGTH_LONG).show();
+                        }
+                        else if (BasicActivity.algorithms.containsKey(et_algoName.getText().toString())) {
+                            Toast.makeText(getContext(),"Please select a unique algorithm name", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            amountToInvest = Integer.parseInt(et_money.getText().toString());
+                            //  updateFreeCash();
+                            algorithmToUse();
+                            FL.goToHistory();
+                        }
                     }
                     else{
                         Toast.makeText(getContext(),"Algorithm was already set",Toast.LENGTH_LONG).show();
@@ -256,6 +267,20 @@ public class DisplayBackTestingResults extends Fragment {
 //        et_algoName.setText("");
     }
 
+    public void checkFreecash(){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserMoney money = snapshot.getValue(UserMoney.class);
+                freecashNOW = money.freecash;
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
+
+    }
 
 
 }
