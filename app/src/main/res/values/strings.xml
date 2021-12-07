@@ -94,4 +94,9 @@
     <string name="last_name">Last Name</string>
     <string name="logo">logo</string>
     <string name="todo">TODO</string>
+    <string name="btn_popup_cancel">I\'m sure!</string>
+
+    <string name="cancel_text_view">Are you sure you want to stop using this algorithm?"</string>
+
+
 </resources>
