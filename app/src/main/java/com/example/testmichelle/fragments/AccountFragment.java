@@ -33,11 +33,6 @@ import org.w3c.dom.Text;
 
 
 public class AccountFragment extends Fragment {
-    Button btn_LogOut;
-    TextView text_username2;
-    TextView text_balance2;
-    GraphView graphPortofolio;
-
 
 
     public AccountFragment() {
@@ -56,55 +51,8 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_account, container, false);
-
-        btn_LogOut = (Button) view.findViewById(R.id.btn_LogOut);
-        btn_LogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent_signin = new Intent(getActivity(),
-                        LogInActivity.class);
-                startActivity(intent_signin);
-            }
-        });
-        text_username2 = (TextView) view.findViewById(R.id.text_username2);
-        text_username2.setVisibility(View.INVISIBLE);
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
-        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserProfile name = snapshot.getValue(UserProfile.class);
-                text_username2.setText(name.getName());
-                text_username2.setTextSize(34);
-                text_username2.setVisibility(View.VISIBLE);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        text_balance2 = (TextView) view.findViewById(R.id.text_balance2);
-        text_balance2.setVisibility(View.INVISIBLE);
-        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserMoney money = snapshot.getValue(UserMoney.class);
-                text_balance2.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
-                text_balance2.setTextSize(34);
-                text_balance2.setGravity(Gravity.CENTER);
-                text_balance2.setVisibility(View.VISIBLE);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        graphPortofolio = (GraphView) view.findViewById(R.id.graphPortofolio);
         return view;
+
 
     }
 

@@ -22,7 +22,6 @@ import com.example.testmichelle.R;
 import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.activities.BasicActivity;
 import com.example.testmichelle.activities.cancelAlgorithmPopUp;
-import com.example.testmichelle.model.Algorithm;
 import com.example.testmichelle.model.UserMoney;
 import com.example.testmichelle.model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,8 +38,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.Trade;
 import org.ta4j.core.TradingRecord;
-import org.threeten.bp.ZonedDateTime;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,13 +89,24 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             }
         });
-        FL.passDataToHomeFragment();
-        text_balance = (TextView) view.findViewById(R.id.text_balance);
-        text_balance.setText("Portfolio Value " + "\n" + "$"+ getTotalPortfolioValue());
-        text_balance.setTextSize(20);
-        text_balance.setGravity(Gravity.CENTER);
-        text_balance.setVisibility(View.VISIBLE);
 
+
+        text_balance = (TextView) view.findViewById(R.id.text_balance);
+        text_balance.setVisibility(View.INVISIBLE);
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserMoney money = snapshot.getValue(UserMoney.class);
+                text_balance.setText("Your Balance " + "\n" + "$"+ money.getCurrentbalance());
+            //    amountWeStartedWith = money.getCurrentbalance();
+                text_balance.setTextSize(24);
+                text_balance.setGravity(Gravity.CENTER);
+                text_balance.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
 
 //        Double portfolioValue = getTotalPortfolioValue();
 //        System.out.println("total portfolio value = " + portfolioValue);
@@ -127,6 +135,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         graphAlgorithms = (GraphView) view.findViewById(R.id.graphAlgorithms);
         text_algorithm_results = (TextView) view.findViewById(R.id.text_algorithm_results);
         SpinnerOfAlgorithms = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
+        FL.passDataToHomeFragment();
         if (Algorithms != null) {
             if (!Algorithms.isEmpty()){
                 ArrayList<String> SpinnerValues = new ArrayList<String>();
@@ -143,31 +152,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btnCancelAlgorithm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String algoToCancel = SpinnerOfAlgorithms.getSelectedItem().toString();
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users").child(firebaseUser.getUid()).child("Algorithms");
-                databaseReference.orderByChild("algoname").equalTo(algoToCancel).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            Algorithm algo = child.getValue(Algorithm.class);
-                            boolean currently = algo.status;
-                            if(currently) {
-                                Intent intent = new Intent(getContext(), cancelAlgorithmPopUp.class);
-                                intent.putExtra("algorithmName", SpinnerOfAlgorithms.getSelectedItem().toString());
-                                startActivity(intent);
-                            }
-                            else{
-                                Toast.makeText(getContext(), "This algorithm was already canceled",Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                Intent intent = new Intent(getContext(), cancelAlgorithmPopUp.class);
+                intent.putExtra("algorithmName", SpinnerOfAlgorithms.getSelectedItem().toString());
+                startActivity(intent);
             }
         });
         return view;
@@ -229,15 +216,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
-        System.out.println("algoname: " + algorithmName);
-        System.out.println("algorithmsran: " + AlgorithmsRan);
-        if (algorithmName == null) {
-            System.out.println("ALGONAME IS NULL");
-        }
-        if (AlgorithmsRan == null) {
-            System.out.println("ALGORITHMSRAN IS NULL");
-        }
-
         ArrayList algorithmData = AlgorithmsRan.get(algorithmName);
         if (algorithmData!=null) {
             TimeSeries series = (TimeSeries) algorithmData.get(1);
@@ -301,8 +279,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void updateCurrentBalance(Double totalProfit){
-        text_balance.setText("Portfolio Value " + "\n" + "$"+ getTotalPortfolioValue());
-        text_balance.setTextSize(20);
+        text_balance.setText("Your Balance " + "\n" + "$"+ amountWeStartedWith+totalProfit);
+        text_balance.setTextSize(24);
         text_balance.setGravity(Gravity.CENTER);
         text_balance.setVisibility(View.VISIBLE);
     }
