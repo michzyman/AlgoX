@@ -71,8 +71,13 @@ public class TechnicalAnalysis {
     public static TradingRecord triggerTa4j(Rule buying, Rule selling){
         Log.i("TA4J","Creating trading record");
         // Getting the close price of the ticks
-        Num firstClosePrice = series.getBar(0).getClosePrice();
-        returnClosePrice(firstClosePrice);
+        try {
+            Num firstClosePrice = series.getBar(0).getClosePrice();
+            returnClosePrice(firstClosePrice);
+        }
+        catch(Exception e){
+            Log.i("caugh an exception", "oops");
+        }
         // Or within an indicator (you get the same value for first close price either way)
 
         Strategy strategy = createStrategy(buying, selling);
@@ -126,21 +131,26 @@ public class TechnicalAnalysis {
     }
 
     public static void loadData(String ticker, Context context, double[][] data, ZonedDateTime startDate, ZonedDateTime endDate) {
-        System.out.println("loading data");
-        // Initiate the android three ten library to get the context for zoned date time
-        AndroidThreeTen.init(context);
+        try {
+            System.out.println("loading data");
+            // Initiate the android three ten library to get the context for zoned date time
+            AndroidThreeTen.init(context);
 
-        // create a new series using the base time series builder
-        series = new BaseTimeSeries.SeriesBuilder().withName(ticker).build();
-        int numDays = (int) ChronoUnit.DAYS.between(startDate, endDate);
-        System.out.println("startDate=" + startDate + " endDate=" + endDate + " numDays=" + numDays);
+            // create a new series using the base time series builder
+            series = new BaseTimeSeries.SeriesBuilder().withName(ticker).build();
+            int numDays = (int) ChronoUnit.DAYS.between(startDate, endDate);
+            System.out.println("startDate=" + startDate + " endDate=" + endDate + " numDays=" + numDays);
 
-        int counter = 0;
-        for (int i = data.length - numDays; i < data.length; i++) {
-            series.addBar(startDate.plusDays(counter), data[i][0], data[i][1], data[i][2], data[i][3]);
-            counter++;
+            int counter = 0;
+            for (int i = data.length - numDays; i < data.length; i++) {
+                series.addBar(startDate.plusDays(counter), data[i][0], data[i][1], data[i][2], data[i][3]);
+                counter++;
+            }
+            Log.i("TA4J", "making the series");
+        } catch (Exception e) {
+            System.out.println("EXCEPTION");
+            e.printStackTrace();
         }
-        Log.i("TA4J","making the series");
     }
 
     // RUN A STRATEGY

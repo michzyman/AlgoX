@@ -304,6 +304,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 startingValue *= resultingList.get(i);
                 finalList.add(startingValue);
             }
+
             return finalList;
         } else {
             return new ArrayList<>();
@@ -312,7 +313,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public Double getTotalPortfolioValue() {
         Double totalValue = 0.;
-        for (Map.Entry<String, ArrayList<Object>> entry : BasicActivity.algorithms.entrySet()) {
+        for (Map.Entry<String, ArrayList<Object>> entry : Algorithms.entrySet()) {
             totalValue += getAlgorithmValue(entry.getKey());
         }
         return totalValue;
@@ -321,6 +322,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public Double getAlgorithmValue(String algorithmName) {
         ArrayList<Double> values = createListOfAlgorithmValues(algorithmName);
         Double finalValue = values.get(values.size() - 1);
+        System.out.println("Algorithm Value for " + algorithmName + ": " + finalValue);
         return finalValue;
     }
 
@@ -340,6 +342,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public Double getAlgorithmStartingValue(String algorithmName) {
-        return ((Integer) BasicActivity.algorithms.get(algorithmName).get(2)).doubleValue();
+        return ((Integer) Algorithms.get(algorithmName).get(2)).doubleValue();
     }
 }
