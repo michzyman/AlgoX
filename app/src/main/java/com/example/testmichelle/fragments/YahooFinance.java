@@ -42,8 +42,10 @@ public class YahooFinance {
     public static final double[] arrERROR1D = {0};
 
 
-    /*
-     * @param ticker: string of tickers, max 10, seperated by comma. EX: "MSFT,TSLA,AMZN"
+    /**
+     *  requests a "spark" which is just a series of prices for a given ticker or array of tickers
+     *
+     * @param tickers: array of tickers, max 10
      * @param range: 1d 5d 1mo 3mo 6mo 1y 5y max
      * @param interval: 1m 5m 15m 1d 1wk 1mo
      */
@@ -131,8 +133,17 @@ public class YahooFinance {
         requestQueue.add(jsonObjectRequest);
     }
 
-    /*
-     * @param ticker: string of tickers, max 10, seperated by comma. EX: "MSFT,TSLA,AMZN"
+    /**
+     *  Requests a chart from the given paramaters and converts it to a double[][] array of data
+     * that gets sent using the OnResponse() callback
+     * this array has format:
+     * [[open1, high1, low1, close1],
+     *  [open2, high2, low2, close2],
+     *  ...
+     * ]
+     * where the number is the day
+     *
+     * @param ticker: ticker string
      * @param range: 1d 5d 1mo 3mo 6mo 1y 5y 10y ytd max
      * @param interval: 1m 5m 15m 1d 1wk 1mo
      */
@@ -245,10 +256,12 @@ public class YahooFinance {
         requestChart(ticker, range, "1d", act, requestQueue, btfragmnent);
     }
 
-    /*
+    /**
+     * slightly different version of request chart that passes data to a different callback
+     *
      * @param ticker: string of tickers, max 10, seperated by comma. EX: "MSFT,TSLA,AMZN"
-     * @param range: 1d 5d 1mo 3mo 6mo 1y 5y 10y ytd max
-     * @param interval: 1m 5m 15m 1d 1wk 1mo
+     * @param act: activity contect (to make toast if error)
+     * @param callbackObject: object to make non-static callback
      */
     public static void basicActivityRequestChart(String ticker, Context act, BasicActivity callbackObject, Map.Entry<String, ArrayList<Object>> entry){
         // SECRET KEY
@@ -343,6 +356,15 @@ public class YahooFinance {
         requestQueue.add(jsonObjectRequest);
     }
 
+    /**
+     * Requests summary data from a stock. This is data like the ESG scores and revenue.
+     * Gives this data in the form of a dictionary <String, String> to the callback method,
+     * fragmentObj.displayData(myDict);
+     *
+     * @param ticker ticker to call
+     * @param act activity to display error messages
+     * @param fragmentObj object to use in callback of non-static method
+     */
     public static void requestSummary(String ticker, Context act, TransactionFragment fragmentObj){
         // SECRET KEY
         String key = "3Z8LSHmB1l8lfS6qpRoba35QRos3zDZ69s2JS8IJ";
@@ -451,6 +473,17 @@ public class YahooFinance {
         Log.d("sentRequest", jsonObjectRequest.toString());
         requestQueue.add(jsonObjectRequest);
     }
+
+    /**
+     * requests a spark for a different function, TransactionFragment.graph(ticker, arrData, range).
+     * passes the data (arrData) in the form double[][]
+     *
+     * @param ticker
+     * @param range
+     * @param interval
+     * @param act
+     * @param fragmentObj
+     */
     public static void requestSearchFragmentSpark(String ticker, String range, String interval, Context act, TransactionFragment fragmentObj){
 
         // SECRET KEY
