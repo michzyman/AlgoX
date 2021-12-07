@@ -228,11 +228,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         resultText += "Final Value: " + Math.round(finalValue * 100.0) / 100.0 + "\n";
         resultText += "Profit: " + Math.round(profit * 100.0) / 100.0 + "\n";
         text_buying_rule.setText(buyingRuleText);
-        text_buying_rule.setTextSize(10);
+        text_buying_rule.setTextSize(13);
+
         text_selling_rule.setText(sellingRuleText);
-        text_selling_rule.setTextSize(10);
+        text_selling_rule.setTextSize(13);
         text_algorithm_results.setText(resultText);
-        text_algorithm_results.setTextSize(10);
+        text_algorithm_results.setTextSize(13);
     }
 
     public String generateStringForAlgorithmText(String rule, String Algorithmtype, String par1, String par2){
