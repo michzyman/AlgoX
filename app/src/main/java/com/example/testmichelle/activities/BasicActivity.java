@@ -119,7 +119,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             }
         });
 
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(8000, 1000) {
             public void onFinish() {
                 homeFragment = new HomeFragment();
                 makeCurrentFragment(homeFragment);
@@ -305,10 +305,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         boolean isRunning = (boolean) entry.getValue().get(4);
         System.out.println("is running: " + isRunning);
 
-//        String start = (String) entry.getValue().get(5);
-//        ZonedDateTime startDate = ZonedDateTime.parse(start);
-//        System.out.println("got the start date: "+ startDate.toString());
-
         String buyingRuleType = buyingRuleList.get(2);
         String sellingRuleType = sellingRuleList.get(2);
 
@@ -321,28 +317,40 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         Rule buying_rule;
         Rule selling_rule;
 
-//
-//        ZonedDateTime endDate;
-//        if(isRunning) {
-//            endDate = ZonedDateTime.now();
-//            System.out.println("got the end date: "+ endDate.toString());
-//
-//        }
-//        else{
-//            String end = (String) entry.getValue().get(6);
-//            endDate = ZonedDateTime.parse(end);
-//            System.out.println("got the end date: "+ endDate.toString());
-//
-////            endDate = (ZonedDateTime) entry.getValue().get(6);
-//        }
 
-        System.out.println("ok got all the data for " + entry.getKey());
+        try {
+            String start = (String) entry.getValue().get(5);
+            ZonedDateTime startDate = ZonedDateTime.parse(start);
+            System.out.println("got the start date: "+ startDate.toString());
 
-//        TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, startDate, endDate);
+
+            ZonedDateTime endDate;
+            if(isRunning) {
+                endDate = ZonedDateTime.now();
+                System.out.println("got the end date: "+ endDate.toString());
+            }
+            else{
+                String end = (String) entry.getValue().get(6);
+                System.out.println(end);
+                endDate = ZonedDateTime.parse(end);
+                System.out.println("got the end date: "+ endDate.toString());
+            }
+
+            System.out.println("ok got all the data for " + entry.getKey());
+        } catch (Exception e) {
+            System.out.println("EXCEPTION");
+            e.printStackTrace();
+        }
+
+        ZonedDateTime fakeStart = ZonedDateTime.now().minusDays(30);
+        ZonedDateTime fakeEnd = ZonedDateTime.now();
+
+
         try{
             System.out.println("trying to load data from basic activity");
 
-            TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, ZonedDateTime.now().minusMonths(1), ZonedDateTime.now());
+            // TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, ZonedDateTime.now().minusMonths(1), ZonedDateTime.now());
+            TechnicalAnalysis.loadData(ticker, getApplicationContext(), data, fakeStart, fakeEnd);
         }
         catch (Exception e){
             e.printStackTrace();

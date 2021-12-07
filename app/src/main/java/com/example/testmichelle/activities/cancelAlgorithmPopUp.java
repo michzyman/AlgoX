@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,7 +41,8 @@ public class cancelAlgorithmPopUp extends AppCompatActivity {
         tv_canceltext = (TextView) findViewById(R.id.tv_canceltext);
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
 
-
+        tv_canceltext.setText(R.string.cancel_text_view);
+        btn_cancel.setText(R.string.btn_popup_cancel);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -64,9 +66,17 @@ public class cancelAlgorithmPopUp extends AppCompatActivity {
                             idToCancel = child.getKey();
                             Log.d("User ref", child.getRef().toString());
                             Log.d("User val", child.getValue().toString());
-                            databaseReference.child(idToCancel).child("status").setValue(false);
-                            String ending = String.valueOf(ZonedDateTime.now());
-                            databaseReference.child(idToCancel).child("endDate").setValue(ending);
+//                            Algorithm algo = child.getValue(Algorithm.class);
+//                            boolean currently = algo.status;
+//                            if(currently) {
+                                databaseReference.child(idToCancel).child("status").setValue(false);
+                                String ending = String.valueOf(ZonedDateTime.now());
+                                databaseReference.child(idToCancel).child("endDate").setValue(ending);
+//                            }
+//                            else{
+//                                Toast.makeText(getApplicationContext(), "This algorithm was already canceled",Toast.LENGTH_LONG).show();
+//                            }
+                            finish();
                         }
                     }
 
@@ -75,6 +85,7 @@ public class cancelAlgorithmPopUp extends AppCompatActivity {
 
                     }
                 });
+
             }
         });
     }
