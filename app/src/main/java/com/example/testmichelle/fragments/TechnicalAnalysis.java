@@ -32,6 +32,7 @@ import org.ta4j.core.trading.rules.CrossedUpIndicatorRule;
 import org.ta4j.core.trading.rules.IsFallingRule;
 import org.ta4j.core.trading.rules.IsRisingRule;
 import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.temporal.ChronoUnit;
 
 //import java.time.ZonedDateTime;
 
@@ -131,12 +132,13 @@ public class TechnicalAnalysis {
 
         // create a new series using the base time series builder
         series = new BaseTimeSeries.SeriesBuilder().withName(ticker).build();
+        int numDays = (int) ChronoUnit.DAYS.between(startDate, endDate);
+        System.out.println("startDate=" + startDate + " endDate=" + endDate + " numDays=" + numDays);
 
-        for (int i = 0; i < data.length; i++) {
-            series.addBar(startDate.plusDays(i), data[i][0], data[i][1], data[i][2], data[i][3]);
-            if (startDate.plusDays(i) == endDate) {
-                break;
-            }
+        int counter = 0;
+        for (int i = data.length - numDays; i < data.length; i++) {
+            series.addBar(startDate.plusDays(counter), data[i][0], data[i][1], data[i][2], data[i][3]);
+            counter++;
         }
         Log.i("TA4J","making the series");
     }
