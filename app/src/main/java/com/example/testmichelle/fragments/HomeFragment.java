@@ -113,8 +113,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserMoney money = snapshot.getValue(UserMoney.class);
-                text_cash.setText("Cash Remaining " + "\n" + "$" + money.getFreecash());
-                text_cash.setTextSize(24);
+                text_cash.setText("Cash Remaining " + "\n" + "$"+ money.getFreecash());
+                text_cash.setTextSize(20);
                 text_cash.setGravity(Gravity.CENTER);
                 text_cash.setVisibility(View.VISIBLE);
             }
@@ -249,11 +249,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         resultText += "Final Value: " + Math.round(finalValue * 100.0) / 100.0 + "\n";
         resultText += "Profit: " + Math.round(profit * 100.0) / 100.0 + "\n";
         text_buying_rule.setText(buyingRuleText);
-        text_buying_rule.setTextSize(10);
+        text_buying_rule.setTextSize(13);
+
         text_selling_rule.setText(sellingRuleText);
-        text_selling_rule.setTextSize(10);
+        text_selling_rule.setTextSize(13);
         text_algorithm_results.setText(resultText);
-        text_algorithm_results.setTextSize(10);
+        text_algorithm_results.setTextSize(13);
     }
 
     public String generateStringForAlgorithmText(String rule, String Algorithmtype, String par1, String par2){
@@ -332,12 +333,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         }
     }
 
+    public Double roundToTwoDecimal(Double unrounded) {
+        return Math.round(unrounded * 100.0) / 100.0;
+    }
     public Double getTotalPortfolioValue() {
         Double totalValue = 0.;
         for (Map.Entry<String, ArrayList<Object>> entry : Algorithms.entrySet()) {
             totalValue += getAlgorithmValue(entry.getKey());
         }
-        return totalValue;
+        Double roundedVal = roundToTwoDecimal(totalValue);
+        return roundedVal;
     }
 
     public Double getAlgorithmValue(String algorithmName) {
@@ -346,6 +351,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         System.out.println("Algorithm Value for " + algorithmName + ": " + finalValue);
         return finalValue;
     }
+
+
 
     public void updateCurrentBalance(Double totalProfit){
         text_balance.setText("Portfolio Value " + "\n" + "$"+ getTotalPortfolioValue());

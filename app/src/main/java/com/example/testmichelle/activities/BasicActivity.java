@@ -7,7 +7,6 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.example.testmichelle.R;
@@ -15,18 +14,14 @@ import com.example.testmichelle.fragments.AccountFragment;
 import com.example.testmichelle.fragments.DisplayBackTestingResults;
 import com.example.testmichelle.fragments.HistoryFragment;
 import com.example.testmichelle.fragments.HomeFragment;
-import com.example.testmichelle.fragments.MoreInfoFragment;
 import com.example.testmichelle.fragments.TechnicalAnalysis;
 import com.example.testmichelle.fragments.TransactionFragment;
 import com.example.testmichelle.fragments.YahooFinance;
 import com.example.testmichelle.fragments.backTestingFragment;
 import com.example.testmichelle.model.Algorithm;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,20 +29,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import org.ta4j.core.Trade;
 import org.threeten.bp.ZonedDateTime;
 
 import org.ta4j.core.Rule;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.TradingRecord;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BasicActivity extends AppCompatActivity implements FragmentListener {
@@ -63,7 +53,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     public static HashMap<String, ArrayList<Object>> algorithmsRan = new HashMap<String, ArrayList<Object>>();
 
     private DisplayBackTestingResults backTestingResults;
-    private MoreInfoFragment moreInfoFragment;
     private backTestingFragment backTestingFragment;
     private HomeFragment homeFragment;
     private TransactionFragment transactionFragment;
@@ -85,9 +74,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         accountFragment = new AccountFragment();
         backTestingFragment = new backTestingFragment();
         backTestingResults = new DisplayBackTestingResults();
-        moreInfoFragment = new MoreInfoFragment();
         loadingFragment = new LoadingScreenFragment();
         makeCurrentFragment(loadingFragment);
+        YahooFinance.initRequestQueue(this);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReference.child(firebaseUser.getUid()).child("Algorithms").addValueEventListener(new ValueEventListener() {
@@ -124,7 +113,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             }
         });
 
-        new CountDownTimer(8000, 1000) {
+        new CountDownTimer(3000, 1000) {
             public void onFinish() {
                 homeFragment = new HomeFragment();
                 makeCurrentFragment(homeFragment);
@@ -201,18 +190,12 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         backTestingResults.setResultsData();
     }
 
-    public void goToMoreInfoFragment() {
-        makeCurrentFragment(moreInfoFragment);
-    }
 
     public void goToBackTestingFragment() {
         makeCurrentFragment(backTestingFragment);
     }
 
-    @Override
-    public void goToHome() {
-        makeCurrentFragment(homeFragment);
-    }
+
 
     public void goToHistory() {
         makeCurrentFragment(historyFragment);

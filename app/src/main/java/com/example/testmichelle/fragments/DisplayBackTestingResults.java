@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmichelle.R;
+import com.example.testmichelle.activities.BasicActivity;
 import com.example.testmichelle.activities.FragmentListener;
 import com.example.testmichelle.model.Algorithm;
 import com.example.testmichelle.model.UserMoney;
@@ -42,6 +43,8 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.temporal.TemporalAccessor;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -80,6 +83,7 @@ public class DisplayBackTestingResults extends Fragment {
 
     boolean algSet;
     int amountToInvest;
+    Integer freecashNOW;
 
     private FragmentListener FL;
 
@@ -107,10 +111,11 @@ public class DisplayBackTestingResults extends Fragment {
 //        et_money.setText("");
         et_algoName = (EditText) view.findViewById(R.id.et_algoName);
 
+        checkFreecash();
         Integer tradeCount = tradingRecord.getTradeCount();
         String tradeCountString = tradeCount.toString();
         String response = "In total, " + tradeCountString + " trades were made by your algorithm.\n"+
-                "\nIf you would like to use this algorithm on this stock, enter the amount to invest below.";
+                "If you would like to use this algorithm on this stock, enter the amount to invest below.";
         tv_algo.setText(response);
 
         btn_useAlg.setText("SET ALGORITHM!");
@@ -118,20 +123,26 @@ public class DisplayBackTestingResults extends Fragment {
 
         btn_newAlg.setText("Go back");
 
+        NumberFormat formatter = new DecimalFormat("#0.00");
+
         tradingRecord.getTrades();
         // Getting the number of profitable trades
         AnalysisCriterion profitTradesRatio = new AverageProfitableTradesCriterion();
         profit_trades_ratio = profitTradesRatio.calculate(series, tradingRecord);
+
         // Getting the average profit
         AnalysisCriterion averageProfit = new AverageProfitCriterion();
         avgProfit = averageProfit.calculate(series, tradingRecord);
+
         // Getting the total profit
         AnalysisCriterion totalProfit = new TotalProfitCriterion();
         totProfit = totalProfit.calculate(series,tradingRecord);
+        totProfit = (totProfit - 1) * 100;
 
         // Getting the reward-risk ratio
         AnalysisCriterion rewardRiskRatio = new RewardRiskRatioCriterion();
         reward_risk_ratio= rewardRiskRatio.calculate(series, tradingRecord);
+
 
         // Getting the maximum drawdown ratio
         AnalysisCriterion maxDrawdown = new MaximumDrawdownCriterion();
@@ -141,21 +152,30 @@ public class DisplayBackTestingResults extends Fragment {
         // vs total profit of a buy-and-hold strategy
         AnalysisCriterion vsBuyAndHold = new VersusBuyAndHoldCriterion(new TotalProfitCriterion());
         buy_hold = vsBuyAndHold.calculate(series, tradingRecord);
+        buy_hold = buy_hold * 100;
 
-        tvResults.setText(Double.toString(round(totProfit)));
-        tvResults2.setText(Double.toString(round(reward_risk_ratio)));
-        tvResults3.setText(Double.toString(round(buy_hold)));
-        tvResults4.setText(Double.toString(round(profit_trades_ratio)));
+        tvResults.setText(formatter.format(totProfit) + "%");
+        tvResults2.setText(formatter.format(reward_risk_ratio));
+        tvResults3.setText(formatter.format(buy_hold) + "%");
+        tvResults4.setText(formatter.format(profit_trades_ratio));
 
         btn_useAlg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!et_money.getText().toString().equals("") && !et_algoName.getText().toString().equals("") && backTestingFragment.isNumeric(et_money.getText().toString())) {
                     if(!algSet) {
-                        amountToInvest = Integer.parseInt(et_money.getText().toString());
-//                        updateFreeCash();
-                        algorithmToUse();
-                        FL.goToHistory();
+                        if (Double.parseDouble(et_money.getText().toString()) > freecashNOW) {
+                            Toast.makeText(getContext(),"You only have $" + freecashNOW + " available to invest", Toast.LENGTH_LONG).show();
+                        }
+                        else if (BasicActivity.algorithms.containsKey(et_algoName.getText().toString())) {
+                            Toast.makeText(getContext(),"Please select a unique algorithm name", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            amountToInvest = Integer.parseInt(et_money.getText().toString());
+                            //  updateFreeCash();
+                            algorithmToUse();
+                            FL.goToHistory();
+                        }
                     }
                     else{
                         Toast.makeText(getContext(),"Algorithm was already set",Toast.LENGTH_LONG).show();
@@ -247,6 +267,20 @@ public class DisplayBackTestingResults extends Fragment {
 //        et_algoName.setText("");
     }
 
+    public void checkFreecash(){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserMoney money = snapshot.getValue(UserMoney.class);
+                freecashNOW = money.freecash;
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
+
+    }
 
 
 }

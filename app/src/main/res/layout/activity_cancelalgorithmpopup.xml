@@ -7,8 +7,8 @@
 
     <TextView
         android:id="@+id/tv_canceltext"
-        android:layout_width="268dp"
-        android:layout_height="139dp"
+        android:layout_width="294dp"
+        android:layout_height="122dp"
         android:layout_marginTop="192dp"
         android:fontFamily="@font/pt_sans"
         android:text="@string/cancel_text_view"
@@ -22,11 +22,12 @@
         android:id="@+id/btn_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="@string/button"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_canceltext"
-        app:layout_constraintVertical_bias="0.338" />
+        app:layout_constraintVertical_bias="0.138" />
 </androidx.constraintlayout.widget.ConstraintLayout>

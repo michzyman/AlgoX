@@ -316,9 +316,11 @@ public class YahooFinance {
                                     "Auth failed",
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(act,
-                                    "Server Not Responding",
-                                    Toast.LENGTH_LONG).show();
+//                            Toast.makeText(act,
+//                                    "Server Not Responding",
+//                                    Toast.LENGTH_LONG).show();
+                            Log.i("finance","server not responding");
+
                         } else if (error instanceof NetworkError) {
                             Toast.makeText(act,
                                     "Network Error",
