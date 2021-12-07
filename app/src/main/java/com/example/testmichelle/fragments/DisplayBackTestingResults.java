@@ -202,7 +202,6 @@ public class DisplayBackTestingResults extends Fragment {
 
     public Double round(double d){
         return (double)Math.round(d * 1000000d) / 1000000d;
-
     }
     @SuppressLint("NewApi")
     private void algorithmToUse() {

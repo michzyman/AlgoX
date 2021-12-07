@@ -124,9 +124,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 text_cash.setVisibility(View.VISIBLE);
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
 
         graphAlgorithms = (GraphView) view.findViewById(R.id.graphAlgorithms);
@@ -161,14 +159,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void graphAlgorithm(String Algorithm){
         ArrayList<Double> stockPrices = createListOfAlgorithmValues(Algorithm);
+        System.out.println("SIZE: " + stockPrices.size());
         graphAlgorithms.removeAllSeries();
         graphAlgorithms.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
             @Override
             public String formatLabel(double value, boolean isValueX){
                 if(isValueX){
-                    return "";
+                    return Double.toString(value);
                 } else {
-                    return value + "$";
+                    return "$" + (Math.round(value * 100.0) / 100.0);
                 }
             }
         });
@@ -224,18 +223,17 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public String generateStringForAlgorithmText(String rule, String Algorithmtype, String par1, String par2){
         String result = rule + ": " + Algorithmtype + "\n";
-        if (Algorithmtype == "Price Above" || Algorithmtype == "Price Below"){
+        if (Algorithmtype.equals("Price Above")  || Algorithmtype.equals("Price Below")){
             result += "Cuteoff: " + par1;
-        } else if (Algorithmtype == "SMA" || Algorithmtype == "EMA"){
+        } else if (Algorithmtype.equals("SMA")  || Algorithmtype.equals("EMA")){
             result += "Duration 1: " + par1 + "\n";
             result += "Duration 2: " + par2 + "\n";
-        } else if (Algorithmtype == "Rising" || Algorithmtype == "Falling"){
+        } else if (Algorithmtype.equals("Rising")  || Algorithmtype.equals("Falling")){
             result += "Bar count: " + par1 + "\n";
             result += "Min Strength: " + par2 + "\n";
         }
         return result;
     }
-
 
     public void setAlgorithms(HashMap<String, ArrayList<Object>> algorithms, HashMap<String, ArrayList<Object>> algorithmsRan) {
         Algorithms = algorithms;
