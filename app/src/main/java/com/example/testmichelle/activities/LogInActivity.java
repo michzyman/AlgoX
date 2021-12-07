@@ -37,7 +37,6 @@ public class LogInActivity extends AppCompatActivity {
     private EditText edt_Password;
     //Firebase
     private FirebaseAuth mAuth;
-    Integer currentbalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +62,6 @@ public class LogInActivity extends AppCompatActivity {
                 userSignUp();
             }
         });
-
-        //ADD PROGRESS BAR HERE
     }
     private void userLogIn() {
 
@@ -105,114 +102,9 @@ public class LogInActivity extends AppCompatActivity {
         Intent intent_signup = new Intent(LogInActivity.this, SignUpActivity.class);
         startActivity(intent_signup);
     }
-
 }
 
 
-    /*
-    private void attemptLogin(){
-        if (mAuthTask != null){
-            return;
-        }
-
-        boolean cancel = false;
-        View focusView = null;
-
-        //Store values at the time of the login attempt
-        String email = edt_Email.getText().toString();
-        String password = edt_Password.getText().toString();
-
-
-        //Check for a valid email address
-        if(TextUtils.isEmpty(email)){
-            edt_Email.setError("Invalid Email");
-            focusView = edt_Email;
-            cancel = true;
-        }else if(!isEmailValid(email)){
-            edt_Email.setError("Email is invalid");
-            focusView = edt_Email;
-            cancel = true;
-        }
-
-        //Check for a valid password
-        if (!isPasswordValid(password)) {
-            edt_Password.setError("Password does not match the email");
-            focusView = edt_Password;
-            cancel = true;
-        }
-
-        //If there was an error do not attempt login
-        //Else perform the user login attempt
-        if(cancel){
-            focusView.requestFocus();
-        }
-        else {
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void)null);
-        }
-
-    }
-
-
-    private boolean isEmailValid(String email){
-        CharSequence s = email;
-        return !TextUtils.isEmpty(s) && Patterns.EMAIL_ADDRESS.matcher(s).matches();
-
-    }
-    private boolean isPasswordValid (String password){
-        return password.length() > 6;
-    }
-    public class UserLoginTask extends AsyncTask<Void, Void, Void> {
-        //Asunchronous Login that authenticates the user
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-        @Override
-        protected Void doInBackground(Void... params) {
-            boolean loggedIn = false;
-            account = UserAccount.getInstance();
-            account.auth.signInWithEmailAndPassword(mEmail, mPassword).addOnSuccessListener(LogInActivity.this, new OnSuccessListener<AuthResult>() {
-                @Override
-                public void onSuccess(AuthResult authResult) {
-                    Toast.makeText(LogInActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                    Intent intent_home = new Intent(LogInActivity.this, BasicActivity.class);
-                    startActivity(intent_home);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    mAuthTask = null;
-                    UserAccount.signOut();
-                    Toast.makeText(getApplicationContext(), "Invalid login credentials", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    mAuthTask = null;
-                }
-            });
-            return null;
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            UserAccount.signOut();
-        }
-    }
-    public void saveLoginInfo(Context context, String username, String password) {
-        SharedPreferences sharedPre = context.getSharedPreferences("config", context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPre.edit();
-        editor.putString("username", username);
-        editor.putString("password", password);
-        editor.commit();
-    }
-
-     */
 
 
 

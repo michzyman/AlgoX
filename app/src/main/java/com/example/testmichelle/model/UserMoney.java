@@ -14,21 +14,20 @@ public class UserMoney {
         this.freecash = freecash;
     }
 
+    /*-------------------CREATING GET FUNCTIONS FOR ALL THE VARIABLES------------------- */
     public Integer getFreecash() {
         return freecash;
     }
-
     public Integer getCurrentbalance() {
         return currentbalance;
     }
 
+    /*-------------------CREATING SET FUNCTIONS FOR ALL THE VARIABLES------------------- */
     public void setFreecash(Integer freecash) {
         this.freecash = freecash;
     }
-
     public void setCurrentbalance(Integer currentbalance) {
         this.currentbalance = currentbalance;
     }
-
 
 }

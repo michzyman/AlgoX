@@ -66,26 +66,16 @@ public class cancelAlgorithmPopUp extends AppCompatActivity {
                             idToCancel = child.getKey();
                             Log.d("User ref", child.getRef().toString());
                             Log.d("User val", child.getValue().toString());
-//                            Algorithm algo = child.getValue(Algorithm.class);
-//                            boolean currently = algo.status;
-//                            if(currently) {
-                                databaseReference.child(idToCancel).child("status").setValue(false);
-                                String ending = String.valueOf(ZonedDateTime.now());
-                                databaseReference.child(idToCancel).child("end_date").setValue(ending);
-//                            }
-//                            else{
-//                                Toast.makeText(getApplicationContext(), "This algorithm was already canceled",Toast.LENGTH_LONG).show();
-//                            }
+                            databaseReference.child(idToCancel).child("status").setValue(false);
+                            String ending = String.valueOf(ZonedDateTime.now());
+                            databaseReference.child(idToCancel).child("end_date").setValue(ending);
                             finish();
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
                     }
                 });
-
             }
         });
     }

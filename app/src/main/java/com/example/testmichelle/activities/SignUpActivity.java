@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
+
     // UI references.
     private EditText signup_Name;
     private EditText signup_Email;
@@ -44,13 +45,20 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        //Getting all the UI ID's
         signup_Email = (EditText) findViewById(R.id.signup_Email);
         signup_Name = (EditText) findViewById(R.id.signup_Name);
         signup_Password = (EditText) findViewById(R.id.signup_Password);
         signup_Lastname = (EditText) findViewById(R.id.signup_Lastname);
+        btn_Done = (Button) findViewById(R.id.btn_Done);
+
+
+        //Instance to the Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        btn_Done = (Button) findViewById(R.id.btn_Done);
+        //Calling userSignUp when the user clicks the button btn_Done to
+        // create a new id for that user in the database and stored the user's account
+        // information under that reference
         btn_Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,14 +93,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Register the NEW USER in Firebase
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            //Create a new User
+            //Create a new User using email and password
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                     UserProfile newUser = new UserProfile(name,lastname, email, password);
-
-                    //FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
                     databaseReference.child(firebaseUser.getUid()).setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -106,48 +112,29 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         }
                     });
-
+                    //Creates a new child under the user that stores the currentbalance
                     databaseReference.child(firebaseUser.getUid()).child("currentbalance").setValue(currentbalance);
+                    //Creates a new child under the user that stores the freecash
                     databaseReference.child(firebaseUser.getUid()).child("freecash").setValue(freecash);
+                    //Creates a new child under the user that will store the Algorithms
                     databaseReference.child(firebaseUser.getUid()).child("Algorithms");
 
-                    /*
-
-                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("StockName").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").child("AlgorithmName").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").child("AlgorithmType").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("CurrentAlgorithms").child("Algorithm").child("AlgorithmParameter").setValue("");
-
-                    String [] currentalgorithms = {"StockName", "TransactionType", "Money", "DateofTransaction"};
-                    List historyList = new ArrayList<String>(Arrays.asList(currentalgorithms));
-                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").setValue(historyList);
-
-
-
-
-                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("StockName").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("TransactionType").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("Money").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("DateOfTransaction").setValue("");
-                    databaseReference.child(firebaseUser.getUid()).child("HistoryOfTransaction").child("Algorithm").setValue("");
-
-*/
                 } else {
+                    //ERROR HANDELING
                     Toast.makeText(SignUpActivity.this, "ERROR" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
-
     }
 
+    //Checks if the user is entering an email address
     private boolean isEmailValid(String email) {
         CharSequence s = email;
         return !TextUtils.isEmpty(s) && android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches();
     }
 
+
+    //Checks if the password that the user entered is 6 characters or more
     private boolean isPasswordValid(String password) {
         return password.length() >= 6;
     }

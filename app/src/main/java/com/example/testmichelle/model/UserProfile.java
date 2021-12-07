@@ -1,8 +1,8 @@
 package com.example.testmichelle.model;
 
 public class UserProfile {
-    //String variables for storing the information
 
+    //String variables for storing the information
     public String email, password, name, lastname;
 
     public UserProfile(){} //Default used for Firebase/API
@@ -16,15 +16,13 @@ public class UserProfile {
 
     }
 
-
+    /*-------------------CREATING GET FUNCTIONS FOR ALL THE VARIABLES------------------- */
     public String getName(){
         return name;
     }
-
     public String getLastname() {
         return lastname;
     }
-
     public String getEmail(){
         return email;
     }
@@ -32,18 +30,16 @@ public class UserProfile {
         return password;
     }
 
+    /*-------------------CREATING SET FUNCTIONS FOR ALL THE VARIABLES------------------- */
     public void setEmail(String email) {
         this.email = email;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }

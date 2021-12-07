@@ -131,29 +131,14 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
         /* --- GETTING ALGORITHMS FROM FIREBASE INTO ALGORITHMS HASHMAP --- */
 
-//        getAlgorithmsFromDatabase();
-//        while(!done) {
-
-//        }
         Log.i("ACTIVITY", "out of that listener!");
 
-//        System.out.println(algorithms.toString());
-
         /*-------------------FOR EACH ALGO, RUN THRU FINANCE & TA4J API ----------------------------*/
-
-//        for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
-//            System.out.println("yay, next entry! it's " + entry.toString());
-//            callAPItoUpdateAlgorithm(entry);
-//        }
-
 
 
         // Load Data from Database and store variables in "algorithms"
 
         System.out.println("KEYSET IN ONCREATE: " + algorithmsRan.keySet());
-
-        // TESTING
-//        System.out.println(createListOfAlgorithmValues("Algo1"));
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
@@ -204,23 +189,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         makeCurrentFragment(historyFragment);
     }
 
-//    public void getAlgorithmsFromDatabase() {
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
-//        databaseReference.child(firebaseUser.getUid()).child("Algorithms").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                if(!task.isSuccessful()){
-//                    Log.e("FIREBASE","ERROR", task.getException());
-//                }
-//                else{
-//                    Log.e("firebase", String.valueOf(task.getResult().getValue().toString()));
-//
-//                }
-//            }
-//        });
-//        Log.i("GET ALGO","got out of loop");
-//    }
 
     public void getAlgorithmsFromDatabaseTest() {
 
@@ -255,22 +223,6 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         BasicActivity thisObj = this;
         YahooFinance.basicActivityRequestChart(ticker, context, thisObj, entry);
     }
-
-//    public void callAPItoUpdateAlgorithmTest(Map.Entry<String, ArrayList<Object>> entry) {
-//        String ticker = (String) entry.getValue().get(3);
-//        Context context = getApplicationContext();
-//        BasicActivity thisObj = this;
-//
-//        Random rd = new Random();
-//        double[][] data = new double[100][5];
-//        for(int r = 0; r < data.length; r++) {
-//            for(int c = 0; c < data[0].length ; c++){
-//                data[r][c] = rd.nextDouble()*1000;
-//            }
-//        }
-//        updateAlgorithms(entry, data);
-//    }
-
 
     /**
      * Takes in hashmap entry and data (from api call), and updates the corresponding entry

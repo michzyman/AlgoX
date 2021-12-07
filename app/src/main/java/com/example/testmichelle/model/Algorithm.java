@@ -32,79 +32,58 @@ public class Algorithm {
         this.algoname = algoname;
     }
 
+    /*-------------------CREATING GET FUNCTIONS FOR ALL THE VARIABLES------------------- */
     public boolean getStatus(){
         return status;
     }
-
     public String getStockname() {
-
         return stockname;
     }
-
-
     public ArrayList<String> getBuyingrule() {
-
         return buyingrule;
     }
-
     public ArrayList<String> getSellingrule() {
-
         return sellingrule;
     }
     public String getStart_date(){
         return start_date;
     }
-
     public String getEnd_date() {
-
         return end_date;
     }
-
-    public void setStatus(boolean status) {
-
-        this.status = status;
-    }
-
-    public void setEnd_date(String end_date) {
-
-        this.end_date = end_date;
-    }
-
-    public void setStart_date(String start_date) {
-        this.start_date = start_date;
-    }
-
-    public void setStockname(String stockname) {
-
-        this.stockname = stockname;
-    }
-
-    public void setInitialamount(Integer initialamount) {
-
-        this.initialamount = initialamount;
-    }
-
-    public void setBuyingrule(ArrayList<String> buyingrule) {
-
-        this.buyingrule = buyingrule;
-    }
-
-    public void setSellingrule(ArrayList<String> sellingrule) {
-
-        this.sellingrule = sellingrule;
-    }
-
-    public void setAlgoname(String name){
-
-        this.algoname = name;
-    }
-
     public void getAlgoname(String name){
-
         this.algoname = name;
     }
-
     public void getInitialamount(Integer initialamount){
         this.initialamount = initialamount;
     }
+
+
+
+    /*-------------------CREATING SET FUNCTIONS FOR ALL THE VARIABLES------------------- */
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    public void setEnd_date(String end_date) {
+        this.end_date = end_date;
+    }
+    public void setStart_date(String start_date) {
+        this.start_date = start_date;
+    }
+    public void setStockname(String stockname) {
+        this.stockname = stockname;
+    }
+    public void setInitialamount(Integer initialamount) {
+        this.initialamount = initialamount;
+    }
+    public void setBuyingrule(ArrayList<String> buyingrule) {
+        this.buyingrule = buyingrule;
+    }
+    public void setSellingrule(ArrayList<String> sellingrule) {
+        this.sellingrule = sellingrule;
+    }
+    public void setAlgoname(String name){
+        this.algoname = name;
+    }
+
 }

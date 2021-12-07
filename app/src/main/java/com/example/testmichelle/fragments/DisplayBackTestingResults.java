@@ -258,13 +258,8 @@ public class DisplayBackTestingResults extends Fragment {
             }
         });
 
-//        UserMoney money = new UserMoney();
-//        Integer money1 = money.getFreecash();
-
-//        databaseReference.child(firebaseUser.getUid()).child("freecash").push().setValue()
         algSet = true;
-//        et_money.setText("");
-//        et_algoName.setText("");
+
     }
 
     public void checkFreecash(){

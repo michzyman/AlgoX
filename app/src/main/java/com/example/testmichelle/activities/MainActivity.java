@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         YahooFinance.initRequestQueue(this);
+
         btn_Enter = (ImageButton) findViewById(R.id.btn_Enter);
         btn_Enter.setOnClickListener(new View.OnClickListener() {
             @Override

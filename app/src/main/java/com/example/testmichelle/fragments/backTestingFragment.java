@@ -636,20 +636,4 @@ public void createRules(double[][] data) {
             return false;
         }
     }
-//    private void algorithmToUse() {
-//        boolean status = true;
-//        String stockname = "test";
-//        Integer initialamount = 10;
-//        String[] list = {par1, par2, "buyingRuleName"};
-//        String[] list2 = {par3,par3,"sellingRuleName"};
-//        ArrayList<String> buyingrule = new ArrayList<String>(Arrays.asList(list));
-//        ArrayList<String> sellingrule = new ArrayList<String>(Arrays.asList(list2));
-//        String start_date = "12/05/2021";
-//        String end_date = "12/15/2021";
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        Algorithm algorithm = new Algorithm(status, stockname, initialamount, buyingrule, sellingrule, start_date, end_date);
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
-//        databaseReference.child(firebaseUser.getUid()).child("Algorithms").setValue(algorithm);
-//
-//    }
 }

@@ -33,12 +33,6 @@ import org.w3c.dom.Text;
 
 
 public class AccountFragment extends Fragment {
-    Button btn_LogOut;
-    TextView text_username2;
-    TextView text_balance2;
-    GraphView graphPortofolio;
-
-
 
     public AccountFragment() {
         // Required empty public constructor
