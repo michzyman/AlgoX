@@ -8,7 +8,7 @@ AlgoX is an app that adds algorithmic trading and backtesting to the stock marke
 5. Hit "Run" to run the back-testing and evaluate the performance of your algorithm. 
 6. From this page, you can choose whether you'd like to set this algorithm to run in real time with a certain amount of money. Otherwise, you can go back and try a different algorithm. 
 
-* *(Note: use this login to see algorithms that have been running for several months: email: danieldelijani@gmail.com, password: password)
+*(Note: use this login to see algorithms that have been running for several months: email: danieldelijani@gmail.com, password: password)
 
 ## Examples
 ### Home Screen
