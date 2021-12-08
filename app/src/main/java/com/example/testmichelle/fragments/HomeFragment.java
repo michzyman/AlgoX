@@ -367,6 +367,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return Math.round(unrounded * 100.0) / 100.0;
     }
 
+    /**
+     * Calculates the sum of the profit made by the algorithms in the user's portfolio
+     * @return total current value of your portfolio of algorithms
+     */
     public Double getTotalPortfolioValue() {
         Double totalValue = 0.;
         for (Map.Entry<String, ArrayList<Object>> entry : Algorithms.entrySet()) {
@@ -376,6 +380,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return roundedVal;
     }
 
+    /**
+     *
+     * @param algorithmName Name of the algorithm to get the profit for
+     * @return the profit of each algorithm running to update the total profit
+     */
     public Double getAlgorithmValue(String algorithmName) {
         ArrayList<Double> values = createListOfAlgorithmValues(algorithmName);
         Double finalValue = values.get(values.size() - 1);
@@ -383,15 +392,21 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return finalValue;
     }
 
-
-
+    /**
+     * Set the current portfolio value on the home page to the total portfolio value
+     * @param totalProfit calculation given from the getTotalProfit function
+     */
     public void updateCurrentBalance(Double totalProfit){
         text_balance.setText("Portfolio Value " + "\n" + "$"+ getTotalPortfolioValue());
         text_balance.setTextSize(20);
         text_balance.setGravity(Gravity.CENTER);
         text_balance.setVisibility(View.VISIBLE);
     }
-
+    /**
+     * Used to set the profit under the statistics of the algo
+     * @param algorithmName Name of the algorithm to get the profit for
+     * @return profit of algorithm
+     */
     public Double getAlgorithmProfit(String algorithmName) {
         ArrayList<Double> values = createListOfAlgorithmValues(algorithmName);
         Double finalValue = values.get(values.size() - 1);
@@ -399,7 +414,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         Double profit = finalValue - startingValue;
         return profit;
     }
-
+    /**
+     *
+     * @param algorithmName Name of the algorithm
+     * @return initial amount invested into the algorithm
+     */
     public Double getAlgorithmStartingValue(String algorithmName) {
         return ((Integer) Algorithms.get(algorithmName).get(2)).doubleValue();
     }
