@@ -71,7 +71,6 @@ public class backTestingFragment extends Fragment {
     private TextView tv_p6;
     private EditText et_p5;
     String et_p6;
-//    private EditText et_p6;
     String par5;
     String par6;
 
@@ -90,6 +89,7 @@ public class backTestingFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        // INIT THE FRAGMENT LISTENER
         FL = (FragmentListener) context;
     }
 
@@ -128,9 +128,10 @@ public class backTestingFragment extends Fragment {
         tv_p6 = (TextView) view.findViewById(R.id.tv_p6);
         tv_p6.setText("Timeframe:");
         et_p5 = (EditText) view.findViewById(R.id.et_p5);
-//        et_p6 = (EditText) view.findViewById(R.id.et_p6);
 
-
+        /*
+        Get more information about the rules you've set
+         */
         btnToMoreInfoPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,11 +183,6 @@ public class backTestingFragment extends Fragment {
                         }
                     }
 
-
-//                else{
-//                    System.out.println("NO PARAMETERS!");
-//                    Toast.makeText(getContext(), "Please enter parameters", Toast.LENGTH_LONG).show();
-//                }
 
                 if (!error && sellingRuleSet && buyingRuleSet) {
                     // DISPLAY POPUP
@@ -360,8 +356,6 @@ public class backTestingFragment extends Fragment {
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         spinner3.setAdapter(adapter3);
-        ;
-
         spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -481,9 +475,10 @@ public void createRules(double[][] data) {
     // Setting Buying Rule
 
     TechnicalAnalysis.loadData(par5, getContext(), data);
-
+// ONCE WE HAVE ALL OF THE INFO, WE CAN SET THE RULES WITH THE TA4J LIBRARY
     if (!error && sellingRuleSet && buyingRuleSet && backtestingParamsSet && !TechnicalAnalysis.series.isEmpty()) {
         System.out.println(rule);
+        // Setting the Buying Rule
         switch (rule) {
             case "Price Above":
                 try {
@@ -609,6 +604,9 @@ public void createRules(double[][] data) {
                     break;
             }
         }
+        // Once we have the buying & selling rules made, we can create the trading record
+        // All of this is then passed to the next fragment (BackTestingResults)
+        // which is where the user can see the performance of the back-testing
         if(!error) {
             TradingRecord tradingRecord = TechnicalAnalysis.triggerTa4j(buying_rule, selling_rule);
             FL.passDataToBackTestingResults(tradingRecord, buying_rule, selling_rule, TechnicalAnalysis.series, par1,par2,par3,par4,par5,rule,rule2);
@@ -616,18 +614,21 @@ public void createRules(double[][] data) {
             System.out.println("Total Profit " + String.valueOf(TechnicalAnalysis.totProfit));
         }
     }
-
+// Error handling: parameters not valid or set
     else {
         Toast.makeText(getContext(), "Please enter valid parameters for rules", Toast.LENGTH_LONG).show();
 
     }
-
+// reset!
     error = false;
     sellingRuleSet = false;
     buyingRuleSet = false;
     backtestingParamsSet = false;
 
 }
+/*
+check is the string is a numeric value
+ */
     public static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str);
