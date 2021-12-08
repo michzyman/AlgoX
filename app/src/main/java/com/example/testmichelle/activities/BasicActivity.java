@@ -28,13 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.threetenabp.AndroidThreeTen;
-
 import org.threeten.bp.ZonedDateTime;
-
 import org.ta4j.core.Rule;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.TradingRecord;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -52,6 +49,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     // Value: [TradingRecord record, TimeSeries series, String Ticker, ZonedDateTime start, ZonedDateTime end]
     public static HashMap<String, ArrayList<Object>> algorithmsRan = new HashMap<String, ArrayList<Object>>();
 
+    //Initializes Fragments
     private DisplayBackTestingResults backTestingResults;
     private backTestingFragment backTestingFragment;
     private HomeFragment homeFragment;
@@ -172,23 +170,28 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, fragment).commit();
     }
 
+    /*
+    This method of the fragment listener is used to passed data from the backTesting fragment to the backTestingResults Fragment
+     */
     public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series, String p1, String p2, String p3, String p4, String ticker, String buyingRuleName, String sellingRuleName) {
         makeCurrentFragment(backTestingResults);
         backTestingResults.collectData(tradingRecord, Buying_rule, Selling_Rule, series, p1, p2, p3, p4, ticker, buyingRuleName, sellingRuleName);
         backTestingResults.setResultsData();
     }
 
-
+    /*
+    Method for the backTestingResults fragment to go back to the backtesting fragment
+     */
     public void goToBackTestingFragment() {
         makeCurrentFragment(backTestingFragment);
     }
 
-
-
+    /*
+    Method to go the history fragment
+     */
     public void goToHistory() {
         makeCurrentFragment(historyFragment);
     }
-
 
     public void getAlgorithmsFromDatabaseTest() {
 

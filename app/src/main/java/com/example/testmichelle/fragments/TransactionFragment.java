@@ -20,7 +20,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.Hashtable;
 
 public class TransactionFragment extends Fragment {
-
+    
     GraphView stock_graph;
     Button btnSearch;
     EditText edtStock;
@@ -35,8 +35,7 @@ public class TransactionFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_transaction, container, false);
         stock_graph = (GraphView) view.findViewById(R.id.stock_graph);
@@ -54,7 +53,6 @@ public class TransactionFragment extends Fragment {
 
         btnSearch.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Log.d("onClickCalled", "yay");
                 search(v);
             }
         });
@@ -65,13 +63,17 @@ public class TransactionFragment extends Fragment {
         return view;
     }
 
+    /*
+    This method searches for the stock prices of the stock that is inputted
+     */
     public void search(View view) {
-        Log.d("searchCalled", "yay");
+        // Access the stock name and period we need
         String ticker = edtStock.getText().toString();
-        Log.d("tickerGotten", ticker);
+        String currentPeriod = stock_period_spinner.getSelectedItem().toString();
+
+        // with the given period, we determine what is the range and interval for the yahoo finance API call
         String range = "";
         String interval = "";
-        String currentPeriod = stock_period_spinner.getSelectedItem().toString();
         if(currentPeriod.equals("day")){
             range = "1d";
             interval = "5m";
@@ -85,13 +87,19 @@ public class TransactionFragment extends Fragment {
             range = "1y";
             interval = "1wk";
         }
+        // Make the yahoo finance API calls
         if (!ticker.equals("")) {
             YahooFinance.requestSummary(ticker, getContext(), this);
             YahooFinance.requestSearchFragmentSpark(ticker, range, interval, getContext(), this);
         }
     }
 
+    /*
+    The function graphs the stock prices
+    This function is called when yahoo finance api is done making the call
+     */
     public void graph(String ticker, double[] stockPrices, String range){
+        // determine the period that will be outputted on the graph
         String period = "day";
         if (range.equals("5d")){
             period = "week";
@@ -100,7 +108,9 @@ public class TransactionFragment extends Fragment {
         } else if (range.equals("1y")){
             period = "year";
         }
+        // make sure to remove all data that is already in the graph
         stock_graph.removeAllSeries();
+        // Overwrote the label formal
         stock_graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
             @Override
             public String formatLabel(double value, boolean isValueX){
@@ -111,14 +121,18 @@ public class TransactionFragment extends Fragment {
                 }
             }
         });
+        // created a series to add the stock price
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
         for (int i = 0; i < stockPrices.length; i++){
             DataPoint currentDataPoint = new DataPoint(i, stockPrices[i]);
             series.appendData(currentDataPoint, true, stockPrices.length);
         }
+        // some styling
         series.setColor(getResources().getColor(R.color.green));
         series.setThickness(10);
+        // add series to graph to display data
         stock_graph.addSeries(series);
+        // set new title of the graph
         stock_graph.setTitle("Growth of " + ticker + "'s stock over the last " + period);
     }
 
