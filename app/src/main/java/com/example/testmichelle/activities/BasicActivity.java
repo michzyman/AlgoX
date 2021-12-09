@@ -28,13 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jakewharton.threetenabp.AndroidThreeTen;
-
 import org.threeten.bp.ZonedDateTime;
-
 import org.ta4j.core.Rule;
 import org.ta4j.core.TimeSeries;
 import org.ta4j.core.TradingRecord;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -52,6 +49,7 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     // Value: [TradingRecord record, TimeSeries series, String Ticker, ZonedDateTime start, ZonedDateTime end]
     public static HashMap<String, ArrayList<Object>> algorithmsRan = new HashMap<String, ArrayList<Object>>();
 
+    //Initializes Fragments
     private DisplayBackTestingResults backTestingResults;
     private backTestingFragment backTestingFragment;
     private HomeFragment homeFragment;
@@ -65,12 +63,13 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // initialize the hashmaps that will store the algorithms from DB to empty every time basic activity is created
         algorithms = new HashMap<String,ArrayList<Object>>();
         algorithmsRan = new HashMap<String,ArrayList<Object>>();
 
         setContentView(R.layout.activity_basic);
 
-/*-------------------FRAGMENTS - BOTTON NAV ----------------------------*/
+/*-------------------FRAGMENTS - BUTTON NAV ----------------------------*/
         homeFragment = new HomeFragment();
         transactionFragment = new TransactionFragment();
         historyFragment = new HistoryFragment();
@@ -78,8 +77,11 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         backTestingFragment = new backTestingFragment();
         backTestingResults = new DisplayBackTestingResults();
         loadingFragment = new LoadingScreenFragment();
+        // When the user logs in, first fragment that appears is the loading fragment
         makeCurrentFragment(loadingFragment);
         YahooFinance.initRequestQueue(this);
+        /* get current user info from database and then extract all of the algorithms stored
+        * for that user to fill the algorithms hashmap  */
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Registered Users");
         databaseReference.child(firebaseUser.getUid()).child("Algorithms").addValueEventListener(new ValueEventListener() {
@@ -103,6 +105,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
                 Log.i("DATABASE", "got em all");
                 Log.i("DATABASE", algorithms.toString());
 
+                /* ONCE ALL ALGORITHMS ARE EXTRACTED & THE HASHMAP IS FILLED,
+                *  WE CALL THE FINANCE API IN ORDER TO START UPDATING THE ALGORITHMS
+                */
                 for (Map.Entry<String, ArrayList<Object>> entry : algorithms.entrySet()) {
                     System.out.println("yay, next entry! it's " + entry.toString());
                     callAPItoUpdateAlgorithm(entry);
@@ -116,6 +121,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
             }
         });
 
+        /* TIMER FOR LOADING THE HOME FRAGMENT UPON LOGIN
+        *  (gives time for the algorithms to run and update before home page is shown) */
         new CountDownTimer(8000, 1000) {
             public void onFinish() {
                 homeFragment = new HomeFragment();
@@ -126,20 +133,8 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
             }
         }.start();
-        /*-------------------FRAGMENTS - BOTTON NAV ----------------------------*/
 
-
-        /* --- GETTING ALGORITHMS FROM FIREBASE INTO ALGORITHMS HASHMAP --- */
-
-        Log.i("ACTIVITY", "out of that listener!");
-
-        /*-------------------FOR EACH ALGO, RUN THRU FINANCE & TA4J API ----------------------------*/
-
-
-        // Load Data from Database and store variables in "algorithms"
-
-        System.out.println("KEYSET IN ONCREATE: " + algorithmsRan.keySet());
-
+        /* BOTTOM NAVIGATION LISTENER */
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
@@ -172,24 +167,33 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_wrapper, fragment).commit();
     }
 
+    /*
+    This method of the fragment listener is used to passed data from the backTesting fragment to the backTestingResults Fragment
+     */
     public void passDataToBackTestingResults(TradingRecord tradingRecord, Rule Buying_rule, Rule Selling_Rule, TimeSeries series, String p1, String p2, String p3, String p4, String ticker, String buyingRuleName, String sellingRuleName) {
         makeCurrentFragment(backTestingResults);
         backTestingResults.collectData(tradingRecord, Buying_rule, Selling_Rule, series, p1, p2, p3, p4, ticker, buyingRuleName, sellingRuleName);
         backTestingResults.setResultsData();
     }
 
-
+    /**
+     *     Method for the backTestingResults fragment to go back to the backtesting fragment
+     */
     public void goToBackTestingFragment() {
         makeCurrentFragment(backTestingFragment);
     }
 
-
-
+    /*
+    Method to go the history fragment
+     */
     public void goToHistory() {
         makeCurrentFragment(historyFragment);
     }
 
-
+    /**
+     *     This function was used to enter test data for algorithms in order to see how
+     *     algorithms that have been running for a longer period of time would be graphed/stored/presented
+     */
     public void getAlgorithmsFromDatabaseTest() {
 
         AndroidThreeTen.init(getApplicationContext());
@@ -216,6 +220,10 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
 
     }
 
+    /**
+     * Calls the YahooFinance API in order to get callback data that we can pass to UpdateAlgorithms
+     * @param entry
+     */
     public void callAPItoUpdateAlgorithm(Map.Entry<String, ArrayList<Object>> entry) {
         System.out.println("calling finance api to get this chart!");
         String ticker = (String) entry.getValue().get(3);
@@ -364,6 +372,9 @@ public class BasicActivity extends AppCompatActivity implements FragmentListener
         }
     }
 
+    /**
+     * pass the algorithms and algorithmsRan hashmaps from the basic activity to the home fragment
+     */
     public void passDataToHomeFragment() {
         homeFragment.setAlgorithms(algorithms, algorithmsRan);
     }

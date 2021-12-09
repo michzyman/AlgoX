@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.testmichelle.R;
 import com.example.testmichelle.activities.FragmentListener;
-import com.example.testmichelle.activities.BasicActivity;
 import com.example.testmichelle.activities.cancelAlgorithmPopUp;
 import com.example.testmichelle.model.Algorithm;
 import com.example.testmichelle.model.UserMoney;
@@ -62,6 +61,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         // Required empty public constructor
     }
 
+    //Override onAttach to gain access to the fragment listener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -69,8 +69,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         text_name = (TextView) view.findViewById(R.id.text_username);
@@ -98,15 +97,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         text_balance.setTextSize(20);
         text_balance.setGravity(Gravity.CENTER);
         text_balance.setVisibility(View.VISIBLE);
-
-
-//        Double portfolioValue = getTotalPortfolioValue();
-//        System.out.println("total portfolio value = " + portfolioValue);
-//        System.out.println("Sum = " + (portfolioValue + amountWeStartedWith));
-//        updateCurrentBalance(portfolioValue);
-
-        //text_balance.setText("BALANCEEEEEEE");
-
         text_cash = (TextView) view.findViewById(R.id.text_cash);
         text_cash.setVisibility(View.INVISIBLE);
         databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -134,12 +124,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         text_selling_rule = (TextView) view.findViewById(R.id.text_selling_rule);
         text_selling_rule.setVisibility(View.INVISIBLE);
         SpinnerOfAlgorithms = (Spinner) view.findViewById(R.id.SpinnerOfAlgorithms);
+
+        // CHeck if algorithms is null to make sure that the data was passed in correctly
         if (Algorithms != null) {
             if (!Algorithms.isEmpty()) {
+                // Add each algorithm name to an Array list
                 ArrayList<String> SpinnerValues = new ArrayList<String>();
                 for (String key : Algorithms.keySet()) {
                     SpinnerValues.add(key);
                 }
+                //Initlize the spinner to have the names of each algorithm.
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, SpinnerValues);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 SpinnerOfAlgorithms.setAdapter(adapter);
@@ -147,6 +141,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         }
         btnCancelAlgorithm = view.findViewById(R.id.btnCancelButton);
+        // Cancel Button functionality
         btnCancelAlgorithm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,6 +174,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return view;
     }
 
+    // This method returns the string represenation of a ZonedDataTime Object
     public String ZonedDateTimetoString(ZonedDateTime date){
         String result = "";
         result += date.getMonth().getValue() + "/";
@@ -187,18 +183,25 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return result;
     }
 
+    /*
+    Given the name of the algorithm, this method will graph its performance
+     */
     public void graphAlgorithm(String Algorithm){
+        // get the stock prices of the algorithm
         ArrayList<Double> stockPrices = createListOfAlgorithmValues(Algorithm);
-        System.out.println("STOCK PRICES: " + stockPrices.toString());
-        System.out.println("SIZE: " + stockPrices.size());
+        // make to remove all the data in the graph before graphing new data
         graphAlgorithms.removeAllSeries();
+        // Access the start data of the algorithm to graph the dates on the graph
         String startDateString = (String) Algorithms.get(Algorithm).get(5);
         ZonedDateTime startDate = ZonedDateTime.parse(startDateString);
         final Boolean[] print = {true};
+        // overwrite label function to inlcude dates and round decimals before displaying on the graph
         graphAlgorithms.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
             @Override
             public String formatLabel(double value, boolean isValueX){
                 if(isValueX){
+                    // outputing dates on the x axis
+                    // we skip every other x coordinate to avoid the dates colliding
                     String date = ZonedDateTimetoString(startDate.plusDays(Double.valueOf(value).longValue()));
                     if(print[0]){
                         print[0] = false;
@@ -208,40 +211,52 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         return "";
                     }
                 } else {
+                    // rounding decimals
                     return "$" + (Math.round(value * 100.0) / 100.0);
                 }
             }
         });
+        // add the data to a series
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
         for (int x = 0; x < stockPrices.size() - 1; x++){
             Double y = stockPrices.get(x);
             series.appendData(new DataPoint(x, y), true, stockPrices.size());
         }
+        // styling the graphs
         series.setColor(getResources().getColor(R.color.green));
         series.setThickness(10);
+        // add series to graph to display the new graph
         graphAlgorithms.addSeries(series);
         graphAlgorithms.setVisibility(View.VISIBLE);
-        //graphAlgorithms.getGridLabelRenderer().setHumanRounding(false);
-
+        // set Scalable and Scrollable to true to see all of the data
         graphAlgorithms.getViewport().setScalable(true);
         graphAlgorithms.getViewport().setScrollable(true);
+        // Set new of the graph
         graphAlgorithms.setTitle(Algorithm + "'s performance so far");
     }
 
+    /*
+    Override spinner method to display data and graph alggorithm when the algorithm is selected
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         graphAlgorithm(parent.getItemAtPosition(pos).toString());
         displayData(parent.getItemAtPosition(pos).toString());
     }
 
+    /*
+    Include this method to successfully implement interface.
+     */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    // Key: Name of Algorithm
-    // Value: [ArrayList buyingrule, ArrayList sellingrule, Integer currentbalance (really initialamount), String stockname, String startdate, String enddate, boolean status]
-    // ArrayList buyingrule / sellingrule: [par1, par2, type]
+    /*
+    This method is used to display the statistics of the chosen algorithmm
+     */
     public void displayData(String AlgorithmName){
+
+        // Collecting statistics of current algorithm
         ArrayList algorithmData = Algorithms.get(AlgorithmName);
         ArrayList<String> buyingRuleData = (ArrayList<String>) algorithmData.get(0);
         ArrayList<String> sellingRuleData = (ArrayList<String>) algorithmData.get(1);
@@ -259,19 +274,22 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         String resultText = "Initial Value: " + initialValue + "\n";
         resultText += "Final Value: " + Math.round(finalValue * 100.0) / 100.0 + "\n";
         resultText += "Profit: " + Math.round(profit * 100.0) / 100.0 + "\n";
+
+        // Displaying States
         text_buying_rule.setText(buyingRuleText);
         text_buying_rule.setTextSize(13);
         text_buying_rule.setVisibility(View.VISIBLE);
-
         text_selling_rule.setText(sellingRuleText);
         text_selling_rule.setTextSize(13);
         text_selling_rule.setVisibility(View.VISIBLE);
-
         text_algorithm_results.setText(resultText);
         text_algorithm_results.setTextSize(13);
         text_algorithm_results.setVisibility(View.VISIBLE);
     }
 
+    /*
+    This method will generate the string on how the algorithm will be displayed on display text boces
+     */
     public String generateStringForAlgorithmText(String rule, String Algorithmtype, String par1, String par2){
         String result = rule + ": " + Algorithmtype + "\n";
         if (Algorithmtype.equals("Price Above")  || Algorithmtype.equals("Price Below")){
@@ -286,21 +304,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return result;
     }
 
+    /*
+    Fragment lister will use this method to pass the data into the home fragment.
+     */
     public void setAlgorithms(HashMap<String, ArrayList<Object>> algorithms, HashMap<String, ArrayList<Object>> algorithmsRan) {
         Algorithms = algorithms;
         AlgorithmsRan = algorithmsRan;
     }
 
     public ArrayList<Double> createListOfAlgorithmValues(String algorithmName) {
-        System.out.println("algoname: " + algorithmName);
-        System.out.println("algorithmsran: " + AlgorithmsRan);
-        if (algorithmName == null) {
-            System.out.println("ALGONAME IS NULL");
-        }
-        if (AlgorithmsRan == null) {
-            System.out.println("ALGORITHMSRAN IS NULL");
-        }
-
         ArrayList algorithmData = AlgorithmsRan.get(algorithmName);
         if (algorithmData!=null) {
             TimeSeries series = (TimeSeries) algorithmData.get(1);
@@ -354,6 +366,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public Double roundToTwoDecimal(Double unrounded) {
         return Math.round(unrounded * 100.0) / 100.0;
     }
+
+    /**
+     * Calculates the sum of the profit made by the algorithms in the user's portfolio
+     * @return total current value of your portfolio of algorithms
+     */
     public Double getTotalPortfolioValue() {
         Double totalValue = 0.;
         for (Map.Entry<String, ArrayList<Object>> entry : Algorithms.entrySet()) {
@@ -363,6 +380,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return roundedVal;
     }
 
+    /**
+     *
+     * @param algorithmName Name of the algorithm to get the profit for
+     * @return the profit of each algorithm running to update the total profit
+     */
     public Double getAlgorithmValue(String algorithmName) {
         ArrayList<Double> values = createListOfAlgorithmValues(algorithmName);
         Double finalValue = values.get(values.size() - 1);
@@ -370,15 +392,21 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return finalValue;
     }
 
-
-
+    /**
+     * Set the current portfolio value on the home page to the total portfolio value
+     * @param totalProfit calculation given from the getTotalProfit function
+     */
     public void updateCurrentBalance(Double totalProfit){
         text_balance.setText("Portfolio Value " + "\n" + "$"+ getTotalPortfolioValue());
         text_balance.setTextSize(20);
         text_balance.setGravity(Gravity.CENTER);
         text_balance.setVisibility(View.VISIBLE);
     }
-
+    /**
+     * Used to set the profit under the statistics of the algo
+     * @param algorithmName Name of the algorithm to get the profit for
+     * @return profit of algorithm
+     */
     public Double getAlgorithmProfit(String algorithmName) {
         ArrayList<Double> values = createListOfAlgorithmValues(algorithmName);
         Double finalValue = values.get(values.size() - 1);
@@ -386,7 +414,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         Double profit = finalValue - startingValue;
         return profit;
     }
-
+    /**
+     *
+     * @param algorithmName Name of the algorithm
+     * @return initial amount invested into the algorithm
+     */
     public Double getAlgorithmStartingValue(String algorithmName) {
         return ((Integer) Algorithms.get(algorithmName).get(2)).doubleValue();
     }
