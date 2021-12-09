@@ -34,8 +34,6 @@ import org.ta4j.core.trading.rules.IsRisingRule;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 
-//import java.time.ZonedDateTime;
-
 public class TechnicalAnalysis {
 
     public static TimeSeries series;
@@ -45,9 +43,14 @@ public class TechnicalAnalysis {
     static double totProfit;
     static boolean programSet = false;
 
-    // NEW CODE
 
-
+    /**
+     * Calls the Yahoo Finance API to send data to proper functions
+     * @param ticker
+     * @param range
+     * @param act
+     * @return
+     */
     public static double[][] callChart(String ticker, String range, Context act) {
         System.out.println("CALLING CALLCHART");
         System.out.println("PARAMETERS: " + ticker + " " + range);
@@ -59,6 +62,11 @@ public class TechnicalAnalysis {
     }
     //
 
+    /**
+     * Determines if a string is able to be parsed as a Double
+     * @param str
+     * @return
+     */
     public static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str);
@@ -68,17 +76,21 @@ public class TechnicalAnalysis {
         }
     }
 
+
+    /**
+     * Creates the strategy and runs the rule given parameters
+     * @param buying
+     * @param selling
+     * @return
+     */
     public static TradingRecord triggerTa4j(Rule buying, Rule selling){
-        Log.i("TA4J","Creating trading record");
-        // Getting the close price of the ticks
         try {
             Num firstClosePrice = series.getBar(0).getClosePrice();
             returnClosePrice(firstClosePrice);
         }
         catch(Exception e){
-            Log.i("caugh an exception", "oops");
+            e.printStackTrace();
         }
-        // Or within an indicator (you get the same value for first close price either way)
 
         Strategy strategy = createStrategy(buying, selling);
 
@@ -87,9 +99,6 @@ public class TechnicalAnalysis {
         programSet = true;
         return tradingRecord;
 
-        // GETTING BUNCH OF RANDOM DATA
-
-        // Getting the number of trades that were made using this strategy
 
 
 
@@ -101,11 +110,16 @@ public class TechnicalAnalysis {
 
     private static void returnClosePrice(Num firstClosePrice) {
         close_price =  firstClosePrice.doubleValue();
-//        tv_output.setText("first close price: " + String.valueOf(close_price));
     }
 
     // LOAD DATA
 
+    /**
+     * Loads data into the class given information on the data
+     * @param ticker
+     * @param context
+     * @param data
+     */
     public static void loadData(String ticker, Context context, double[][] data) {
         // Initiate the android three ten library to get the context for zoned date time
         AndroidThreeTen.init(context);
@@ -120,16 +134,16 @@ public class TechnicalAnalysis {
             series.addBar(endTime.plusDays(i), data[i][0], data[i][1], data[i][2], data[i][3]);
         }
 
-
-        // Load in random data (to be replaced by API call)
-//        Random rd = new Random();
-//        for (int i = 0; i < numDays; i++) {
-//            Double price = rd.nextDouble() * 1000;
-//            series.addBar(endTime.plusDays(i), price, price, price, price);
-//        }
-
     }
 
+    /**
+     * Loads data into the class given information on the data
+     * @param ticker
+     * @param context
+     * @param data
+     * @param startDate
+     * @param endDate
+     */
     public static void loadData(String ticker, Context context, double[][] data, ZonedDateTime startDate, ZonedDateTime endDate) {
         try {
             System.out.println("loading data");
@@ -171,12 +185,18 @@ public class TechnicalAnalysis {
 
     // RULES
 
+    /**
+     * triggers when price goes below input
+     */
     public static Rule triggerBelow(double Price) {
         ClosePriceIndicator closePrice = new ClosePriceIndicator(series);
         Rule rule = new CrossedDownIndicatorRule(closePrice, Price);
         return rule;
     }
 
+    /**
+     * triggers when price goes above input
+     */
     public static Rule triggerAbove(double Price) {
         ClosePriceIndicator closePrice = new ClosePriceIndicator(series);
         Rule rule = new CrossedUpIndicatorRule(closePrice, Price);
